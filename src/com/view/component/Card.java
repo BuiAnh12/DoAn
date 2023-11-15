@@ -51,7 +51,7 @@ public class Card extends javax.swing.JPanel {
         lbValues = new javax.swing.JLabel();
         lbDescription = new javax.swing.JLabel();
 
-        lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/stock.png"))); // NOI18N
+        lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/view/icon/stock.png"))); // NOI18N
 
         lbTitle.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(255, 255, 255));
@@ -89,7 +89,7 @@ public class Card extends javax.swing.JPanel {
                 .addComponent(lbValues)
                 .addGap(18, 18, 18)
                 .addComponent(lbDescription)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
