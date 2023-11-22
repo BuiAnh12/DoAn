@@ -4,18 +4,17 @@ import java.sql.*;
 
 public class testdatabase {
     
-    public static void setData(String id, String name,String diachi, String quequan, String sdt ,String IdHoadon) throws SQLException{
+    public static void setData(String Id, String Name,String Adress, String PhoneNum ,String InvoiceId) throws SQLException{
         Connection cnn=ConnectionDB.getConnection();
-        String query="insert into Customer(CMND,Name,Diachi,Quequan,Sdt,IdHoadon) values(?,?,?,?,?,?) ";
+        String query="insert into Customer(Id,Name,Address,PhoneNum,InvoiceId) values(?,?,?,?,?) ";
 
         try{
             PreparedStatement pre=cnn.prepareStatement(query);
-            pre.setString(1, id);           
-            pre.setString(2, name);
-            pre.setString(3, diachi);
-            pre.setString(4, quequan);
-            pre.setString(5, sdt);
-            pre.setString(6, IdHoadon);
+            pre.setString(1, Id);           
+            pre.setString(2, Name);
+            pre.setString(3, Adress);
+            pre.setString(4, PhoneNum);
+            pre.setString(5, InvoiceId);
             pre.executeUpdate();
 
         }
@@ -31,15 +30,14 @@ public class testdatabase {
         
         try{
             ResultSet re=statement.executeQuery(query);
-             while(re.next()){
+            while(re.next()){
             // Trong do CMND Name la thuoc tinh table Customer 
-            String Id=re.getString("CMND");
+            String id=re.getString("Id");
             String name=re.getString("Name");
-            String diachi=re.getString("Diachi");                   
-            String quequan=re.getString("Quequan");
-            String sdt=re.getString("Sdt");
-            String hoadon=re.getString("IdHoadon");
-            System.out.println(Id +" "+name +" "+diachi +" "+quequan +" "+sdt +" "+hoadon );
+            String adress=re.getString("Address");
+            String phoneNum=re.getString("PhoneNum");
+            String invoice=re.getString("InvoiceId");
+            System.out.println(id +" "+name +" "+adress +" "+phoneNum +" "+invoice );
         }
         }
         catch(SQLException ex){
@@ -48,7 +46,7 @@ public class testdatabase {
     }
     
     public static void main(String[] args) throws SQLException {
-        setData("1","Nguyen Van A","QN","QN","039979912","123");
+        setData("23","Nguyen Van A","QN","039979912","123");
         getData();
     }
 }
