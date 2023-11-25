@@ -26,18 +26,18 @@ public class testdatabase {
     public static void getData() throws SQLException{
         Connection cnn=ConnectionDB.getConnection();
         Statement statement=cnn.createStatement();
-        String query="select * from Customer";
+        String query="select * from Customers";
         
         try{
             ResultSet re=statement.executeQuery(query);
             while(re.next()){
             // Trong do CMND Name la thuoc tinh table Customer 
-            String id=re.getString("Id");
-            String name=re.getString("Name");
+            String id=re.getString("CustomerId");
+            String name=re.getString("CustomerName");
+            String email = re.getString("Email");
             String adress=re.getString("Address");
-            String phoneNum=re.getString("PhoneNum");
-            String invoice=re.getString("InvoiceId");
-            System.out.println(id +" "+name +" "+adress +" "+phoneNum +" "+invoice );
+
+            System.out.println(id +" "+name +" "+email +" "+adress );
         }
         }
         catch(SQLException ex){
@@ -46,7 +46,7 @@ public class testdatabase {
     }
     
     public static void main(String[] args) throws SQLException {
-        setData("23","Nguyen Van A","QN","039979912","123");
+//        setData("23","Nguyen Van A","QN","039979912","123");
         getData();
     }
 }

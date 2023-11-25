@@ -5,6 +5,11 @@
  */
 package com.view.form;
 
+import com.view.swing.ScrollBar;
+import java.awt.Color;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 /**
  *
  * @author RAVEN
@@ -16,6 +21,42 @@ public class Form_2 extends javax.swing.JPanel {
      */
     public Form_2() {
         initComponents();
+        spTable.setVerticalScrollBar(new ScrollBar());
+        spTable.getVerticalScrollBar().setBackground(Color.WHITE);
+        spTable.getViewport().setBackground(Color.WHITE);
+        JPanel p = new JPanel();
+        p.setBackground(Color.WHITE);
+        spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
+        table.addRow(new Object[]{"NPK 16-10-6+13S+1,5CA+1MG", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 10%, Kali hữu hiệu (K2Ohh): 6%, Lưu huỳnh (S): 13%, Canxi (Ca): 1.5%, Magie (Mg): 1%, Độ ẩm: 2%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK 16-8-8+13S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 8%, Lưu huỳnh (S): 13%, Độ ẩm: 2%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK 16-8-14+12S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 14%, Lưu huỳnh (S): 12%, Độ ẩm: 2%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"Ure 00056", "Tập Đoàn Dầu khí quốc gia Việt Nam", "Đạm Tổng số (Nts): 46.3%; Biuret: 1%; Độ ẩm: 0.4%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK ĐẦU TRÂU 16-16-8+13S sọc xanh", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 16%; Lân hữu hiệu (P2O5hh): 16%; Kali hữu hiệu (K2Ohh): 8%; Lưu huỳnh (S): 13%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NP ĐẦU TRÂU 20-20", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 20%; Lân hữu hiệu (P2O5hh): 20%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NUTRIFERT 4-3-3 OM", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 4%, lân (P2O5): 3.2%, kali (K2O): 2.8%.", "Phân hữu cơ"});
+        table.addRow(new Object[]{"NPK Amazon cao su - 40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 17.07%, lân (P2O5): 7.07%, kali (K2O): 20%.", "Phân Vô cơ"});
+        table.addRow(new Object[]{"URE 46TE - 25kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 46%, màu trắng, tan tốt trong nước.", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK Big one mùa khô-40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 18.16%, lân (P2O5): 5.15%, kali (K2O): 4.16%.", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK 16-10-6+13S+1,5CA+1MG", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 10%, Kali hữu hiệu (K2Ohh): 6%, Lưu huỳnh (S): 13%, Canxi (Ca): 1.5%, Magie (Mg): 1%, Độ ẩm: 2%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK 16-8-8+13S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 8%, Lưu huỳnh (S): 13%, Độ ẩm: 2%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK 16-8-14+12S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 14%, Lưu huỳnh (S): 12%, Độ ẩm: 2%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"Ure 00056", "Tập Đoàn Dầu khí quốc gia Việt Nam", "Đạm Tổng số (Nts): 46.3%; Biuret: 1%; Độ ẩm: 0.4%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK ĐẦU TRÂU 16-16-8+13S sọc xanh", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 16%; Lân hữu hiệu (P2O5hh): 16%; Kali hữu hiệu (K2Ohh): 8%; Lưu huỳnh (S): 13%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NP ĐẦU TRÂU 20-20", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 20%; Lân hữu hiệu (P2O5hh): 20%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NUTRIFERT 4-3-3 OM", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 4%, lân (P2O5): 3.2%, kali (K2O): 2.8%.", "Phân hữu cơ"});
+        table.addRow(new Object[]{"NPK Amazon cao su - 40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 17.07%, lân (P2O5): 7.07%, kali (K2O): 20%.", "Phân Vô cơ"});
+        table.addRow(new Object[]{"URE 46TE - 25kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 46%, màu trắng, tan tốt trong nước.", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK Big one mùa khô-40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 18.16%, lân (P2O5): 5.15%, kali (K2O): 4.16%.", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK 16-10-6+13S+1,5CA+1MG", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 10%, Kali hữu hiệu (K2Ohh): 6%, Lưu huỳnh (S): 13%, Canxi (Ca): 1.5%, Magie (Mg): 1%, Độ ẩm: 2%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK 16-8-8+13S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 8%, Lưu huỳnh (S): 13%, Độ ẩm: 2%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK 16-8-14+12S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 14%, Lưu huỳnh (S): 12%, Độ ẩm: 2%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"Ure 00056", "Tập Đoàn Dầu khí quốc gia Việt Nam", "Đạm Tổng số (Nts): 46.3%; Biuret: 1%; Độ ẩm: 0.4%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK ĐẦU TRÂU 16-16-8+13S sọc xanh", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 16%; Lân hữu hiệu (P2O5hh): 16%; Kali hữu hiệu (K2Ohh): 8%; Lưu huỳnh (S): 13%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NP ĐẦU TRÂU 20-20", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 20%; Lân hữu hiệu (P2O5hh): 20%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NUTRIFERT 4-3-3 OM", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 4%, lân (P2O5): 3.2%, kali (K2O): 2.8%.", "Phân hữu cơ"});
+        table.addRow(new Object[]{"NPK Amazon cao su - 40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 17.07%, lân (P2O5): 7.07%, kali (K2O): 20%.", "Phân Vô cơ"});
+        table.addRow(new Object[]{"URE 46TE - 25kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 46%, màu trắng, tan tốt trong nước.", "Phân Vô cơ"});
+        table.addRow(new Object[]{"NPK Big one mùa khô-40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 18.16%, lân (P2O5): 5.15%, kali (K2O): 4.16%.", "Phân Vô cơ"});
     }
 
     /**
@@ -38,14 +79,23 @@ public class Form_2 extends javax.swing.JPanel {
         PanelInsert = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         PanelTable = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table1 = new com.view.swing.Table();
+        spTable = new javax.swing.JScrollPane();
+        table = new com.view.swing.Table();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         PanelRight = new javax.swing.JPanel();
         PanelHeader = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         PanelDetail = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        NameText = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        ManufactureText = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        CategorySelect = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        DescriptionSp = new javax.swing.JScrollPane();
+        DescriptionTextFile = new javax.swing.JTextArea();
         PanelDUBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
@@ -86,7 +136,7 @@ public class Form_2 extends javax.swing.JPanel {
             PanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -102,14 +152,15 @@ public class Form_2 extends javax.swing.JPanel {
 
         jComboBox1.setBackground(new java.awt.Color(36, 36, 36));
         jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Name", "Sort by Manufacture", "Sort byCategory", " " }));
+        jComboBox1.setToolTipText("");
 
         javax.swing.GroupLayout PanelFilterLayout = new javax.swing.GroupLayout(PanelFilter);
         PanelFilter.setLayout(PanelFilterLayout);
         PanelFilterLayout.setHorizontalGroup(
             PanelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelFilterLayout.createSequentialGroup()
-                .addComponent(jComboBox1, 0, 205, Short.MAX_VALUE)
+                .addComponent(jComboBox1, 0, 199, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelFilterLayout.setVerticalGroup(
@@ -131,7 +182,7 @@ public class Form_2 extends javax.swing.JPanel {
             PanelInsertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInsertLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelInsertLayout.setVerticalGroup(
@@ -143,36 +194,36 @@ public class Form_2 extends javax.swing.JPanel {
 
         PanelTable.setForeground(new java.awt.Color(60, 63, 65));
 
-        jScrollPane1.setBackground(new java.awt.Color(36, 36, 36));
-        jScrollPane1.setForeground(new java.awt.Color(36, 36, 36));
+        spTable.setBorder(null);
 
-        table1.setBackground(new java.awt.Color(36, 36, 36));
-        table1.setForeground(new java.awt.Color(255, 255, 255));
-        table1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setForeground(new java.awt.Color(22, 23, 23));
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Name", "Manufacture", "Description", "Category"
             }
-        ));
-        table1.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(table1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        spTable.setViewportView(table);
 
         javax.swing.GroupLayout PanelTableLayout = new javax.swing.GroupLayout(PanelTable);
         PanelTable.setLayout(PanelTableLayout);
         PanelTableLayout.setHorizontalGroup(
             PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
         );
         PanelTableLayout.setVerticalGroup(
             PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelTableLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
         );
 
         jPanel2.setBackground(new java.awt.Color(22, 23, 23));
@@ -204,7 +255,7 @@ public class Form_2 extends javax.swing.JPanel {
         PanelLeft.setLayout(PanelLeftLayout);
         PanelLeftLayout.setHorizontalGroup(
             PanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
+            .addComponent(PanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
             .addGroup(PanelLeftLayout.createSequentialGroup()
                 .addGroup(PanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -257,16 +308,82 @@ public class Form_2 extends javax.swing.JPanel {
         PanelRight.add(PanelHeader, java.awt.BorderLayout.NORTH);
 
         PanelDetail.setBackground(new java.awt.Color(36, 36, 36));
+        PanelDetail.setForeground(new java.awt.Color(36, 36, 36));
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Name");
+
+        NameText.setText("jTextField3");
+
+        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Manufacture");
+
+        ManufactureText.setText("jTextField3");
+
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Category");
+
+        CategorySelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phân hữu cơ", "Phân vô cơ", " " }));
+
+        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Decscription");
+
+        DescriptionTextFile.setColumns(20);
+        DescriptionTextFile.setRows(5);
+        DescriptionSp.setViewportView(DescriptionTextFile);
 
         javax.swing.GroupLayout PanelDetailLayout = new javax.swing.GroupLayout(PanelDetail);
         PanelDetail.setLayout(PanelDetailLayout);
         PanelDetailLayout.setHorizontalGroup(
             PanelDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(PanelDetailLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelDetailLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(PanelDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(CategorySelect, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ManufactureText)
+                            .addComponent(NameText)
+                            .addComponent(DescriptionSp, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))))
+                .addGap(0, 37, Short.MAX_VALUE))
         );
         PanelDetailLayout.setVerticalGroup(
             PanelDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 522, Short.MAX_VALUE)
+            .addGroup(PanelDetailLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(NameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ManufactureText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CategorySelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7)
+                .addGap(12, 12, 12)
+                .addComponent(DescriptionSp, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         PanelRight.add(PanelDetail, java.awt.BorderLayout.CENTER);
@@ -280,7 +397,7 @@ public class Form_2 extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 231, Short.MAX_VALUE)
+            .addGap(0, 247, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,6 +438,11 @@ public class Form_2 extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> CategorySelect;
+    private javax.swing.JScrollPane DescriptionSp;
+    private javax.swing.JTextArea DescriptionTextFile;
+    private javax.swing.JTextField ManufactureText;
+    private javax.swing.JTextField NameText;
     private javax.swing.JPanel PanelButton;
     private javax.swing.JPanel PanelDUBtn;
     private javax.swing.JPanel PanelDetail;
@@ -338,11 +460,15 @@ public class Form_2 extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private com.view.swing.Table table1;
+    private javax.swing.JScrollPane spTable;
+    private com.view.swing.Table table;
     // End of variables declaration//GEN-END:variables
 }

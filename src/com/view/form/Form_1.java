@@ -15,7 +15,7 @@ public class Form_1 extends javax.swing.JPanel {
      * Creates new form Form_1
      */
     public Form_1() {
-        initComponents();
+        initComponents();  
     }
 
     /**
@@ -38,8 +38,8 @@ public class Form_1 extends javax.swing.JPanel {
         PanelInsert = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         PanelTable = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table1 = new com.view.swing.Table();
+        spTable = new javax.swing.JScrollPane();
+        Table = new com.view.swing.Table();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         PanelRight = new javax.swing.JPanel();
@@ -142,12 +142,12 @@ public class Form_1 extends javax.swing.JPanel {
 
         PanelTable.setForeground(new java.awt.Color(60, 63, 65));
 
-        jScrollPane1.setBackground(new java.awt.Color(36, 36, 36));
-        jScrollPane1.setForeground(new java.awt.Color(36, 36, 36));
+        spTable.setBackground(new java.awt.Color(36, 36, 36));
+        spTable.setForeground(new java.awt.Color(36, 36, 36));
 
-        table1.setBackground(new java.awt.Color(36, 36, 36));
-        table1.setForeground(new java.awt.Color(255, 255, 255));
-        table1.setModel(new javax.swing.table.DefaultTableModel(
+        Table.setBackground(new java.awt.Color(36, 36, 36));
+        Table.setForeground(new java.awt.Color(255, 255, 255));
+        Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -158,19 +158,19 @@ public class Form_1 extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        table1.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(table1);
+        Table.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        spTable.setViewportView(Table);
 
         javax.swing.GroupLayout PanelTableLayout = new javax.swing.GroupLayout(PanelTable);
         PanelTable.setLayout(PanelTableLayout);
         PanelTableLayout.setHorizontalGroup(
             PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(spTable)
         );
         PanelTableLayout.setVerticalGroup(
             PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelTableLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(spTable, javax.swing.GroupLayout.PREFERRED_SIZE, 487, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 6, Short.MAX_VALUE))
         );
 
@@ -330,6 +330,7 @@ public class Form_1 extends javax.swing.JPanel {
     private javax.swing.JPanel PanelRight;
     private javax.swing.JPanel PanelSearch;
     private javax.swing.JPanel PanelTable;
+    private com.view.swing.Table Table;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -340,8 +341,7 @@ public class Form_1 extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private com.view.swing.Table table1;
+    private javax.swing.JScrollPane spTable;
     // End of variables declaration//GEN-END:variables
 }
