@@ -5,8 +5,11 @@
  */
 package com.view.form;
 
+import com.model.Product;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
+import java.util.List;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -15,48 +18,31 @@ import javax.swing.JScrollPane;
  * @author RAVEN
  */
 public class Form_2 extends javax.swing.JPanel {
-
-    /**
-     * Creates new form Form_1
-     */
+        List<Product> productList = new ArrayList<>();
+    
     public Form_2() {
         initComponents();
+        
+        
+        productList.add(new Product(3, "NPK 16-8-14+12S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 14%, Lưu huỳnh (S): 12%, Độ ẩm: 2%", "Phân Vô cơ"));
+        productList.add(new Product(4, "Ure 00056", "Tập Đoàn Dầu khí quốc gia Việt Nam", "Đạm Tổng số (Nts): 46.3%; Biuret: 1%; Độ ẩm: 0.4%", "Phân Vô cơ"));
+        productList.add(new Product(5, "NPK ĐẦU TRÂU 16-16-8+13S sọc xanh", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 16%; Lân hữu hiệu (P2O5hh): 16%; Kali hữu hiệu (K2Ohh): 8%; Lưu huỳnh (S): 13%; Độ ẩm: ≤2.5%", "Phân Vô cơ"));
+        productList.add(new Product(6, "NP ĐẦU TRÂU 20-20", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 20%; Lân hữu hiệu (P2O5hh): 20%; Độ ẩm: ≤2.5%", "Phân Vô cơ"));
+        productList.add(new Product(7, "NUTRIFERT 4-3-3 OM", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 4%, lân (P2O5): 3.2%, kali (K2O): 2.8%.", "Phân hữu cơ"));
+        productList.add(new Product(8, "NPK Amazon cao su - 40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 17.07%, lân (P2O5): 7.07%, kali (K2O): 20%.", "Phân Vô cơ"));
+        productList.add(new Product(9, "URE 46TE - 25kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 46%, màu trắng, tan tốt trong nước.", "Phân Vô cơ"));
+        productList.add(new Product(10, "NPK Big one mùa khô-40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 18.16%, lân (P2O5): 5.15%, kali (K2O): 4.16%.", "Phân Vô cơ"));
+        
+        
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        table.addRow(new Object[]{"NPK 16-10-6+13S+1,5CA+1MG", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 10%, Kali hữu hiệu (K2Ohh): 6%, Lưu huỳnh (S): 13%, Canxi (Ca): 1.5%, Magie (Mg): 1%, Độ ẩm: 2%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK 16-8-8+13S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 8%, Lưu huỳnh (S): 13%, Độ ẩm: 2%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK 16-8-14+12S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 14%, Lưu huỳnh (S): 12%, Độ ẩm: 2%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"Ure 00056", "Tập Đoàn Dầu khí quốc gia Việt Nam", "Đạm Tổng số (Nts): 46.3%; Biuret: 1%; Độ ẩm: 0.4%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK ĐẦU TRÂU 16-16-8+13S sọc xanh", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 16%; Lân hữu hiệu (P2O5hh): 16%; Kali hữu hiệu (K2Ohh): 8%; Lưu huỳnh (S): 13%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NP ĐẦU TRÂU 20-20", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 20%; Lân hữu hiệu (P2O5hh): 20%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NUTRIFERT 4-3-3 OM", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 4%, lân (P2O5): 3.2%, kali (K2O): 2.8%.", "Phân hữu cơ"});
-        table.addRow(new Object[]{"NPK Amazon cao su - 40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 17.07%, lân (P2O5): 7.07%, kali (K2O): 20%.", "Phân Vô cơ"});
-        table.addRow(new Object[]{"URE 46TE - 25kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 46%, màu trắng, tan tốt trong nước.", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK Big one mùa khô-40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 18.16%, lân (P2O5): 5.15%, kali (K2O): 4.16%.", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK 16-10-6+13S+1,5CA+1MG", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 10%, Kali hữu hiệu (K2Ohh): 6%, Lưu huỳnh (S): 13%, Canxi (Ca): 1.5%, Magie (Mg): 1%, Độ ẩm: 2%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK 16-8-8+13S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 8%, Lưu huỳnh (S): 13%, Độ ẩm: 2%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK 16-8-14+12S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 14%, Lưu huỳnh (S): 12%, Độ ẩm: 2%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"Ure 00056", "Tập Đoàn Dầu khí quốc gia Việt Nam", "Đạm Tổng số (Nts): 46.3%; Biuret: 1%; Độ ẩm: 0.4%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK ĐẦU TRÂU 16-16-8+13S sọc xanh", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 16%; Lân hữu hiệu (P2O5hh): 16%; Kali hữu hiệu (K2Ohh): 8%; Lưu huỳnh (S): 13%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NP ĐẦU TRÂU 20-20", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 20%; Lân hữu hiệu (P2O5hh): 20%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NUTRIFERT 4-3-3 OM", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 4%, lân (P2O5): 3.2%, kali (K2O): 2.8%.", "Phân hữu cơ"});
-        table.addRow(new Object[]{"NPK Amazon cao su - 40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 17.07%, lân (P2O5): 7.07%, kali (K2O): 20%.", "Phân Vô cơ"});
-        table.addRow(new Object[]{"URE 46TE - 25kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 46%, màu trắng, tan tốt trong nước.", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK Big one mùa khô-40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 18.16%, lân (P2O5): 5.15%, kali (K2O): 4.16%.", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK 16-10-6+13S+1,5CA+1MG", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 10%, Kali hữu hiệu (K2Ohh): 6%, Lưu huỳnh (S): 13%, Canxi (Ca): 1.5%, Magie (Mg): 1%, Độ ẩm: 2%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK 16-8-8+13S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 8%, Lưu huỳnh (S): 13%, Độ ẩm: 2%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK 16-8-14+12S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 14%, Lưu huỳnh (S): 12%, Độ ẩm: 2%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"Ure 00056", "Tập Đoàn Dầu khí quốc gia Việt Nam", "Đạm Tổng số (Nts): 46.3%; Biuret: 1%; Độ ẩm: 0.4%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK ĐẦU TRÂU 16-16-8+13S sọc xanh", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 16%; Lân hữu hiệu (P2O5hh): 16%; Kali hữu hiệu (K2Ohh): 8%; Lưu huỳnh (S): 13%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NP ĐẦU TRÂU 20-20", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 20%; Lân hữu hiệu (P2O5hh): 20%; Độ ẩm: ≤2.5%", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NUTRIFERT 4-3-3 OM", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 4%, lân (P2O5): 3.2%, kali (K2O): 2.8%.", "Phân hữu cơ"});
-        table.addRow(new Object[]{"NPK Amazon cao su - 40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 17.07%, lân (P2O5): 7.07%, kali (K2O): 20%.", "Phân Vô cơ"});
-        table.addRow(new Object[]{"URE 46TE - 25kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 46%, màu trắng, tan tốt trong nước.", "Phân Vô cơ"});
-        table.addRow(new Object[]{"NPK Big one mùa khô-40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 18.16%, lân (P2O5): 5.15%, kali (K2O): 4.16%.", "Phân Vô cơ"});
+        for (Product product : productList) {
+            table.addRow(new Object[]{product.getProductName(), product.getManufacturer(), product.getDescription(), product.getCategory()});
+        }
     }
 
     /**
@@ -211,6 +197,11 @@ public class Form_2 extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
             }
         });
         spTable.setViewportView(table);
@@ -435,6 +426,15 @@ public class Form_2 extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        int selectedRow = table.getSelectedRow();
+        Product tmp = productList.get(selectedRow);
+        this.NameText.setText(tmp.getProductName());
+        this.ManufactureText.setText(tmp.getManufacturer());
+        this.CategorySelect.setSelectedItem(tmp.getCategory());
+        this.DescriptionTextFile.setText(tmp.getDescription());
+    }//GEN-LAST:event_tableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
