@@ -5,6 +5,7 @@
  */
 package com.view.form;
 
+import com.controller.controller_Product;
 import com.model.Product;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
@@ -13,7 +14,12 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import com.view.modal.ProductInsertModal;
-import javax.swing.JOptionPane;
+import java.awt.GridLayout;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -25,17 +31,13 @@ public class Form_2 extends javax.swing.JPanel {
     
     public Form_2() {
         initComponents();
+        controller_Product products =new  controller_Product();
         
-        
-        productList.add(new Product(3, "NPK 16-8-14+12S", "Công ty Cổ Phân Phân bón Việt Nhật", "Đạm tổng số (Nts): 16%, Lân hữu hiệu (P2O5hh): 8%, Kali hữu hiệu (K2Ohh): 14%, Lưu huỳnh (S): 12%, Độ ẩm: 2%", "Phân Vô cơ"));
-        productList.add(new Product(4, "Ure 00056", "Tập Đoàn Dầu khí quốc gia Việt Nam", "Đạm Tổng số (Nts): 46.3%; Biuret: 1%; Độ ẩm: 0.4%", "Phân Vô cơ"));
-        productList.add(new Product(5, "NPK ĐẦU TRÂU 16-16-8+13S sọc xanh", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 16%; Lân hữu hiệu (P2O5hh): 16%; Kali hữu hiệu (K2Ohh): 8%; Lưu huỳnh (S): 13%; Độ ẩm: ≤2.5%", "Phân Vô cơ"));
-        productList.add(new Product(6, "NP ĐẦU TRÂU 20-20", "Công ty Cổ Phân Phân bón Bình Điền", "Đạm tổng số (Nts): 20%; Lân hữu hiệu (P2O5hh): 20%; Độ ẩm: ≤2.5%", "Phân Vô cơ"));
-        productList.add(new Product(7, "NUTRIFERT 4-3-3 OM", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 4%, lân (P2O5): 3.2%, kali (K2O): 2.8%.", "Phân hữu cơ"));
-        productList.add(new Product(8, "NPK Amazon cao su - 40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 17.07%, lân (P2O5): 7.07%, kali (K2O): 20%.", "Phân Vô cơ"));
-        productList.add(new Product(9, "URE 46TE - 25kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 46%, màu trắng, tan tốt trong nước.", "Phân Vô cơ"));
-        productList.add(new Product(10, "NPK Big one mùa khô-40kg", "Công Ty Cổ Phần Phân Bón Hà Lan", "Đạm tổng số (N): 18.16%, lân (P2O5): 5.15%, kali (K2O): 4.16%.", "Phân Vô cơ"));
-        
+        try {
+               productList = products.getAllproduct();
+            } catch (SQLException ex) {
+               ex.printStackTrace();
+            }
         
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -446,22 +448,66 @@ public class Form_2 extends javax.swing.JPanel {
     }//GEN-LAST:event_tableMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        System.out.println("Delete button click");
-        
-        int choice = JOptionPane.showConfirmDialog(this, "Do you want to change this ?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (choice == JOptionPane.YES_OPTION) {
-            System.out.println("User selected: Yes");
-        } else if (choice == JOptionPane.NO_OPTION) {
-            System.out.println("User selected: No");
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            int productId = productList.get(selectedRow).getProductId();
+            controller_Product xoa = new controller_Product();
+            try {
+                xoa.deleteProduct(productId);
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.removeRow(selectedRow);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         } else {
-            System.out.println("User closed the dialog without making a choice");
+            JOptionPane.showMessageDialog(null, "Please select a product to delete!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println("Inserted click");
-        this.insertModal.setEnabled(true);
-        this.insertModal.setVisible(true);
+        JTextField productNameField = new JTextField();
+        JTextField manufacturerField = new JTextField();
+        JComboBox<String> categoryComboBox = new JComboBox<>(new String[]{"Phân hữu cơ", "Phân vô cơ"});
+        JTextArea descriptionArea = new JTextArea();
+
+        JPanel panel = new JPanel(new GridLayout(0, 1));
+        panel.add(new JLabel("Product Name:"));
+        panel.add(productNameField);
+        panel.add(new JLabel("Manufacturer:"));
+        panel.add(manufacturerField);
+        panel.add(new JLabel("Category:"));
+        panel.add(categoryComboBox);
+        panel.add(new JLabel("Description:"));
+        panel.add(descriptionArea);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Enter Product Information",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        // Nếu người dùng nhấn OK
+        if (result == JOptionPane.OK_OPTION) {
+            // Lấy thông tin từ các trường nhập liệu
+            String productName = productNameField.getText();
+            String manufacturer = manufacturerField.getText();
+            String category = (String) categoryComboBox.getSelectedItem();
+            String description = descriptionArea.getText();
+
+            // Tạo một đối tượng Product từ thông tin vừa nhập
+            Product newProduct = new Product(productList.size() + 1, productName, manufacturer, description, category);
+
+            // Thêm vào danh sách sản phẩm và cập nhật bảng
+            productList.add(newProduct);
+            table.addRow(new Object[]{newProduct.getProductName(), newProduct.getManufacturer(), newProduct.getDescription(), newProduct.getCategory()});
+
+            // Lưu vào cơ sở dữ liệu hoặc thực hiện các hành động khác theo yêu cầu của bạn
+            // saveToDatabase(newProduct);
+            controller_Product taomoi=new controller_Product();
+            try {
+                taomoi.addProduct(newProduct);
+            } catch (SQLException ex) {
+               ex.printStackTrace();
+            }
+            
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
     
