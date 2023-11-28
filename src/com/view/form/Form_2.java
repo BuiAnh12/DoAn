@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import com.view.modal.ProductInsertModal;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +21,7 @@ import javax.swing.JScrollPane;
  */
 public class Form_2 extends javax.swing.JPanel {
         List<Product> productList = new ArrayList<>();
+        ProductInsertModal insertModal = new ProductInsertModal(null,true);
     
     public Form_2() {
         initComponents();
@@ -122,7 +125,7 @@ public class Form_2 extends javax.swing.JPanel {
             PanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -146,7 +149,7 @@ public class Form_2 extends javax.swing.JPanel {
         PanelFilterLayout.setHorizontalGroup(
             PanelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelFilterLayout.createSequentialGroup()
-                .addComponent(jComboBox1, 0, 199, Short.MAX_VALUE)
+                .addComponent(jComboBox1, 0, 205, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelFilterLayout.setVerticalGroup(
@@ -161,6 +164,11 @@ public class Form_2 extends javax.swing.JPanel {
         jButton1.setBackground(new java.awt.Color(36, 36, 36));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Insert");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelInsertLayout = new javax.swing.GroupLayout(PanelInsert);
         PanelInsert.setLayout(PanelInsertLayout);
@@ -168,7 +176,7 @@ public class Form_2 extends javax.swing.JPanel {
             PanelInsertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInsertLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelInsertLayout.setVerticalGroup(
@@ -210,7 +218,7 @@ public class Form_2 extends javax.swing.JPanel {
         PanelTable.setLayout(PanelTableLayout);
         PanelTableLayout.setHorizontalGroup(
             PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(spTable, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+            .addComponent(spTable)
         );
         PanelTableLayout.setVerticalGroup(
             PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,7 +254,7 @@ public class Form_2 extends javax.swing.JPanel {
         PanelLeft.setLayout(PanelLeftLayout);
         PanelLeftLayout.setHorizontalGroup(
             PanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+            .addComponent(PanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
             .addGroup(PanelLeftLayout.createSequentialGroup()
                 .addGroup(PanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -307,15 +315,11 @@ public class Form_2 extends javax.swing.JPanel {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Name");
 
-        NameText.setText("jTextField3");
-
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Manufacture");
-
-        ManufactureText.setText("jTextField3");
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -353,7 +357,7 @@ public class Form_2 extends javax.swing.JPanel {
                             .addComponent(ManufactureText)
                             .addComponent(NameText)
                             .addComponent(DescriptionSp, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))))
-                .addGap(0, 37, Short.MAX_VALUE))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
         PanelDetailLayout.setVerticalGroup(
             PanelDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -388,7 +392,7 @@ public class Form_2 extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 247, Short.MAX_VALUE)
+            .addGap(0, 220, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,6 +404,11 @@ public class Form_2 extends javax.swing.JPanel {
         jButton3.setBackground(new java.awt.Color(36, 36, 36));
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("DELETE");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         PanelDUBtn.add(jButton3);
 
         jButton2.setBackground(new java.awt.Color(36, 36, 36));
@@ -436,6 +445,27 @@ public class Form_2 extends javax.swing.JPanel {
         this.DescriptionTextFile.setText(tmp.getDescription());
     }//GEN-LAST:event_tableMouseClicked
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        System.out.println("Delete button click");
+        
+        int choice = JOptionPane.showConfirmDialog(this, "Do you want to change this ?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (choice == JOptionPane.YES_OPTION) {
+            System.out.println("User selected: Yes");
+        } else if (choice == JOptionPane.NO_OPTION) {
+            System.out.println("User selected: No");
+        } else {
+            System.out.println("User closed the dialog without making a choice");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.out.println("Inserted click");
+        this.insertModal.setEnabled(true);
+        this.insertModal.setVisible(true);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CategorySelect;
