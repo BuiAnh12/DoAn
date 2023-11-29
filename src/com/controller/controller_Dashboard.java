@@ -50,7 +50,7 @@ public class controller_Dashboard {
             Statement statement=cnn.createStatement();
             String query="SELECT SUM(UnitPrice) AS Unit, SUM(TotalPrice) AS Total, SUM(Profit) AS Profit FROM Invoice_Items";
             ResultSet re=statement.executeQuery(query);
-            while(re.next()){
+            while(re.next()){   
                 Money.add(re.getDouble("Unit"));
                 Money.add(re.getDouble("Total"));
                 Money.add(re.getDouble("Profit"));
