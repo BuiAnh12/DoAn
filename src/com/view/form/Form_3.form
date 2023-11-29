@@ -523,9 +523,6 @@
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JTextField" name="txtName">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField3"/>
-                      </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNameActionPerformed"/>
                       </Events>
@@ -598,9 +595,6 @@
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JTextField" name="txtQuantity">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField3"/>
-                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -670,9 +664,6 @@
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JTextField" name="txtStock">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField3"/>
-                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -742,9 +733,9 @@
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JTextField" name="txtImpDate">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField3"/>
-                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtImpDateActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -814,9 +805,6 @@
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JTextField" name="txtManuDate">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField3"/>
-                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -886,9 +874,9 @@
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JTextField" name="txtExpDate">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField3"/>
-                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtExpDateActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -958,9 +946,6 @@
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JTextField" name="txtUnitPrice">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField3"/>
-                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1030,9 +1015,6 @@
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JTextField" name="txtSellPrice">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField3"/>
-                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1102,9 +1084,6 @@
                       </SubComponents>
                     </Container>
                     <Component class="javax.swing.JTextField" name="txtTotal">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="jTextField3"/>
-                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
