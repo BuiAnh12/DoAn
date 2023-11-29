@@ -32,12 +32,12 @@ public class Form_3 extends javax.swing.JPanel {
         PanelLeft = new javax.swing.JPanel();
         PanelButton = new javax.swing.JPanel();
         PanelSearch = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         PanelFilter = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        sortComboBox = new javax.swing.JComboBox<>();
         PanelInsert = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        insertBtn = new javax.swing.JButton();
         PanelTable = new javax.swing.JPanel();
         spTable = new javax.swing.JScrollPane();
         table = new com.view.swing.Table();
@@ -50,47 +50,47 @@ public class Form_3 extends javax.swing.JPanel {
         jPanel5 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtQuantity = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtStock = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtImpDate = new javax.swing.JTextField();
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        txtManuDate = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        txtExpDate = new javax.swing.JTextField();
         jPanel17 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        txtUnitPrice = new javax.swing.JTextField();
         jPanel19 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        txtSellPrice = new javax.swing.JTextField();
         jPanel23 = new javax.swing.JPanel();
         jPanel24 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        txtTotal = new javax.swing.JTextField();
         jPanel25 = new javax.swing.JPanel();
         jPanel26 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        categoryComboBox = new javax.swing.JComboBox<>();
         PanelDUBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
+        updateBtn = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -110,12 +110,12 @@ public class Form_3 extends javax.swing.JPanel {
 
         PanelSearch.setBackground(new java.awt.Color(22, 23, 23));
 
-        jTextField1.setBackground(new java.awt.Color(36, 36, 36));
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setText("Search");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtSearch.setBackground(new java.awt.Color(36, 36, 36));
+        txtSearch.setForeground(new java.awt.Color(255, 255, 255));
+        txtSearch.setText("Search");
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtSearchActionPerformed(evt);
             }
         });
 
@@ -129,44 +129,44 @@ public class Form_3 extends javax.swing.JPanel {
             PanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         PanelSearchLayout.setVerticalGroup(
             PanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(txtSearch, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         PanelButton.add(PanelSearch);
 
         PanelFilter.setBackground(new java.awt.Color(22, 23, 23));
 
-        jComboBox1.setBackground(new java.awt.Color(36, 36, 36));
-        jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Quantity", "Sort By Status" }));
+        sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
+        sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
+        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Quantity", "Sort By Status" }));
 
         javax.swing.GroupLayout PanelFilterLayout = new javax.swing.GroupLayout(PanelFilter);
         PanelFilter.setLayout(PanelFilterLayout);
         PanelFilterLayout.setHorizontalGroup(
             PanelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelFilterLayout.createSequentialGroup()
-                .addComponent(jComboBox1, 0, 163, Short.MAX_VALUE)
+                .addComponent(sortComboBox, 0, 163, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelFilterLayout.setVerticalGroup(
             PanelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(sortComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
         );
 
         PanelButton.add(PanelFilter);
 
         PanelInsert.setBackground(new java.awt.Color(22, 23, 23));
 
-        jButton1.setBackground(new java.awt.Color(36, 36, 36));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Insert");
+        insertBtn.setBackground(new java.awt.Color(36, 36, 36));
+        insertBtn.setForeground(new java.awt.Color(255, 255, 255));
+        insertBtn.setText("Insert");
 
         javax.swing.GroupLayout PanelInsertLayout = new javax.swing.GroupLayout(PanelInsert);
         PanelInsert.setLayout(PanelInsertLayout);
@@ -174,12 +174,12 @@ public class Form_3 extends javax.swing.JPanel {
             PanelInsertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInsertLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                .addComponent(insertBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelInsertLayout.setVerticalGroup(
             PanelInsertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(insertBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
         );
 
         PanelButton.add(PanelInsert);
@@ -323,10 +323,10 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        jTextField3.setText("jTextField3");
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txtName.setText("jTextField3");
+        txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txtNameActionPerformed(evt);
             }
         });
 
@@ -337,13 +337,13 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3)
+                .addComponent(txtName)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTextField3)
+            .addComponent(txtName)
         );
 
         jPanel6.setBackground(new java.awt.Color(36, 36, 36));
@@ -368,7 +368,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        jTextField4.setText("jTextField3");
+        txtQuantity.setText("jTextField3");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -377,13 +377,13 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTextField4)
+            .addComponent(txtQuantity)
         );
 
         jPanel9.setBackground(new java.awt.Color(36, 36, 36));
@@ -408,7 +408,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        jTextField5.setText("jTextField3");
+        txtStock.setText("jTextField3");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -417,13 +417,13 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtStock, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTextField5)
+            .addComponent(txtStock)
         );
 
         jPanel11.setBackground(new java.awt.Color(36, 36, 36));
@@ -448,7 +448,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        jTextField6.setText("jTextField3");
+        txtImpDate.setText("jTextField3");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -457,13 +457,13 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtImpDate, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTextField6)
+            .addComponent(txtImpDate)
         );
 
         jPanel13.setBackground(new java.awt.Color(36, 36, 36));
@@ -488,7 +488,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        jTextField7.setText("jTextField3");
+        txtManuDate.setText("jTextField3");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -497,13 +497,13 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtManuDate, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTextField7)
+            .addComponent(txtManuDate)
         );
 
         jPanel15.setBackground(new java.awt.Color(36, 36, 36));
@@ -528,7 +528,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        jTextField8.setText("jTextField3");
+        txtExpDate.setText("jTextField3");
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -537,13 +537,13 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtExpDate, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTextField8)
+            .addComponent(txtExpDate)
         );
 
         jPanel17.setBackground(new java.awt.Color(36, 36, 36));
@@ -568,7 +568,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        jTextField9.setText("jTextField3");
+        txtUnitPrice.setText("jTextField3");
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
@@ -577,13 +577,13 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtUnitPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTextField9)
+            .addComponent(txtUnitPrice)
         );
 
         jPanel19.setBackground(new java.awt.Color(36, 36, 36));
@@ -608,7 +608,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        jTextField10.setText("jTextField3");
+        txtSellPrice.setText("jTextField3");
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -617,13 +617,13 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtSellPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTextField10)
+            .addComponent(txtSellPrice)
         );
 
         jPanel23.setBackground(new java.awt.Color(36, 36, 36));
@@ -648,7 +648,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel24, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        jTextField12.setText("jTextField3");
+        txtTotal.setText("jTextField3");
 
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
@@ -657,13 +657,13 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField12, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel23Layout.setVerticalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jTextField12)
+            .addComponent(txtTotal)
         );
 
         jPanel25.setBackground(new java.awt.Color(36, 36, 36));
@@ -688,7 +688,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phân hữu cơ", "Phân vô cơ" }));
+        categoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phân hữu cơ", "Phân vô cơ" }));
 
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
         jPanel25.setLayout(jPanel25Layout);
@@ -697,7 +697,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel25Layout.setVerticalGroup(
@@ -707,7 +707,7 @@ public class Form_3 extends javax.swing.JPanel {
                     .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel25Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jComboBox2)))
+                        .addComponent(categoryComboBox)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -776,20 +776,20 @@ public class Form_3 extends javax.swing.JPanel {
 
         PanelDUBtn.add(jPanel3);
 
-        jButton3.setBackground(new java.awt.Color(36, 36, 36));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("DELETE");
-        PanelDUBtn.add(jButton3);
+        deleteBtn.setBackground(new java.awt.Color(36, 36, 36));
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBtn.setText("DELETE");
+        PanelDUBtn.add(deleteBtn);
 
-        jButton2.setBackground(new java.awt.Color(36, 36, 36));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("UPUDATE");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        updateBtn.setBackground(new java.awt.Color(36, 36, 36));
+        updateBtn.setForeground(new java.awt.Color(255, 255, 255));
+        updateBtn.setText("UPUDATE");
+        updateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                updateBtnActionPerformed(evt);
             }
         });
-        PanelDUBtn.add(jButton2);
+        PanelDUBtn.add(updateBtn);
 
         PanelRight.add(PanelDUBtn, java.awt.BorderLayout.SOUTH);
 
@@ -798,17 +798,17 @@ public class Form_3 extends javax.swing.JPanel {
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtSearchActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_updateBtnActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txtNameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -822,11 +822,9 @@ public class Form_3 extends javax.swing.JPanel {
     private javax.swing.JPanel PanelRight;
     private javax.swing.JPanel PanelSearch;
     private javax.swing.JPanel PanelTable;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> categoryComboBox;
+    private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton insertBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -863,18 +861,20 @@ public class Form_3 extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JComboBox<String> sortComboBox;
     private javax.swing.JScrollPane spTable;
     private com.view.swing.Table table;
+    private javax.swing.JTextField txtExpDate;
+    private javax.swing.JTextField txtImpDate;
+    private javax.swing.JTextField txtManuDate;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtQuantity;
+    private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtSellPrice;
+    private javax.swing.JTextField txtStock;
+    private javax.swing.JTextField txtTotal;
+    private javax.swing.JTextField txtUnitPrice;
+    private javax.swing.JButton updateBtn;
     // End of variables declaration//GEN-END:variables
 }

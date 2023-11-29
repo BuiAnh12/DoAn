@@ -63,12 +63,12 @@ public class Form_2 extends javax.swing.JPanel {
         PanelLeft = new javax.swing.JPanel();
         PanelButton = new javax.swing.JPanel();
         PanelSearch = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         PanelFilter = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        sortComboBox = new javax.swing.JComboBox<>();
         PanelInsert = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        insertBtn = new javax.swing.JButton();
         PanelTable = new javax.swing.JPanel();
         spTable = new javax.swing.JScrollPane();
         table = new com.view.swing.Table();
@@ -79,18 +79,18 @@ public class Form_2 extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         PanelDetail = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        NameText = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        ManufactureText = new javax.swing.JTextField();
+        txtManufacture = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        CategorySelect = new javax.swing.JComboBox<>();
+        categorySelect = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        DescriptionSp = new javax.swing.JScrollPane();
-        DescriptionTextFile = new javax.swing.JTextArea();
+        txtDescription = new javax.swing.JScrollPane();
+        descriptionTxt = new javax.swing.JTextArea();
         PanelDUBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
+        updateBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(22, 23, 23));
         setForeground(new java.awt.Color(22, 23, 23));
@@ -108,12 +108,12 @@ public class Form_2 extends javax.swing.JPanel {
 
         PanelSearch.setBackground(new java.awt.Color(22, 23, 23));
 
-        jTextField1.setBackground(new java.awt.Color(36, 36, 36));
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setText("Search");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtSearch.setBackground(new java.awt.Color(36, 36, 36));
+        txtSearch.setForeground(new java.awt.Color(255, 255, 255));
+        txtSearch.setText("Search");
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtSearchActionPerformed(evt);
             }
         });
 
@@ -127,48 +127,48 @@ public class Form_2 extends javax.swing.JPanel {
             PanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         PanelSearchLayout.setVerticalGroup(
             PanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(txtSearch, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         PanelButton.add(PanelSearch);
 
         PanelFilter.setBackground(new java.awt.Color(22, 23, 23));
 
-        jComboBox1.setBackground(new java.awt.Color(36, 36, 36));
-        jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Name", "Sort by Manufacture", "Sort byCategory", " " }));
-        jComboBox1.setToolTipText("");
+        sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
+        sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
+        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Name", "Sort by Manufacture", "Sort byCategory", " " }));
+        sortComboBox.setToolTipText("");
 
         javax.swing.GroupLayout PanelFilterLayout = new javax.swing.GroupLayout(PanelFilter);
         PanelFilter.setLayout(PanelFilterLayout);
         PanelFilterLayout.setHorizontalGroup(
             PanelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelFilterLayout.createSequentialGroup()
-                .addComponent(jComboBox1, 0, 205, Short.MAX_VALUE)
+                .addComponent(sortComboBox, 0, 205, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelFilterLayout.setVerticalGroup(
             PanelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(sortComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
         );
 
         PanelButton.add(PanelFilter);
 
         PanelInsert.setBackground(new java.awt.Color(22, 23, 23));
 
-        jButton1.setBackground(new java.awt.Color(36, 36, 36));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Insert");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        insertBtn.setBackground(new java.awt.Color(36, 36, 36));
+        insertBtn.setForeground(new java.awt.Color(255, 255, 255));
+        insertBtn.setText("Insert");
+        insertBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                insertBtnActionPerformed(evt);
             }
         });
 
@@ -178,12 +178,12 @@ public class Form_2 extends javax.swing.JPanel {
             PanelInsertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInsertLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addComponent(insertBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelInsertLayout.setVerticalGroup(
             PanelInsertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(insertBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
         );
 
         PanelButton.add(PanelInsert);
@@ -329,7 +329,7 @@ public class Form_2 extends javax.swing.JPanel {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Category");
 
-        CategorySelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phân hữu cơ", "Phân vô cơ", " " }));
+        categorySelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phân hữu cơ", "Phân vô cơ", " " }));
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -337,9 +337,9 @@ public class Form_2 extends javax.swing.JPanel {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Decscription");
 
-        DescriptionTextFile.setColumns(20);
-        DescriptionTextFile.setRows(5);
-        DescriptionSp.setViewportView(DescriptionTextFile);
+        descriptionTxt.setColumns(20);
+        descriptionTxt.setRows(5);
+        txtDescription.setViewportView(descriptionTxt);
 
         javax.swing.GroupLayout PanelDetailLayout = new javax.swing.GroupLayout(PanelDetail);
         PanelDetail.setLayout(PanelDetailLayout);
@@ -355,10 +355,10 @@ public class Form_2 extends javax.swing.JPanel {
                     .addGroup(PanelDetailLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(PanelDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(CategorySelect, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ManufactureText)
-                            .addComponent(NameText)
-                            .addComponent(DescriptionSp, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))))
+                            .addComponent(categorySelect, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtManufacture)
+                            .addComponent(txtName)
+                            .addComponent(txtDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))))
                 .addGap(0, 10, Short.MAX_VALUE))
         );
         PanelDetailLayout.setVerticalGroup(
@@ -367,19 +367,19 @@ public class Form_2 extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(NameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ManufactureText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtManufacture, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CategorySelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(categorySelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addGap(12, 12, 12)
-                .addComponent(DescriptionSp, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
@@ -403,25 +403,25 @@ public class Form_2 extends javax.swing.JPanel {
 
         PanelDUBtn.add(jPanel3);
 
-        jButton3.setBackground(new java.awt.Color(36, 36, 36));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("DELETE");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        deleteBtn.setBackground(new java.awt.Color(36, 36, 36));
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBtn.setText("DELETE");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                deleteBtnActionPerformed(evt);
             }
         });
-        PanelDUBtn.add(jButton3);
+        PanelDUBtn.add(deleteBtn);
 
-        jButton2.setBackground(new java.awt.Color(36, 36, 36));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("UPUDATE");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        updateBtn.setBackground(new java.awt.Color(36, 36, 36));
+        updateBtn.setForeground(new java.awt.Color(255, 255, 255));
+        updateBtn.setText("UPUDATE");
+        updateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                updateBtnActionPerformed(evt);
             }
         });
-        PanelDUBtn.add(jButton2);
+        PanelDUBtn.add(updateBtn);
 
         PanelRight.add(PanelDUBtn, java.awt.BorderLayout.SOUTH);
 
@@ -430,24 +430,24 @@ public class Form_2 extends javax.swing.JPanel {
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtSearchActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_updateBtnActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         int selectedRow = table.getSelectedRow();
         Product tmp = productList.get(selectedRow);
-        this.NameText.setText(tmp.getProductName());
-        this.ManufactureText.setText(tmp.getManufacturer());
-        this.CategorySelect.setSelectedItem(tmp.getCategory());
-        this.DescriptionTextFile.setText(tmp.getDescription());
+        this.txtName.setText(tmp.getProductName());
+        this.txtManufacture.setText(tmp.getManufacturer());
+        this.categorySelect.setSelectedItem(tmp.getCategory());
+        this.descriptionTxt.setText(tmp.getDescription());
     }//GEN-LAST:event_tableMouseClicked
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
             int productId = productList.get(selectedRow).getProductId();
@@ -462,9 +462,9 @@ public class Form_2 extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(null, "Please select a product to delete!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_deleteBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
         JTextField productNameField = new JTextField();
         JTextField manufacturerField = new JTextField();
         JComboBox<String> categoryComboBox = new JComboBox<>(new String[]{"Phân hữu cơ", "Phân vô cơ"});
@@ -509,16 +509,11 @@ public class Form_2 extends javax.swing.JPanel {
             
         }
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_insertBtnActionPerformed
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> CategorySelect;
-    private javax.swing.JScrollPane DescriptionSp;
-    private javax.swing.JTextArea DescriptionTextFile;
-    private javax.swing.JTextField ManufactureText;
-    private javax.swing.JTextField NameText;
     private javax.swing.JPanel PanelButton;
     private javax.swing.JPanel PanelDUBtn;
     private javax.swing.JPanel PanelDetail;
@@ -529,10 +524,10 @@ public class Form_2 extends javax.swing.JPanel {
     private javax.swing.JPanel PanelRight;
     private javax.swing.JPanel PanelSearch;
     private javax.swing.JPanel PanelTable;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> categorySelect;
+    private javax.swing.JButton deleteBtn;
+    private javax.swing.JTextArea descriptionTxt;
+    private javax.swing.JButton insertBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -543,8 +538,13 @@ public class Form_2 extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<String> sortComboBox;
     private javax.swing.JScrollPane spTable;
     private com.view.swing.Table table;
+    private javax.swing.JScrollPane txtDescription;
+    private javax.swing.JTextField txtManufacture;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtSearch;
+    private javax.swing.JButton updateBtn;
     // End of variables declaration//GEN-END:variables
 }
