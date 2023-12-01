@@ -24,7 +24,10 @@ public class controller_Staff {
                     int age=re.getInt("Age");
                     String email=re.getString("Email");
                     String address=re.getString("Address");
-                    Staff staff =new Staff(id, name, age, email, address);
+                    String username = re.getString("Username");
+                    String password = re.getString("Password");
+                    int accountPrevilege = re.getInt("AccountPrevilege");
+                    Staff staff =new Staff(id, name, age, email, address,username, password, accountPrevilege);
                     staffs.add(staff);
                 }
                 
@@ -37,13 +40,16 @@ public class controller_Staff {
     // 
      public void addStaff(Staff staff) throws SQLException{
         Connection cnn=ConnectionDB.getConnection();
-        String query="INSERT INTO Staffs (Name, Age, Email,Address) VALUES(?,?,?,?)";
+        String query="INSERT INTO Staffs (Name, Age, Email,Address, Username, Password, AccountPrevilege) VALUES(?,?,?,?,?,?,?)";
         try{
             PreparedStatement pre=cnn.prepareStatement(query);
             pre.setString(1, staff.getName());   
             pre.setInt(2, staff.getAge());       
             pre.setString(3, staff.getEmail());
             pre.setString(4, staff.getAddress());
+            pre.setString(5, staff.getUsername());
+            pre.setString(6, staff.getPassword());
+            pre.setInt(7, staff.getPrevilege());
             int tmp=pre.executeUpdate();
         }
         catch (Exception ex) {
@@ -68,6 +74,23 @@ public class controller_Staff {
             ex.printStackTrace();
         }
     }
+        
+        public void editAccount(Staff staff) throws SQLException{
+            Connection cnn=ConnectionDB.getConnection();
+
+            String query="UPDATE Staffs SET  Username =?,Password =?,AccountPrevilege =? WHERE StaffId =?";
+            try{
+                PreparedStatement pre=cnn.prepareStatement(query);
+                pre.setString(1, staff.getUsername());       
+                pre.setString(2, staff.getPassword());
+                pre.setInt(3, staff.getPrevilege());
+                pre.setInt(4, staff.getStaffId());
+                int tmp=pre.executeUpdate();
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     //
          public void deleteStaff(int staffId) throws SQLException{
          Connection cnn=ConnectionDB.getConnection();
