@@ -185,6 +185,7 @@ public class Login_form extends javax.swing.JFrame {
                 int privelge = control_account.getAccount().getPrevilege();
                 dashboard.setPrivilege(privelge);
                 System.out.println(dashboard.getPrivilege());
+                
             } else {
                 System.out.println("Not Authorized");
             } 
