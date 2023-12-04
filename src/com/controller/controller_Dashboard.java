@@ -46,17 +46,17 @@ public class controller_Dashboard {
         return Total;
     }
     
-    public List<Double> getRevenue(){
+    public List<BigDecimal> getRevenue(){
         // Unit 0, Total 1,Profit 2;
-        List<Double> Money=new ArrayList<>();
+        List<BigDecimal> Money=new ArrayList<>();
         try(Connection cnn=ConnectionDB.getConnection()){
             Statement statement=cnn.createStatement();
             String query="SELECT SUM(UnitPrice) AS Unit, SUM(TotalPrice) AS Total, SUM(Profit) AS Profit FROM Invoice_Items";
             ResultSet re=statement.executeQuery(query);
             while(re.next()){   
-                Money.add(re.getDouble("Unit"));
-                Money.add(re.getDouble("Total"));
-                Money.add(re.getDouble("Profit"));
+                Money.add(re.getBigDecimal("Unit"));
+                Money.add(re.getBigDecimal("Total"));
+                Money.add(re.getBigDecimal("Profit"));
             }
         }
         catch(Exception ex){
