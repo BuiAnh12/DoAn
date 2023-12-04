@@ -16,11 +16,11 @@ import java.util.Date;
 
 
 public class controller_Import {
-      public List<Import>getAllStaff() throws SQLException{
+      public List<Import>getAllImports() throws SQLException{
             List<Import> imports =new ArrayList<>();
             Connection cnn=ConnectionDB.getConnection();
             Statement statement=cnn.createStatement();
-            String query="SELECT * FROM Imports";
+            String query="SELECT * FROM Products, Imports WHERE Products.ProductId = Imports.ProductId;";
             try{
                    ResultSet re=statement.executeQuery(query);
                    while(re.next()){
@@ -33,8 +33,9 @@ public class controller_Import {
                         double unitprice=re.getDouble("UnitPrice");
                         double sellprice=re.getDouble("SellPrice");
                         int id=re.getInt("ImportId");
+                        String name=re.getString("ProductName");
 
-                        Import importss =new Import(id, productid, manuDate, exDate, imDate, importQuanity, avaiableQuanity, BigDecimal.ONE, BigDecimal.ZERO);
+                        Import importss =new Import(id, productid, manuDate, exDate, imDate, importQuanity, avaiableQuanity, BigDecimal.ONE, BigDecimal.ZERO,name);
                         imports.add(importss);
                    }
                  

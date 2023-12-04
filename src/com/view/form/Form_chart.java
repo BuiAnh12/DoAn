@@ -18,6 +18,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import javax.swing.*;
 
 
 public class Form_chart extends javax.swing.JFrame {
@@ -49,7 +50,7 @@ public class Form_chart extends javax.swing.JFrame {
 
         // Hiển thị biểu đồ trong JFrame
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(800, 600));
+        chartPanel.setPreferredSize(new Dimension(1200, 600));
         setContentPane(chartPanel);
         
         

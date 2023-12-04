@@ -4,6 +4,7 @@ import com.controller.controller_Dashboard;
 import com.view.model.Model_Card;
 import com.view.model.StatusType;
 import com.view.swing.ScrollBar;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -12,16 +13,29 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 public class Form_Home extends javax.swing.JPanel {
+        private Form_chart formchart;
         
-   
+        private void setForm(JFrame com) {
+            Chart_panel.removeAll();
+            Chart_panel.add(com);
+            Chart_panel.repaint();
+            Chart_panel.revalidate();
+    }
         public Form_Home() {
         initComponents();
         controller_Dashboard tmp=new controller_Dashboard();
         List<BigDecimal>money=tmp.getRevenue();
+            try {
+                formchart=new Form_chart();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             try {
                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
                 card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/view/icon/stock.png")), "Quanity",String.valueOf(tmp.getSoldQuanity()), "Increased by 60%"));
@@ -31,9 +45,13 @@ public class Form_Home extends javax.swing.JPanel {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        
+            Chart_panel.add(formchart.getContentPane());
+            
+
+            setVisible(true);
         
     }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -43,7 +61,7 @@ public class Form_Home extends javax.swing.JPanel {
         card1 = new com.view.component.Card();
         card2 = new com.view.component.Card();
         card3 = new com.view.component.Card();
-        Chart_form = new javax.swing.JPanel();
+        Chart_panel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(22, 23, 23));
 
@@ -61,16 +79,16 @@ public class Form_Home extends javax.swing.JPanel {
         card3.setColor2(new java.awt.Color(211, 184, 61));
         panel.add(card3);
 
-        Chart_form.setBackground(new java.awt.Color(255, 255, 255));
+        Chart_panel.setBackground(new java.awt.Color(0, 0, 0));
 
-        javax.swing.GroupLayout Chart_formLayout = new javax.swing.GroupLayout(Chart_form);
-        Chart_form.setLayout(Chart_formLayout);
-        Chart_formLayout.setHorizontalGroup(
-            Chart_formLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout Chart_panelLayout = new javax.swing.GroupLayout(Chart_panel);
+        Chart_panel.setLayout(Chart_panelLayout);
+        Chart_panelLayout.setHorizontalGroup(
+            Chart_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        Chart_formLayout.setVerticalGroup(
-            Chart_formLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        Chart_panelLayout.setVerticalGroup(
+            Chart_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 361, Short.MAX_VALUE)
         );
 
@@ -78,14 +96,11 @@ public class Form_Home extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Chart_form, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Chart_panel, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+                    .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 875, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -94,19 +109,23 @@ public class Form_Home extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Chart_form, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Chart_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        Chart_form.getAccessibleContext().setAccessibleParent(Chart_form);
+        Chart_panel.getAccessibleContext().setAccessibleParent(Chart_panel);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Chart_form;
+    private javax.swing.JPanel Chart_panel;
     private com.view.component.Card card1;
     private com.view.component.Card card2;
     private com.view.component.Card card3;
     private javax.swing.JLayeredPane panel;
     // End of variables declaration//GEN-END:variables
+
+//    private void setForm(Form_chart formchart) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//    }
 }

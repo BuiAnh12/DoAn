@@ -5,17 +5,35 @@
  */
 package com.view.form;
 
+import com.controller.controller_Import;
+import com.model.Import;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ListSelectionModel;
+
 /**
  *
  * @author RAVEN
  */
 public class Form_3 extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Form_1
-     */
+    private List<Import> import_list=new ArrayList<>();
     public Form_3() {
+//        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         initComponents();
+        controller_Import imports =new controller_Import();
+        try {
+            import_list=imports.getAllImports();
+        } catch (SQLException ex) {
+           ex.printStackTrace();
+        }
+        for(Import tmp:import_list){
+            table.addRow(new Object[]{tmp.getProductName(),tmp.getImportQuantity(),tmp.getAvailableQuantity(),tmp.getAvailableQuantity()});
+        }
     }
 
     /**
@@ -203,6 +221,11 @@ public class Form_3 extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
             }
         });
         spTable.setViewportView(table);
@@ -393,7 +416,7 @@ public class Form_3 extends javax.swing.JPanel {
         jLabel17.setBackground(new java.awt.Color(36, 36, 36));
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setText("Stock");
+        jLabel17.setText("Avaiable ");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -809,6 +832,24 @@ public class Form_3 extends javax.swing.JPanel {
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+         int selectedRow = table.getSelectedRow();
+        Import tmp = import_list.get(selectedRow);
+        this.txtName.setText(tmp.getProductName());
+        this.txtQuantity.setText(String.valueOf(tmp.getImportQuantity()));
+        this.txtImpDate.setText(String.valueOf(tmp.getImportDate()));
+        this.txtManuDate.setText(String.valueOf(tmp.getManufacturingDate()));
+        this.txtExpDate.setText(String.valueOf(tmp.getExpiryDate()));
+        this.txtUnitPrice.setText(String.valueOf(tmp.getUnitPrice()));
+        this.txtSellPrice.setText(String.valueOf(tmp.getSellPrice()));
+        int quanity=tmp.getImportQuantity();
+        BigDecimal unitmoney=tmp.getUnitPrice();
+        BigDecimal total=unitmoney.multiply(BigDecimal.valueOf(quanity));
+        this.txtTotal.setText(String.valueOf(total));
+        
+        
+    }//GEN-LAST:event_tableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -73,10 +73,10 @@ public class Card extends javax.swing.JPanel {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbDescription)
-                    .addComponent(lbValues)
                     .addComponent(lbTitle)
-                    .addComponent(lbIcon))
-                .addContainerGap(283, Short.MAX_VALUE))
+                    .addComponent(lbIcon)
+                    .addComponent(lbValues, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -1,7 +1,7 @@
 package com.model;
 import java.util.Date;
 import java.math.BigDecimal;
-public class Import {
+public class Import{
     private int importId;
     private int productId;
     private Date manufacturingDate;
@@ -11,8 +11,11 @@ public class Import {
     private int availableQuantity;
     private BigDecimal unitPrice;
     private BigDecimal sellPrice;
+    private String productName;
+    
+    
 
-    public Import(int importId, int productId, Date manufacturingDate, Date expiryDate, Date importDate, int importQuantity, int availableQuantity, BigDecimal unitPrice, BigDecimal sellPrice) {
+    public Import(int importId,int productId, Date manufacturingDate, Date expiryDate, Date importDate, int importQuantity, int availableQuantity, BigDecimal unitPrice, BigDecimal sellPrice,String productName) {
         this.importId = importId;
         this.productId = productId;
         this.manufacturingDate = manufacturingDate;
@@ -22,7 +25,17 @@ public class Import {
         this.availableQuantity = availableQuantity;
         this.unitPrice = unitPrice;
         this.sellPrice = sellPrice;
+        this.productName=productName;
     }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    
 
     public int getImportId() {
         return importId;
