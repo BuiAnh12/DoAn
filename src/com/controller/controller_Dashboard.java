@@ -2,10 +2,13 @@
 package com.controller;
 
 import com.control.db.ConnectionDB;
+import com.model.List_chart;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,4 +65,41 @@ public class controller_Dashboard {
         return Money;
     }
     
+    public String convertToMonthName(int month) {
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] monthNames = dfs.getMonths();
+        return monthNames[month-1];
+    }
+    
+    public List<List_chart> getMonthlyrevenue() throws SQLException{
+        List<List_chart> chart =new ArrayList<>();
+        
+        int[] myArray = new int[12];
+        for (int i = 0; i < 12; i++) {
+            myArray[i] = i + 1;
+        }
+         
+         for(int i=0;i<12;i++){   
+             List_chart basic=new  List_chart(convertToMonthName(myArray[i]),BigDecimal.ZERO);
+             chart.add(i, basic);
+         }
+         
+         Connection cnn=ConnectionDB.getConnection();
+         Statement statement=cnn.createStatement();
+         String query="SELECT MONTH(Invoices.PurchaseDate) AS 'Month', SUM(Invoice_Items.TotalPrice) AS 'Total' FROM Invoice_Items JOIN Invoices ON Invoice_Items.InvoiceId = Invoices.InvoiceId GROUP BY MONTH(Invoices.PurchaseDate)";
+         try{
+                ResultSet re=statement.executeQuery(query);
+                while(re.next()){
+                      String month=convertToMonthName(re.getInt("Month"));
+                      BigDecimal total=re.getBigDecimal("Total");
+                      List_chart tmp=new List_chart(month, total);
+                      chart.set(re.getInt("Month")-1, tmp);
+                }
+              
+         }   
+         catch(Exception ex){
+             ex.printStackTrace();
+         }   
+        return chart;
+    }
 }
