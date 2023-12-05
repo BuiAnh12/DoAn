@@ -4,12 +4,14 @@ public class Customer {
     private String customerName;
     private String email;
     private String address;
+    private int TotalAmount;
 
-    public Customer(int customerId, String customerName, String email, String address) {
+    public Customer(int customerId, String customerName, String email, String address, int TotalAmount) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.email = email;
         this.address = address;
+        this.TotalAmount =  TotalAmount;
     }
 
     public int getCustomerId() {
@@ -42,6 +44,14 @@ public class Customer {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getTotalAmount() {
+        return TotalAmount;
+    }
+
+    public void setTotalAmount(int TotalAmount) {
+        this.TotalAmount = TotalAmount;
     }
     
 }

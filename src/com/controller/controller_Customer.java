@@ -25,8 +25,9 @@ public class controller_Customer {
                     String name=re.getString("CustomerName");
                     String email=re.getString("Email");
                     String address=re.getString("Address");
+                    int totalAmount = re.getInt("TotalAmount");
 
-                    Customer customer =new Customer(id, name, email, address);
+                    Customer customer =new Customer(id, name, email, address,totalAmount);
                     customers.add(customer);
                 }
               
@@ -39,12 +40,13 @@ public class controller_Customer {
     //
     public void addCustomer(Customer customer) throws SQLException{
         Connection cnn=ConnectionDB.getConnection();
-        String query="INSERT INTO Customers (CustomerName, Email, Address) VALUES(?,?,?)";
+        String query="INSERT INTO Customers (CustomerName, Email, Address, TotalAmount) VALUES(?,?,?,?)";
         try{
             PreparedStatement pre=cnn.prepareStatement(query);
             pre.setString(1, customer.getCustomerName());       
             pre.setString(2, customer.getEmail());
             pre.setString(3, customer.getAddress());
+            pre.setInt(4,customer.getTotalAmount());
             int tmp=pre.executeUpdate();
         }
         catch (Exception ex) {

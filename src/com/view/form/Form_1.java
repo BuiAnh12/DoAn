@@ -16,12 +16,14 @@ import com.model.Product;
 import com.model.Staff;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,13 +31,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -48,9 +54,10 @@ public class Form_1 extends javax.swing.JPanel {
     List<Staff> staffList = new ArrayList<>();
     controller_Staff staff_control =new controller_Staff();
     controller_Customer customer_control=new controller_Customer();
-    private String selectedCustomer;
     private int selectedCustomerId;
-    private String selectedStaff;
+    private String selectedCustomerName;
+    private int selectedStaffId;
+    private String selectedStaffName;
     public Form_1() {
         initComponents();  
         try {
@@ -79,7 +86,7 @@ public class Form_1 extends javax.swing.JPanel {
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
         for (Invoice invoice : invoiceList) {
-            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate()});
+            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate(), invoice.getTotalAmount()});
         }
     }
 
@@ -116,12 +123,12 @@ public class Form_1 extends javax.swing.JPanel {
         txtCustomerName = new javax.swing.JTextField();
         txtStaffName = new javax.swing.JTextField();
         txtDate = new javax.swing.JTextField();
-        txtTotalAmount = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        totalAmountField = new javax.swing.JFormattedTextField();
         jPanel5 = new javax.swing.JPanel();
         detailSpTable = new javax.swing.JScrollPane();
         tableDetail = new com.view.swing.Table();
@@ -164,7 +171,7 @@ public class Form_1 extends javax.swing.JPanel {
             PanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -187,7 +194,7 @@ public class Form_1 extends javax.swing.JPanel {
         PanelFilterLayout.setHorizontalGroup(
             PanelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelFilterLayout.createSequentialGroup()
-                .addComponent(sortComboBox, 0, 233, Short.MAX_VALUE)
+                .addComponent(sortComboBox, 0, 211, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelFilterLayout.setVerticalGroup(
@@ -214,7 +221,7 @@ public class Form_1 extends javax.swing.JPanel {
             PanelInsertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInsertLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(insertBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                .addComponent(insertBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelInsertLayout.setVerticalGroup(
@@ -292,7 +299,7 @@ public class Form_1 extends javax.swing.JPanel {
         PanelLeft.setLayout(PanelLeftLayout);
         PanelLeftLayout.setHorizontalGroup(
             PanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE)
+            .addComponent(PanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
             .addGroup(PanelLeftLayout.createSequentialGroup()
                 .addGroup(PanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -363,14 +370,6 @@ public class Form_1 extends javax.swing.JPanel {
         txtDate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtDate.setForeground(new java.awt.Color(102, 102, 102));
 
-        txtTotalAmount.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtTotalAmount.setForeground(new java.awt.Color(102, 102, 102));
-        txtTotalAmount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTotalAmountActionPerformed(evt);
-            }
-        });
-
         jPanel4.setBackground(new java.awt.Color(36, 36, 36));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -416,6 +415,12 @@ public class Form_1 extends javax.swing.JPanel {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
+        totalAmountField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalAmountFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -426,9 +431,9 @@ public class Form_1 extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtCustomerName)
-                    .addComponent(txtStaffName, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                    .addComponent(txtStaffName, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                     .addComponent(txtDate)
-                    .addComponent(txtTotalAmount))
+                    .addComponent(totalAmountField))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -440,9 +445,9 @@ public class Form_1 extends javax.swing.JPanel {
                 .addComponent(txtStaffName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(totalAmountField)
+                .addContainerGap())
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -530,7 +535,7 @@ public class Form_1 extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 190, Short.MAX_VALUE)
+            .addGap(0, 226, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -542,6 +547,11 @@ public class Form_1 extends javax.swing.JPanel {
         deleteBtn.setBackground(new java.awt.Color(36, 36, 36));
         deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteBtn.setText("DELETE");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
         PanelDUBtn.add(deleteBtn);
 
         updateBtn.setBackground(new java.awt.Color(36, 36, 36));
@@ -566,58 +576,192 @@ public class Form_1 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            // Lấy Invoice từ danh sách
+            Invoice selectedInvoice = invoiceList.get(selectedRow);
+
+            // Tạo các trường nhập liệu
+            JComboBox<Customer> customerDropdown = new JComboBox<>();
+            for (Customer customer : customers) {
+                customerDropdown.addItem(customer);
+            }
+            customerDropdown.setRenderer(new DefaultListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                    if (value instanceof Customer) {
+                        // Hiển thị tên khách hàng
+                        value = ((Customer) value).getCustomerName();
+                    }
+                    return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                }
+            });
+            customerDropdown.setSelectedItem(selectedInvoice.getCustomerName());
+            customerDropdown.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Customer selectedCustomer = (Customer) customerDropdown.getSelectedItem();
+                    if (selectedCustomer != null) {
+                        // Lấy ID và tên của khách hàng
+                        selectedCustomerId = selectedCustomer.getCustomerId();
+                        selectedCustomerName = selectedCustomer.getCustomerName();
+                    }
+                }
+            });
+
+            JComboBox<Staff> staffDropdown = new JComboBox<>();
+            for (Staff staff : staffList) {
+                staffDropdown.addItem(staff);
+            }
+            staffDropdown.setRenderer(new DefaultListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                    if (value instanceof Staff) {
+                        // Hiển thị tên nhân viên
+                        value = ((Staff) value).getName();
+                    }
+                    return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                }
+            });
+            staffDropdown.setSelectedItem(selectedInvoice.getStaffName());
+            staffDropdown.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Staff selectedStaff = (Staff) staffDropdown.getSelectedItem();
+                    if (selectedStaff != null) {
+                        // Lấy ID và tên của nhân viên
+                        selectedStaffId = selectedStaff.getStaffId();
+                        selectedStaffName = selectedStaff.getName();
+                    }
+                }
+            });
+
+            JTextField dateField = new JTextField(selectedInvoice.getPurchaseDate());
+            JFormattedTextField totalAmountField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+            totalAmountField.setValue(selectedInvoice.getTotalAmount());
+
+            // Tạo một panel chứa các trường nhập liệu
+            JPanel panel = new JPanel(new GridLayout(0, 1));
+            panel.add(new JLabel("Customer Name:"));
+            panel.add(customerDropdown);
+            panel.add(new JLabel("Staff Name:"));
+            panel.add(staffDropdown);
+            panel.add(new JLabel("Date:"));
+            panel.add(dateField);
+            panel.add(new JLabel("Total Amount:"));
+            panel.add(totalAmountField);
+
+            int result = JOptionPane.showConfirmDialog(null, panel, "Edit Invoice Information",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            if (result == JOptionPane.OK_OPTION) {
+                // Lấy thông tin từ các trường nhập liệu
+                String updatedDate = dateField.getText();
+                Number updatedTotalAmount = (Number) totalAmountField.getValue();
+
+                // Kiểm tra ràng buộc không được để trống
+                if (updatedDate.isEmpty() || updatedTotalAmount == null) {
+                    JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Cập nhật thông tin của Invoice
+                selectedInvoice.setPurchaseDate(updatedDate);
+                selectedInvoice.setTotalAmount(updatedTotalAmount.intValue());
+                selectedInvoice.setCustomerName(selectedCustomerName);
+                selectedInvoice.setStaffName(selectedStaffName);
+
+                // Cập nhật bảng
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setValueAt(selectedCustomerName, selectedRow, 0); // Cột 0 là Customer Name
+                model.setValueAt(selectedStaffName, selectedRow, 1); // Cột 1 là Staff Name
+                model.setValueAt(updatedDate, selectedRow, 2);
+                model.setValueAt(updatedTotalAmount.intValue(), selectedRow, 3);
+
+                // Lưu các thay đổi vào cơ sở dữ liệu hoặc thực hiện các hành động khác cần thiết
+                controller_Invoice updateController = new controller_Invoice();
+                try {
+                    updateController.editInvoice(selectedInvoice);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một hóa đơn để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-        
+        int selectedRow = table.getSelectedRow();
+        Invoice tmp = invoiceList.get(selectedRow);
+        this.txtCustomerName.setText(tmp.getCustomerName());
+        this.txtStaffName.setText(tmp.getStaffName());
+        this.txtDate.setText(tmp.getPurchaseDate());
+        this.totalAmountField.setValue(tmp.getTotalAmount());
     }//GEN-LAST:event_tableMouseClicked
 
     private void tableDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDetailMouseClicked
-        int selectedRow = table.getSelectedRow();
-        Invoice tmp = invoiceList.get(selectedRow);
-        Date purchaseDate = tmp.getPurchaseDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String formattedDate = dateFormat.format(purchaseDate);   
-        this.txtCustomerName.setText(tmp.getStaffName());
-        this.txtStaffName.setText(tmp.getStaffName());
-        this.txtDate.setText(formattedDate);
-        this.txtTotalAmount.setText(tmp.getTotalAmount());
+    
     }//GEN-LAST:event_tableDetailMouseClicked
-
-    private void txtTotalAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalAmountActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTotalAmountActionPerformed
 
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
 
         
         // Tạo các trường nhập liệu
-        JComboBox<String> customerDropdown = new JComboBox<>();
-        for (Customer customerName : customers) {
-            customerDropdown.addItem(customerName.getCustomerName());
+        JComboBox<Customer> customerDropdown = new JComboBox<>();
+        for (Customer customer : customers) {
+            customerDropdown.addItem(customer);
         }
- 
+        customerDropdown.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                if (value instanceof Customer) {
+                    // Hiển thị tên khách hàng
+                    value = ((Customer) value).getCustomerName();
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            }
+        });
         customerDropdown.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Cập nhật selectedCustomer khi một mục được chọn
-                selectedCustomer = (String) customerDropdown.getSelectedItem(); 
+                Customer selectedCustomer = (Customer) customerDropdown.getSelectedItem();
+                if (selectedCustomer != null) {
+                    // Lấy ID và tên của khách hàng
+                    selectedCustomerId = selectedCustomer.getCustomerId();
+                    selectedCustomerName = selectedCustomer.getCustomerName();
+                }
             }
         });
-
-        JComboBox<String> staffDropdown = new JComboBox<>();
-        for (Staff staffName : staffList) {
-            staffDropdown.addItem(staffName.getName());
+        JComboBox<Staff> staffDropdown = new JComboBox<>();
+        for (Staff staff : staffList) {
+            staffDropdown.addItem(staff);
         }
+        staffDropdown.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                if (value instanceof Staff) {
+                    // Hiển thị tên nhân viên
+                    value = ((Staff) value).getName();
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            }
+        });
         staffDropdown.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                selectedStaff = (String) staffDropdown.getSelectedItem();
+                Staff selectedStaff = (Staff) staffDropdown.getSelectedItem();
+                if (selectedStaff != null) {
+                    // Lấy ID và tên của nhân viên
+                    selectedStaffId = selectedStaff.getStaffId();
+                    selectedStaffName = selectedStaff.getName();
+                }
             }
         });
+
+
         JTextField dateField = new JTextField();
-        JTextField totalAmountField = new JTextField();
+        JFormattedTextField totalAmountField = new JFormattedTextField(NumberFormat.getIntegerInstance());
         // Tạo một panel chứa các trường nhập liệu
         JPanel panel = new JPanel(new GridLayout(0, 1));
         panel.add(new JLabel("Customer Name:"));
@@ -635,26 +779,16 @@ public class Form_1 extends javax.swing.JPanel {
         // Nếu người dùng nhấn OK
         if (result == JOptionPane.OK_OPTION) {
                 String dateText = dateField.getText();
-                String totalAmount = totalAmountField.getText();
-
+                Number totalAmountNumber = (Number) totalAmountField.getValue();
                 // Kiểm tra ràng buộc không được để trống
-                if (dateText.isEmpty() || totalAmount.isEmpty()) {
+                if (dateText.isEmpty() || totalAmountNumber == null) {
                     JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
                     return; // Dừng việc thực thi tiếp
                 }
-                Date date = null;
-                    try {
-                        SimpleDateFormat dateFormat;
-                        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                        date = dateFormat.parse(dateText);
-                    } catch (ParseException e) {
-                        JOptionPane.showMessageDialog(null, "Định dạng ngày không hợp lệ!", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
+                int totalAmount = totalAmountNumber.intValue();
 
                 // Tạo một đối tượng Invoice từ thông tin vừa nhập
-                Invoice newInvoice = new Invoice( selectedCustomer, selectedStaff, date, totalAmount);
+                Invoice newInvoice = new Invoice(invoiceList.size()+1, selectedCustomerId,selectedStaffId,dateText,selectedCustomerName,selectedStaffName, totalAmount);
 
                 // Thêm vào danh sách hóa đơn và cập nhật bảng
                 invoiceList.add(newInvoice);
@@ -673,6 +807,34 @@ public class Form_1 extends javax.swing.JPanel {
     private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCustomerNameActionPerformed
+
+    private void totalAmountFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalAmountFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalAmountFieldActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = table.getSelectedRow();
+
+        if (selectedRow != -1) {
+            int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this invoice?", "Confirmation", JOptionPane.YES_NO_OPTION);
+
+            if (option == JOptionPane.YES_OPTION) {
+                int invoiceId = invoiceList.get(selectedRow).getInvoiceId();
+                controller_Invoice controller = new controller_Invoice();
+
+                try {
+                    controller.deleteInvoice(invoiceId);
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    model.removeRow(selectedRow);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select an invoice to delete!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_deleteBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -707,11 +869,11 @@ public class Form_1 extends javax.swing.JPanel {
     private javax.swing.JScrollPane spTable;
     private com.view.swing.Table table;
     private com.view.swing.Table tableDetail;
+    private javax.swing.JFormattedTextField totalAmountField;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtStaffName;
-    private javax.swing.JTextField txtTotalAmount;
     private javax.swing.JButton updateBtn;
     // End of variables declaration//GEN-END:variables
 }
