@@ -5,13 +5,15 @@ public class Staff {
     private int age;
     private String email;
     private String address;
+    private String position;
     
-    public Staff(int staffId, String name, int age, String email, String address) {
+    public Staff(int staffId, String name,String email, String address, String position) {
         this.staffId = staffId;
         this.name = name;
         this.age = age;
         this.email = email;
         this.address = address;
+        this.position = position;
     }
 
     public int getStaffId() {
@@ -52,5 +54,13 @@ public class Staff {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getPosition() {
+        return position;
     }
 }

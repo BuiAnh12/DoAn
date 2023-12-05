@@ -20,47 +20,41 @@ public class controller_Invoice {
          List<Invoice> invoices =new ArrayList<>();
          Connection cnn=ConnectionDB.getConnection();
          Statement statement=cnn.createStatement();
-         String query="SELECT * FROM Invoices";
+         String query= "SELECT * FROM Invoices";
+
          try{
                 ResultSet re=statement.executeQuery(query);
                 while(re.next()){
-                    int invoiceid=re.getInt("InvoiceId");
-                    int id=re.getInt("CustomerId");
-                    int Customerid=re.getInt("CustomerId");              
-                    int Staffid=re.getInt("StaffId");
-                    Date purchaseDate=re.getDate("PurchaseDate");
-                    java.sql.Date createAt=re.getDate("CreatedAt");            
-                    java.sql.Date updateAt=re.getDate("UpdatedAt");
-
-                    Invoice invoice =new Invoice(Staffid, Customerid, Staffid, purchaseDate, LocalDateTime.MAX, LocalDateTime.MAX);
+                    java.util.Date purchaseDate = new java.util.Date(re.getDate("PurchaseDate").getTime());
+                    String customerName = re.getString("CustomerName");
+                    String staffName = re.getString("StaffName");
+                    String totalAmount = re.getString("Totalamount");
+                    Invoice invoice =new Invoice(customerName,staffName, purchaseDate, totalAmount);
                     invoices.add(invoice);
                 }
                 
          }   
-         catch(Exception ex){
-             ex.printStackTrace();
+         catch(SQLException ex){
          }   
         return invoices;
     }
      
     public void addInvoice(Invoice invoice) throws SQLException{
-        Connection cnn=ConnectionDB.getConnection();
-        String query="INSERT INTO Invoices (CustomerId, StaffId, PurchaseDate,CreatedAt,UpdatedAt) VALUES(?,?,?,?,?)";
-        try{
-            PreparedStatement pre=cnn.prepareStatement(query);
-            pre.setInt(1, invoice.getCustomerId());                    
-            pre.setInt(2, invoice.getStaffId());        
-            pre.setDate(3, (java.sql.Date) invoice.getPurchaseDate());
-            
-            Date createAt = Date.from(invoice.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant());
-            pre.setDate(4, (java.sql.Date) createAt);
-      
-            Date uppdateAt = Date.from(invoice.getUpdatedAt().atZone(ZoneId.systemDefault()).toInstant());
-            pre.setDate(5, (java.sql.Date) uppdateAt);
-            int tmp=pre.executeUpdate();
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        Connection cnn = ConnectionDB.getConnection();
+        String query = "INSERT INTO Invoices (CustomerName, StaffName, PurchaseDate, TotalAmount) VALUES(?,?,?,?)";
+        try {
+            PreparedStatement pre = cnn.prepareStatement(query);
+            pre.setString(1, invoice.getCustomerName());
+            pre.setString(2, invoice.getStaffName());
+
+            // Chuyển đổi java.util.Date sang java.sql.Date
+            java.sql.Date sqlPurchaseDate = new java.sql.Date(invoice.getPurchaseDate().getTime());
+            pre.setDate(3, sqlPurchaseDate);
+
+            pre.setString(4, invoice.getTotalAmount());
+            int tmp = pre.executeUpdate();
+
+        } catch (SQLException ex) {
         }
     } 
     
@@ -88,15 +82,12 @@ public class controller_Invoice {
       
      public void deleteInvoice (int invoiceId) throws SQLException{
          Connection cnn=ConnectionDB.getConnection();
-         Statement statement=cnn.createStatement();
          String query="DELETE FROM Invoices WHERE InvoiceId =?";
          try{
             PreparedStatement pre=cnn.prepareStatement(query);
             pre.setInt(1,invoiceId);       
-            int tmp=pre.executeUpdate();
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        catch (SQLException ex) {
         }
     }  
 }

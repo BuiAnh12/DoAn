@@ -6,17 +6,81 @@ soidfsoidù
  */
 package com.view.form;
 
+import com.controller.controller_Customer;
+import com.controller.controller_Invoice;
+import com.controller.controller_Product;
+import com.controller.controller_Staff;
+import com.model.Customer;
+import com.model.Invoice;
+import com.model.Product;
+import com.model.Staff;
+import com.view.swing.ScrollBar;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 /**
  *
  * @author RAVEN
  */
 public class Form_1 extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Form_1
-     */
+    List<Invoice> invoiceList = new ArrayList<>();
+    List<Customer>customers =new ArrayList<>();
+    List<Staff> staffList = new ArrayList<>();
+    controller_Staff staff_control =new controller_Staff();
+    controller_Customer customer_control=new controller_Customer();
+    private String selectedCustomer;
+    private int selectedCustomerId;
+    private String selectedStaff;
     public Form_1() {
         initComponents();  
+        try {
+            staffList = staff_control.getAllStaff();
+        } catch (SQLException ex) {
+            Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+                    customers=customer_control.getAllCustomers();
+            } catch (SQLException ex) {
+                    Logger.getLogger(Form_2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        controller_Invoice invoices =new  controller_Invoice();
+        
+        
+        try {
+               invoiceList = invoices.getAllInvoices();
+            } catch (SQLException ex) {
+               ex.printStackTrace();
+            }
+        
+        spTable.setVerticalScrollBar(new ScrollBar());
+        spTable.getVerticalScrollBar().setBackground(Color.WHITE);
+        spTable.getViewport().setBackground(Color.WHITE);
+        JPanel p = new JPanel();
+        p.setBackground(Color.WHITE);
+        spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
+        for (Invoice invoice : invoiceList) {
+            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate()});
+        }
     }
 
     /**
@@ -138,6 +202,11 @@ public class Form_1 extends javax.swing.JPanel {
         insertBtn.setBackground(new java.awt.Color(36, 36, 36));
         insertBtn.setForeground(new java.awt.Color(255, 255, 255));
         insertBtn.setText("Insert");
+        insertBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelInsertLayout = new javax.swing.GroupLayout(PanelInsert);
         PanelInsert.setLayout(PanelInsertLayout);
@@ -282,6 +351,11 @@ public class Form_1 extends javax.swing.JPanel {
 
         txtCustomerName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtCustomerName.setForeground(new java.awt.Color(102, 102, 102));
+        txtCustomerName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCustomerNameActionPerformed(evt);
+            }
+        });
 
         txtStaffName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtStaffName.setForeground(new java.awt.Color(102, 102, 102));
@@ -500,12 +574,105 @@ public class Form_1 extends javax.swing.JPanel {
     }//GEN-LAST:event_tableMouseClicked
 
     private void tableDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDetailMouseClicked
-        
+        int selectedRow = table.getSelectedRow();
+        Invoice tmp = invoiceList.get(selectedRow);
+        Date purchaseDate = tmp.getPurchaseDate();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = dateFormat.format(purchaseDate);   
+        this.txtCustomerName.setText(tmp.getStaffName());
+        this.txtStaffName.setText(tmp.getStaffName());
+        this.txtDate.setText(formattedDate);
+        this.txtTotalAmount.setText(tmp.getTotalAmount());
     }//GEN-LAST:event_tableDetailMouseClicked
 
     private void txtTotalAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalAmountActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalAmountActionPerformed
+
+    private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
+
+        
+        // Tạo các trường nhập liệu
+        JComboBox<String> customerDropdown = new JComboBox<>();
+        for (Customer customerName : customers) {
+            customerDropdown.addItem(customerName.getCustomerName());
+        }
+ 
+        customerDropdown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Cập nhật selectedCustomer khi một mục được chọn
+                selectedCustomer = (String) customerDropdown.getSelectedItem(); 
+            }
+        });
+
+        JComboBox<String> staffDropdown = new JComboBox<>();
+        for (Staff staffName : staffList) {
+            staffDropdown.addItem(staffName.getName());
+        }
+        staffDropdown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedStaff = (String) staffDropdown.getSelectedItem();
+            }
+        });
+        JTextField dateField = new JTextField();
+        JTextField totalAmountField = new JTextField();
+        // Tạo một panel chứa các trường nhập liệu
+        JPanel panel = new JPanel(new GridLayout(0, 1));
+        panel.add(new JLabel("Customer Name:"));
+        panel.add(customerDropdown);
+        panel.add(new JLabel("Staff Name:"));
+        panel.add(staffDropdown);
+        panel.add(new JLabel("Date:"));
+        panel.add(dateField);
+        panel.add(new JLabel("Total Amount:"));
+        panel.add(totalAmountField);
+
+        // Hiển thị hộp thoại và kiểm tra nút bấm
+        int result = JOptionPane.showConfirmDialog(null, panel, "Enter Invoice Information", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        // Nếu người dùng nhấn OK
+        if (result == JOptionPane.OK_OPTION) {
+                String dateText = dateField.getText();
+                String totalAmount = totalAmountField.getText();
+
+                // Kiểm tra ràng buộc không được để trống
+                if (dateText.isEmpty() || totalAmount.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return; // Dừng việc thực thi tiếp
+                }
+                Date date = null;
+                    try {
+                        SimpleDateFormat dateFormat;
+                        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        date = dateFormat.parse(dateText);
+                    } catch (ParseException e) {
+                        JOptionPane.showMessageDialog(null, "Định dạng ngày không hợp lệ!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+
+                // Tạo một đối tượng Invoice từ thông tin vừa nhập
+                Invoice newInvoice = new Invoice( selectedCustomer, selectedStaff, date, totalAmount);
+
+                // Thêm vào danh sách hóa đơn và cập nhật bảng
+                invoiceList.add(newInvoice);
+                table.addRow(new Object[]{newInvoice.getCustomerName(), newInvoice.getStaffName(), newInvoice.getPurchaseDate(), newInvoice.getTotalAmount()});
+
+                // Lưu vào cơ sở dữ liệu hoặc thực hiện các hành động khác theo yêu cầu của bạn
+                // saveToDatabase(newInvoice);
+                controller_Invoice controller = new controller_Invoice();
+                try {
+                    controller.addInvoice(newInvoice);
+                } catch (SQLException ex) {
+            }
+        }
+    }//GEN-LAST:event_insertBtnActionPerformed
+
+    private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCustomerNameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

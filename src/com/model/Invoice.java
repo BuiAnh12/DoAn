@@ -8,18 +8,27 @@ public class Invoice {
     private Date purchaseDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String customerName;
+    private String staffName;
+    private String totalAmount;
 
-    public Invoice(int invoiceId, int customerId, int staffId, Date purchaseDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.invoiceId = invoiceId;
-        this.customerId = customerId;
-        this.staffId = staffId;
+    public Invoice( String customerName,String staffName, Date purchaseDate ,String totalAmount) {
+        this.customerName = customerName;
+        this.staffName = staffName;
         this.purchaseDate = purchaseDate;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.totalAmount = totalAmount;
     }
 
     public int getInvoiceId() {
         return invoiceId;
+    }
+
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public String getCustomerName() {
+        return customerName;
     }
 
     public int getCustomerId() {
@@ -36,6 +45,10 @@ public class Invoice {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public LocalDateTime getUpdatedAt() {
@@ -65,6 +78,17 @@ public class Invoice {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
     
 }
