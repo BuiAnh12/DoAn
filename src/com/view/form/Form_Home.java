@@ -21,12 +21,7 @@ import javax.swing.JScrollPane;
 public class Form_Home extends javax.swing.JPanel {
         private Form_chart formchart;
         
-        private void setForm(JFrame com) {
-            Chart_panel.removeAll();
-            Chart_panel.add(com);
-            Chart_panel.repaint();
-            Chart_panel.revalidate();
-    }
+        
         public Form_Home() {
         initComponents();
         controller_Dashboard tmp=new controller_Dashboard();
