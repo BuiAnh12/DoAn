@@ -1,6 +1,6 @@
 package com.view.component;
 
-import com.view.main.Login_form;
+import com.view.main.login;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -104,8 +104,8 @@ public class Header extends javax.swing.JPanel {
             java.awt.Frame frame = (java.awt.Frame) window;
             frame.dispose(); // Close the frame
         }
-        Login_form login = new Login_form();
-        login.setVisible(true);
+        login log = new login();
+        log.setVisible(true);
     }//GEN-LAST:event_LogoutActionPerformed
 
 //    private void searchText1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchText1ActionPerformed
