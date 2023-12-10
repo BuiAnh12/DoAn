@@ -13,6 +13,8 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.JFrame;
 
 public class Menu extends javax.swing.JPanel {
+    
+    private int prevelege;
 
     private EventMenuSelected event;
 
@@ -27,8 +29,19 @@ public class Menu extends javax.swing.JPanel {
         listMenu1.setOpaque(false);
         init();
     }
+    
+    public int getPrevilege(){
+        return this.prevelege;
+    }
+    
+    public void setPrevilege(int prevelege){
+        this.prevelege = prevelege;
+    }
 
     private void init() {
+//        if (this.prevelege == 4){
+//            listMenu1.addItem(new Model_Menu("1", "Dashboard", Model_Menu.MenuType.MENU));
+//        }
         listMenu1.addItem(new Model_Menu("1", "Dashboard", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("2", "Order", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("7", "Product", Model_Menu.MenuType.MENU));

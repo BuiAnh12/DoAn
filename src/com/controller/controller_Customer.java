@@ -17,7 +17,11 @@ public class controller_Customer {
          List<Customer> customers =new ArrayList<>();
          Connection cnn=ConnectionDB.getConnection();
          Statement statement=cnn.createStatement();
-         String query="SELECT * FROM Customers";
+         String query = "SELECT Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
+                   "FROM Customers " +
+                   "JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
+                   "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
+                   "GROUP BY Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address";
          try{
                 ResultSet re=statement.executeQuery(query);
                 while(re.next()){
@@ -40,13 +44,12 @@ public class controller_Customer {
     //
     public void addCustomer(Customer customer) throws SQLException{
         Connection cnn=ConnectionDB.getConnection();
-        String query="INSERT INTO Customers (CustomerName, Email, Address, TotalAmount) VALUES(?,?,?,?)";
+        String query="INSERT INTO Customers (CustomerName, Email, Address) VALUES(?,?,?)";
         try{
             PreparedStatement pre=cnn.prepareStatement(query);
             pre.setString(1, customer.getCustomerName());       
             pre.setString(2, customer.getEmail());
             pre.setString(3, customer.getAddress());
-            pre.setInt(4,customer.getTotalAmount());
             int tmp=pre.executeUpdate();
         }
         catch (Exception ex) {

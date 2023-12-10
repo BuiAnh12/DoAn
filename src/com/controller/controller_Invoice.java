@@ -20,7 +20,11 @@ public class controller_Invoice {
         List<Invoice> invoices = new ArrayList<>();
         Connection cnn = ConnectionDB.getConnection();
         Statement statement = cnn.createStatement();
-        String query = "SELECT * FROM Invoices";
+        String query = "SELECT Invoices.InvoiceId, Customers.CustomerId, Staffs.StaffId, PurchaseDate, CustomerName, Staffs.Name AS StaffName, TotalPrice AS TotalAmount " +
+                   "FROM Invoices " +
+                   "JOIN Customers ON Customers.CustomerId = Invoices.CustomerId " +
+                   "JOIN Staffs ON Staffs.StaffId = Invoices.StaffId " +
+                   "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId";
 
         try {
             ResultSet re = statement.executeQuery(query);

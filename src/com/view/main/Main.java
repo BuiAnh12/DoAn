@@ -16,6 +16,8 @@ import javax.swing.SwingUtilities;
 
 
 public class Main extends javax.swing.JFrame {
+    
+    private int privilege;
 
     private Form_Home home;
     private Form_1 form1;
@@ -59,6 +61,14 @@ public class Main extends javax.swing.JFrame {
         });
         //  set when system open start with home form
         setForm(new Form_Home());
+    }
+    
+    public void setPrivilege(int pre){
+        this.privilege = pre;
+    }
+    
+    public int getPrivilege(){
+        return this.privilege;
     }
 
     private void setForm(JComponent com) {

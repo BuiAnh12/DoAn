@@ -1,5 +1,6 @@
 package com.view.component;
 
+import com.view.main.login;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,12 +19,21 @@ public class Header extends javax.swing.JPanel {
     private void initComponents() {
 
         PopupMenu = new javax.swing.JPopupMenu();
+        Logout = new javax.swing.JMenuItem();
         Exit = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
 
         PopupMenu.setOpaque(false);
+
+        Logout.setText("Logout");
+        Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutActionPerformed(evt);
+            }
+        });
+        PopupMenu.add(Logout);
 
         Exit.setText("Exit");
         Exit.addActionListener(new java.awt.event.ActionListener() {
@@ -85,6 +95,19 @@ public class Header extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
+        // TODO add your handling code here:
+        java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
+
+        // Check if the parent is a JFrame and close it
+        if (window instanceof java.awt.Frame) {
+            java.awt.Frame frame = (java.awt.Frame) window;
+            frame.dispose(); // Close the frame
+        }
+        login log = new login();
+        log.setVisible(true);
+    }//GEN-LAST:event_LogoutActionPerformed
+
 //    private void searchText1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchText1ActionPerformed
 //        performSearch();
 //    }// GEN-LAST:event_searchText1ActionPerformed
@@ -104,6 +127,7 @@ public class Header extends javax.swing.JPanel {
         if (window instanceof java.awt.Frame) {
             java.awt.Frame frame = (java.awt.Frame) window;
             frame.dispose(); // Close the frame
+            System.exit(0);
         }
     }// GEN-LAST:event_ExitActionPerformed
 
@@ -128,6 +152,7 @@ public class Header extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Exit;
+    private javax.swing.JMenuItem Logout;
     private javax.swing.JPopupMenu PopupMenu;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
