@@ -24,7 +24,8 @@ public class controller_Staff {
                     int age=re.getInt("Age");
                     String email=re.getString("Email");
                     String address=re.getString("Address");
-                    Staff staff =new Staff(id, name, age, email, address);
+                    String position = re.getString("Position");
+                    Staff staff =new Staff(id, name, email, address, position);
                     staffs.add(staff);
                 }
                 
@@ -37,13 +38,14 @@ public class controller_Staff {
     // 
      public void addStaff(Staff staff) throws SQLException{
         Connection cnn=ConnectionDB.getConnection();
-        String query="INSERT INTO Staffs (Name, Age, Email,Address) VALUES(?,?,?,?)";
+        String query="INSERT INTO Staffs (Name, Age, Email,Address, Position) VALUES(?,?,?,?,?)";
         try{
             PreparedStatement pre=cnn.prepareStatement(query);
             pre.setString(1, staff.getName());   
             pre.setInt(2, staff.getAge());       
             pre.setString(3, staff.getEmail());
             pre.setString(4, staff.getAddress());
+            pre.setString(5,staff.getPosition());
             int tmp=pre.executeUpdate();
         }
         catch (Exception ex) {

@@ -5,18 +5,20 @@ public class Invoice {
     private int invoiceId;
     private int customerId;
     private int staffId;
-    private Date purchaseDate;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String purchaseDate;
+    private String customerName;
+    private String staffName;
+    private int totalAmount;
 
-    public Invoice(int invoiceId, int customerId, int staffId, Date purchaseDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.invoiceId = invoiceId;
-        this.customerId = customerId;
-        this.staffId = staffId;
-        this.purchaseDate = purchaseDate;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+        public Invoice(int invoiceId, int customerId, int staffId, String purchaseDate, String customerName, String staffName, int totalAmount) {
+            this.invoiceId = invoiceId;
+            this.customerId = customerId;
+            this.staffId = staffId;
+            this.purchaseDate = purchaseDate;
+            this.customerName = customerName;
+            this.staffName = staffName;
+            this.totalAmount = totalAmount;
+        }
 
     public int getInvoiceId() {
         return invoiceId;
@@ -30,16 +32,20 @@ public class Invoice {
         return staffId;
     }
 
-    public Date getPurchaseDate() {
+    public String getPurchaseDate() {
         return purchaseDate;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public int getTotalAmount() {
+        return totalAmount;
     }
 
     public void setInvoiceId(int invoiceId) {
@@ -54,17 +60,21 @@ public class Invoice {
         this.staffId = staffId;
     }
 
-    public void setPurchaseDate(Date purchaseDate) {
+    public void setPurchaseDate(String purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
+
+    public void setTotalAmount(int totalAmount) {
+        this.totalAmount = totalAmount;
     }
     
-    
+
 }

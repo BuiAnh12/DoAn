@@ -22,10 +22,15 @@ import java.awt.GridLayout;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
+
+import java.util.Arrays;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -164,6 +169,11 @@ public class Form_2 extends javax.swing.JPanel {
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
         sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Name", "Sort by Manufacture", "Sort byCategory", " " }));
         sortComboBox.setToolTipText("");
+        sortComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortComboBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelFilterLayout = new javax.swing.GroupLayout(PanelFilter);
         PanelFilter.setLayout(PanelFilterLayout);
@@ -405,7 +415,7 @@ public class Form_2 extends javax.swing.JPanel {
                 .addComponent(jLabel7)
                 .addGap(12, 12, 12)
                 .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         PanelRight.add(PanelDetail, java.awt.BorderLayout.CENTER);
@@ -460,7 +470,69 @@ public class Form_2 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            // Lấy sản phẩm từ danh sách
+            Product productToUpdate = productList.get(selectedRow);
+
+            // Hiển thị hộp thoại nhập liệu với thông tin cũ
+            JTextField txtName = new JTextField(productToUpdate.getProductName());
+            JTextField txtManufacture = new JTextField(productToUpdate.getManufacturer());
+            JComboBox<String> categorySelect = new JComboBox<>(new String[]{"Phân hữu cơ", "Phân vô cơ"});
+            categorySelect.setSelectedItem(productToUpdate.getCategory());
+            JTextArea descriptionTxt = new JTextArea(productToUpdate.getDescription());
+
+            JPanel panel = new JPanel(new GridLayout(0, 1));
+            panel.add(new JLabel("Product Name:"));
+            panel.add(txtName);
+            panel.add(new JLabel("Manufacturer:"));
+            panel.add(txtManufacture);
+            panel.add(new JLabel("Category:"));
+            panel.add(categorySelect);
+            panel.add(new JLabel("Description:"));
+            panel.add(descriptionTxt);
+
+            int result = JOptionPane.showConfirmDialog(null, panel, "Edit Product Information",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            // Nếu người dùng nhấn OK
+            if (result == JOptionPane.OK_OPTION) {
+                // Lấy thông tin từ các trường nhập liệu
+                String updatedName = txtName.getText();
+                String updatedManufacture = txtManufacture.getText();
+                String updatedCategory = (String) categorySelect.getSelectedItem();
+                String updatedDescription = descriptionTxt.getText();
+
+                // Kiểm tra xem các trường bắt buộc có trống không
+                if (updatedName.isEmpty() || updatedManufacture.isEmpty() || updatedDescription.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Các trường không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Cập nhật thông tin của sản phẩm
+                productToUpdate.setProductName(updatedName);
+                productToUpdate.setManufacturer(updatedManufacture);
+                productToUpdate.setCategory(updatedCategory);
+                productToUpdate.setDescription(updatedDescription);
+
+                // Cập nhật bảng
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                model.setValueAt(updatedName, selectedRow, 0);
+                model.setValueAt(updatedManufacture, selectedRow, 1);
+                model.setValueAt(updatedDescription, selectedRow, 2);
+                model.setValueAt(updatedCategory, selectedRow, 3);
+
+                // Lưu các thay đổi vào cơ sở dữ liệu hoặc thực hiện các hành động khác cần thiết
+                controller_Product updateController = new controller_Product();
+                try {
+                    updateController.editProduct(productToUpdate);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
@@ -475,14 +547,17 @@ public class Form_2 extends javax.swing.JPanel {
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
-            int productId = productList.get(selectedRow).getProductId();
-            controller_Product xoa = new controller_Product();
-            try {
-                xoa.deleteProduct(productId);
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
-                model.removeRow(selectedRow);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this product?", "Confirmation", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                int productId = productList.get(selectedRow).getProductId();
+                controller_Product xoa = new controller_Product();
+                try {
+                    xoa.deleteProduct(productId);
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    model.removeRow(selectedRow);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         } else {
             JOptionPane.showMessageDialog(null, "Please select a product to delete!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -515,6 +590,13 @@ public class Form_2 extends javax.swing.JPanel {
             String manufacturer = manufacturerField.getText();
             String category = (String) categoryComboBox.getSelectedItem();
             String description = descriptionArea.getText();
+            
+            // Kiểm tra ràng buộc không được để trống
+            if (productName.isEmpty() || manufacturer.isEmpty() || description.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                return; // Stop further execution
+            }
+
 
             // Tạo một đối tượng Product từ thông tin vừa nhập
             Product newProduct = new Product(productList.size() + 1, productName, manufacturer, description, category);
@@ -535,6 +617,12 @@ public class Form_2 extends javax.swing.JPanel {
         }
         
     }//GEN-LAST:event_insertBtnActionPerformed
+
+
+    private void sortComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortComboBoxActionPerformed
+
+    }//GEN-LAST:event_sortComboBoxActionPerformed
+
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
