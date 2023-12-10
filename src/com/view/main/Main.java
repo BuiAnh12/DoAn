@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 
 public class Main extends javax.swing.JFrame {
     
-    private int privilege;
+    private int previlege;
 
     private Form_Home home;
     private Form_1 form1;
@@ -26,13 +26,74 @@ public class Main extends javax.swing.JFrame {
     private Form_4 form4;
     private Form_5 form5;
     
+    public void setMenuPrevilege(int previlege){
+        this.menu.setPrevilege(previlege);
+        this.menu.reset();
+    }
     
+    public void reset(){
+        form2.setPrevilege(previlege);
+        form3.setPrevilege(previlege);
+        if(previlege == 3){
+                menu.addEventMenuSelected(new EventMenuSelected() {
+                @Override
+                public void selected(int index) {
+
+                    if (index == 0) {
+                        setForm(home);
+                    } else if (index == 1) {
+                        setForm(form1);
+                    } else if (index == 2) {
+                        setForm(form2);
+                    } else if (index == 3) {
+                        setForm(form3);
+                    } else if (index == 4){
+                        setForm(form4);
+                    } else if (index == 5){
+                        setForm(form5);
+                    }
+                }
+            });
+            setForm(new Form_Home());
+        }
+        else if(previlege == 2){
+                menu.addEventMenuSelected(new EventMenuSelected() {
+                @Override
+                public void selected(int index) {
+
+                    if (index == 0) {
+                        setForm(form2);
+                    } else if (index == 1) {
+                        setForm(form3);
+                    } 
+                }
+            });
+            setForm(new Form_2());
+        }
+        else if(previlege == 1){
+                menu.addEventMenuSelected(new EventMenuSelected() {
+                @Override
+                public void selected(int index) {
+
+                    if (index == 0) {
+                        setForm(form1);
+                    } else if (index == 1) {
+                        setForm(form2);
+                    } else if (index == 2) {
+                        setForm(form3);
+                    } else if (index == 3) {
+                        setForm(form4);
+                    }
+                }     
+            });
+            setForm(new Form_1());
+        }
+    }
     
     public Main() throws SQLException {
         initComponents();
         
         setBackground(new Color(0, 0, 0, 0));
-        
         
         home = new Form_Home();
         form1 = new Form_1();
@@ -41,34 +102,26 @@ public class Main extends javax.swing.JFrame {
         form4 = new Form_4();
         form5 = new Form_5();
         menu.initMoving(Main.this);
-        menu.addEventMenuSelected(new EventMenuSelected() {
-            @Override
-            public void selected(int index) {
-                if (index == 0) {
-                    setForm(home);
-                } else if (index == 1) {
-                    setForm(form1);
-                } else if (index == 2) {
-                    setForm(form2);
-                } else if (index == 3) {
-                    setForm(form3);
-                } else if (index == 4){
-                    setForm(form4);
-                } else if (index == 5){
-                    setForm(form5);
-                }
-            }
-        });
+        
         //  set when system open start with home form
-        setForm(new Form_Home());
+        if(previlege == 3){
+            setForm(new Form_Home());
+        }
+        else if(previlege == 2){
+            setForm(new Form_2());
+        }
+        else if(previlege == 1){
+            setForm(new Form_1());
+        }
+        
     }
     
     public void setPrivilege(int pre){
-        this.privilege = pre;
+        this.previlege = pre;
     }
     
     public int getPrivilege(){
-        return this.privilege;
+        return this.previlege;
     }
 
     private void setForm(JComponent com) {

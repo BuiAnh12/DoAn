@@ -113,6 +113,7 @@ public class login extends javax.swing.JFrame {
         jPanel2.add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 400, 30));
 
         txtPassword.setBackground(new java.awt.Color(51, 51, 255));
+        txtPassword.setForeground(new java.awt.Color(255, 255, 255));
         txtPassword.setBorder(null);
         jPanel2.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 400, 30));
 
@@ -135,10 +136,14 @@ public class login extends javax.swing.JFrame {
             if (loggedIn) {
                 System.out.println("Authorized");
                 Main dashboard = new Main();
-                dashboard.setVisible(true);
+                dashboard.setVisible(false);
                 this.dispose(); // Close the login window
                 int privelge = control_account.getAccount().getPrevilege();
                 dashboard.setPrivilege(privelge);
+                dashboard.setMenuPrevilege(privelge);
+                dashboard.reset();
+                dashboard.setVisible(true);
+                dashboard.repaint();
                 System.out.println(dashboard.getPrivilege());
                 
             } else {

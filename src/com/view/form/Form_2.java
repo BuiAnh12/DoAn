@@ -32,13 +32,20 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.table.TableRowSorter;
 
-/**
- *
- * @author RAVEN
- */
+
 public class Form_2 extends javax.swing.JPanel {
-        List<Product> productList = new ArrayList<>();
-        ProductInsertModal insertModal = new ProductInsertModal(null,true);
+    private int previlege;
+    List<Product> productList = new ArrayList<>();
+    ProductInsertModal insertModal = new ProductInsertModal(null,true);
+
+    public int getPrevilege() {
+        return previlege;
+    }
+
+    public void setPrevilege(int previlege) {
+        this.previlege = previlege;
+    }
+    
     
     public Form_2() {
         initComponents();
@@ -470,68 +477,74 @@ public class Form_2 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow != -1) {
-            // Lấy sản phẩm từ danh sách
-            Product productToUpdate = productList.get(selectedRow);
+        if (this.previlege >= 2){
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                // Lấy sản phẩm từ danh sách
+                Product productToUpdate = productList.get(selectedRow);
 
-            // Hiển thị hộp thoại nhập liệu với thông tin cũ
-            JTextField txtName = new JTextField(productToUpdate.getProductName());
-            JTextField txtManufacture = new JTextField(productToUpdate.getManufacturer());
-            JComboBox<String> categorySelect = new JComboBox<>(new String[]{"Phân hữu cơ", "Phân vô cơ"});
-            categorySelect.setSelectedItem(productToUpdate.getCategory());
-            JTextArea descriptionTxt = new JTextArea(productToUpdate.getDescription());
+                // Hiển thị hộp thoại nhập liệu với thông tin cũ
+                JTextField txtName = new JTextField(productToUpdate.getProductName());
+                JTextField txtManufacture = new JTextField(productToUpdate.getManufacturer());
+                JComboBox<String> categorySelect = new JComboBox<>(new String[]{"Phân hữu cơ", "Phân vô cơ"});
+                categorySelect.setSelectedItem(productToUpdate.getCategory());
+                JTextArea descriptionTxt = new JTextArea(productToUpdate.getDescription());
 
-            JPanel panel = new JPanel(new GridLayout(0, 1));
-            panel.add(new JLabel("Product Name:"));
-            panel.add(txtName);
-            panel.add(new JLabel("Manufacturer:"));
-            panel.add(txtManufacture);
-            panel.add(new JLabel("Category:"));
-            panel.add(categorySelect);
-            panel.add(new JLabel("Description:"));
-            panel.add(descriptionTxt);
+                JPanel panel = new JPanel(new GridLayout(0, 1));
+                panel.add(new JLabel("Product Name:"));
+                panel.add(txtName);
+                panel.add(new JLabel("Manufacturer:"));
+                panel.add(txtManufacture);
+                panel.add(new JLabel("Category:"));
+                panel.add(categorySelect);
+                panel.add(new JLabel("Description:"));
+                panel.add(descriptionTxt);
 
-            int result = JOptionPane.showConfirmDialog(null, panel, "Edit Product Information",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                int result = JOptionPane.showConfirmDialog(null, panel, "Edit Product Information",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-            // Nếu người dùng nhấn OK
-            if (result == JOptionPane.OK_OPTION) {
-                // Lấy thông tin từ các trường nhập liệu
-                String updatedName = txtName.getText();
-                String updatedManufacture = txtManufacture.getText();
-                String updatedCategory = (String) categorySelect.getSelectedItem();
-                String updatedDescription = descriptionTxt.getText();
+                // Nếu người dùng nhấn OK
+                if (result == JOptionPane.OK_OPTION) {
+                    // Lấy thông tin từ các trường nhập liệu
+                    String updatedName = txtName.getText();
+                    String updatedManufacture = txtManufacture.getText();
+                    String updatedCategory = (String) categorySelect.getSelectedItem();
+                    String updatedDescription = descriptionTxt.getText();
 
-                // Kiểm tra xem các trường bắt buộc có trống không
-                if (updatedName.isEmpty() || updatedManufacture.isEmpty() || updatedDescription.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Các trường không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return;
+                    // Kiểm tra xem các trường bắt buộc có trống không
+                    if (updatedName.isEmpty() || updatedManufacture.isEmpty() || updatedDescription.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Các trường không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    // Cập nhật thông tin của sản phẩm
+                    productToUpdate.setProductName(updatedName);
+                    productToUpdate.setManufacturer(updatedManufacture);
+                    productToUpdate.setCategory(updatedCategory);
+                    productToUpdate.setDescription(updatedDescription);
+
+                    // Cập nhật bảng
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    model.setValueAt(updatedName, selectedRow, 0);
+                    model.setValueAt(updatedManufacture, selectedRow, 1);
+                    model.setValueAt(updatedDescription, selectedRow, 2);
+                    model.setValueAt(updatedCategory, selectedRow, 3);
+
+                    // Lưu các thay đổi vào cơ sở dữ liệu hoặc thực hiện các hành động khác cần thiết
+                    controller_Product updateController = new controller_Product();
+                    try {
+                        updateController.editProduct(productToUpdate);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
                 }
-
-                // Cập nhật thông tin của sản phẩm
-                productToUpdate.setProductName(updatedName);
-                productToUpdate.setManufacturer(updatedManufacture);
-                productToUpdate.setCategory(updatedCategory);
-                productToUpdate.setDescription(updatedDescription);
-
-                // Cập nhật bảng
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
-                model.setValueAt(updatedName, selectedRow, 0);
-                model.setValueAt(updatedManufacture, selectedRow, 1);
-                model.setValueAt(updatedDescription, selectedRow, 2);
-                model.setValueAt(updatedCategory, selectedRow, 3);
-
-                // Lưu các thay đổi vào cơ sở dữ liệu hoặc thực hiện các hành động khác cần thiết
-                controller_Product updateController = new controller_Product();
-                try {
-                    updateController.editProduct(productToUpdate);
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Sorry, you do not have the privilege to perform this action.",
+            "Insufficient Privilege", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_updateBtnActionPerformed
 
@@ -545,77 +558,90 @@ public class Form_2 extends javax.swing.JPanel {
     }//GEN-LAST:event_tableMouseClicked
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow != -1) {
-            int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this product?", "Confirmation", JOptionPane.YES_NO_OPTION);
-            if (option == JOptionPane.YES_OPTION) {
-                int productId = productList.get(selectedRow).getProductId();
-                controller_Product xoa = new controller_Product();
-                try {
-                    xoa.deleteProduct(productId);
-                    DefaultTableModel model = (DefaultTableModel) table.getModel();
-                    model.removeRow(selectedRow);
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+        if (this.previlege >= 2){
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this product?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    int productId = productList.get(selectedRow).getProductId();
+                    controller_Product xoa = new controller_Product();
+                    try {
+                        xoa.deleteProduct(productId);
+                        DefaultTableModel model = (DefaultTableModel) table.getModel();
+                        model.removeRow(selectedRow);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a product to delete!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Please select a product to delete!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Sorry, you do not have the privilege to perform this action.",
+            "Insufficient Privilege", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
-        JTextField productNameField = new JTextField();
-        JTextField manufacturerField = new JTextField();
-        JComboBox<String> categoryComboBox = new JComboBox<>(new String[]{"Phân hữu cơ", "Phân vô cơ"});
-        JTextArea descriptionArea = new JTextArea();
-
-        JPanel panel = new JPanel(new GridLayout(0, 1));
-        panel.add(new JLabel("Product Name:"));
-        panel.add(productNameField);
-        panel.add(new JLabel("Manufacturer:"));
-        panel.add(manufacturerField);
-        panel.add(new JLabel("Category:"));
-        panel.add(categoryComboBox);
-        panel.add(new JLabel("Description:"));
-        panel.add(descriptionArea);
-
-        int result = JOptionPane.showConfirmDialog(null, panel, "Enter Product Information",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-        // Nếu người dùng nhấn OK
-        if (result == JOptionPane.OK_OPTION) {
-            // Lấy thông tin từ các trường nhập liệu
-            String productName = productNameField.getText();
-            String manufacturer = manufacturerField.getText();
-            String category = (String) categoryComboBox.getSelectedItem();
-            String description = descriptionArea.getText();
+        if(this.previlege >= 2){
             
-            // Kiểm tra ràng buộc không được để trống
-            if (productName.isEmpty() || manufacturer.isEmpty() || description.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
-                return; // Stop further execution
-            }
-
-
-            // Tạo một đối tượng Product từ thông tin vừa nhập
-            Product newProduct = new Product(productList.size() + 1, productName, manufacturer, description, category);
-
-            // Thêm vào danh sách sản phẩm và cập nhật bảng
-            productList.add(newProduct);
-            table.addRow(new Object[]{newProduct.getProductName(), newProduct.getManufacturer(), newProduct.getDescription(), newProduct.getCategory()});
-
-            // Lưu vào cơ sở dữ liệu hoặc thực hiện các hành động khác theo yêu cầu của bạn
-            // saveToDatabase(newProduct);
-            controller_Product taomoi=new controller_Product();
-            try {
-                taomoi.addProduct(newProduct);
-            } catch (SQLException ex) {
-               ex.printStackTrace();
-            }
-            
-        }
         
+            JTextField productNameField = new JTextField();
+            JTextField manufacturerField = new JTextField();
+            JComboBox<String> categoryComboBox = new JComboBox<>(new String[]{"Phân hữu cơ", "Phân vô cơ"});
+            JTextArea descriptionArea = new JTextArea();
+
+            JPanel panel = new JPanel(new GridLayout(0, 1));
+            panel.add(new JLabel("Product Name:"));
+            panel.add(productNameField);
+            panel.add(new JLabel("Manufacturer:"));
+            panel.add(manufacturerField);
+            panel.add(new JLabel("Category:"));
+            panel.add(categoryComboBox);
+            panel.add(new JLabel("Description:"));
+            panel.add(descriptionArea);
+
+            int result = JOptionPane.showConfirmDialog(null, panel, "Enter Product Information",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            // Nếu người dùng nhấn OK
+            if (result == JOptionPane.OK_OPTION) {
+                // Lấy thông tin từ các trường nhập liệu
+                String productName = productNameField.getText();
+                String manufacturer = manufacturerField.getText();
+                String category = (String) categoryComboBox.getSelectedItem();
+                String description = descriptionArea.getText();
+
+                // Kiểm tra ràng buộc không được để trống
+                if (productName.isEmpty() || manufacturer.isEmpty() || description.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return; // Stop further execution
+                }
+
+
+                // Tạo một đối tượng Product từ thông tin vừa nhập
+                Product newProduct = new Product(productList.size() + 1, productName, manufacturer, description, category);
+
+                // Thêm vào danh sách sản phẩm và cập nhật bảng
+                productList.add(newProduct);
+                table.addRow(new Object[]{newProduct.getProductName(), newProduct.getManufacturer(), newProduct.getDescription(), newProduct.getCategory()});
+
+                // Lưu vào cơ sở dữ liệu hoặc thực hiện các hành động khác theo yêu cầu của bạn
+                // saveToDatabase(newProduct);
+                controller_Product taomoi=new controller_Product();
+                try {
+                    taomoi.addProduct(newProduct);
+                } catch (SQLException ex) {
+                   ex.printStackTrace();
+                }
+
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Sorry, you do not have the privilege to perform this action.",
+            "Insufficient Privilege", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_insertBtnActionPerformed
 
 

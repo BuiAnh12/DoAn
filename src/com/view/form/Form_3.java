@@ -46,13 +46,20 @@ import java.util.Date;
  * @author RAVEN
  */
 public class Form_3 extends javax.swing.JPanel {
-
+    
+    private int previlege;
     private List<Import> import_list=new ArrayList<>();
     private int status=1;
     private controller_Import imports=new controller_Import();
     private List<Product>name;
 
+    public int getPrevilege() {
+        return previlege;
+    }
 
+    public void setPrevilege(int previlege) {
+        this.previlege = previlege;
+    }
     
     public void refreshTable(){
         try {
@@ -934,6 +941,7 @@ public class Form_3 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
+        if (this.previlege >= 2){    
             int index=table.getSelectedRow();
             JTextField productNameField = new JTextField();
             JTextField manufacturingDate = new JTextField();
@@ -1009,7 +1017,11 @@ public class Form_3 extends javax.swing.JPanel {
                     ex.printStackTrace();
                 }
             }
-
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Sorry, you do not have the privilege to perform this action.",
+            "Insufficient Privilege", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
@@ -1054,7 +1066,7 @@ public class Form_3 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtCategoryActionPerformed
 
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
-        
+        if(this.previlege >= 2){
             JTextField productNameField = new JTextField();
             JTextField manufacturingDate = new JTextField();
             JTextField expiryDate = new JTextField();
@@ -1133,10 +1145,17 @@ public class Form_3 extends javax.swing.JPanel {
                 }
             }
         
-      
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Sorry, you do not have the privilege to perform this action.",
+            "Insufficient Privilege", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_insertBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        if(this.previlege >= 2){
+            
+        
         // Tao su kien xoa 
         Object[] options = {"Yes", "No"};
                 // Hiển thị hộp thoại xác nhận và đặt giá trị mặc định là "Yes"
@@ -1152,7 +1171,12 @@ public class Form_3 extends javax.swing.JPanel {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }        
+        }    
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Sorry, you do not have the privilege to perform this action.",
+            "Insufficient Privilege", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
 
