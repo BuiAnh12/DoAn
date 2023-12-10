@@ -5,8 +5,12 @@
  */
 package com.view.form;
 
+import com.controller.controller_Customer;
 import com.controller.controller_Product;
+import com.controller.controller_Staff;
+import com.model.Customer;
 import com.model.Product;
+import com.model.Staff;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
 import java.util.List;
@@ -18,7 +22,12 @@ import java.awt.GridLayout;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
+
 import java.util.Arrays;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.table.TableRowSorter;
@@ -34,6 +43,19 @@ public class Form_2 extends javax.swing.JPanel {
     public Form_2() {
         initComponents();
         controller_Product products =new  controller_Product();
+        
+        controller_Staff staff_control =new controller_Staff();
+        controller_Customer customer_control=new controller_Customer();
+        List<Staff>staffs =new ArrayList<>();
+        List<Customer>customers =new ArrayList<>();
+
+            try {
+                staffs=staff_control.getAllStaff();
+                customers=customer_control.getAllCustomers();
+            } catch (SQLException ex) {
+                Logger.getLogger(Form_2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+  
         
         try {
                productList = products.getAllproduct();
@@ -596,9 +618,11 @@ public class Form_2 extends javax.swing.JPanel {
         
     }//GEN-LAST:event_insertBtnActionPerformed
 
+
     private void sortComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortComboBoxActionPerformed
 
     }//GEN-LAST:event_sortComboBoxActionPerformed
+
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:

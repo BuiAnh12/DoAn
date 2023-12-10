@@ -1,7 +1,7 @@
 package com.model;
-import java.util.Date;
+import java.sql.Date;
 import java.math.BigDecimal;
-public class Import {
+public class Import{
     private int importId;
     private int productId;
     private Date manufacturingDate;
@@ -11,8 +11,12 @@ public class Import {
     private int availableQuantity;
     private BigDecimal unitPrice;
     private BigDecimal sellPrice;
+    private String productName;
+    private String category;
+    
+    
 
-    public Import(int importId, int productId, Date manufacturingDate, Date expiryDate, Date importDate, int importQuantity, int availableQuantity, BigDecimal unitPrice, BigDecimal sellPrice) {
+    public Import(int importId,int productId, Date manufacturingDate, Date expiryDate, Date importDate, int importQuantity, int availableQuantity, BigDecimal unitPrice, BigDecimal sellPrice,String productName,String category ) {
         this.importId = importId;
         this.productId = productId;
         this.manufacturingDate = manufacturingDate;
@@ -22,7 +26,52 @@ public class Import {
         this.availableQuantity = availableQuantity;
         this.unitPrice = unitPrice;
         this.sellPrice = sellPrice;
+        this.productName=productName;
+        this.category=category;
     }
+
+    public Import(int productId, Date manufacturingDate, Date expiryDate, Date importDate,int importQuantity, int availableQuantity, BigDecimal unitPrice, BigDecimal sellPrice) {
+        this.productId = productId;
+        this.manufacturingDate = manufacturingDate;
+        this.expiryDate = expiryDate;
+        this.importDate = importDate;
+         this.importQuantity = importQuantity;
+        this.availableQuantity = availableQuantity;
+        this.unitPrice = unitPrice;
+        this.sellPrice = sellPrice;
+        
+    }
+    public Import( Date manufacturingDate, Date expiryDate, Date importDate,int importQuantity, int availableQuantity, BigDecimal unitPrice, BigDecimal sellPrice,int importId,int productId) {
+        this.importId = importId;
+        this.productId = productId;
+        this.manufacturingDate = manufacturingDate;
+        this.expiryDate = expiryDate;
+        this.importDate = importDate;
+         this.importQuantity = importQuantity;
+        this.availableQuantity = availableQuantity;
+        this.unitPrice = unitPrice;
+        this.sellPrice = sellPrice;
+        
+    }
+    
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    
 
     public int getImportId() {
         return importId;

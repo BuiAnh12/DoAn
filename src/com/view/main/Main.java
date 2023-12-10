@@ -8,6 +8,9 @@ import com.view.form.Form_4;
 import com.view.form.Form_5;
 import com.view.form.Form_Home;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
@@ -23,7 +26,7 @@ public class Main extends javax.swing.JFrame {
     
     
     
-    public Main() {
+    public Main() throws SQLException {
         initComponents();
         
         setBackground(new Color(0, 0, 0, 0));
@@ -160,7 +163,11 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                try {
+                    new Main().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

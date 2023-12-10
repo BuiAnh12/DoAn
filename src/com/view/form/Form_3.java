@@ -5,17 +5,118 @@
  */
 package com.view.form;
 
+import com.controller.controller_Import;
+import com.controller.controller_Product;
+import com.model.Import;
+import com.model.Product;
+import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.security.Timestamp;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import java.util.Date;
+
 /**
  *
  * @author RAVEN
  */
 public class Form_3 extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Form_1
-     */
+    private List<Import> import_list=new ArrayList<>();
+    private int status=1;
+    private controller_Import imports=new controller_Import();
+    private List<Product>name;
+
+
+    
+    public void refreshTable(){
+        try {
+            import_list=imports.getAllImports(status);
+        } catch (SQLException ex) {
+           ex.printStackTrace();
+        }
+        DefaultTableModel model =(DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for(Import tmp:import_list){
+            table.addRow(new Object[]{tmp.getProductName(),tmp.getImportQuantity(),tmp.getAvailableQuantity(),tmp.getAvailableQuantity()});
+        }
+    }
+    public  java.sql.Date convertStringtoDate(String date){
+         // Chuỗi đại diện cho ngày
+        String dateString = "2023-12-07";
+        java.sql.Date sqlDate = new java.sql.Date(0);
+        try {
+            // Định dạng cho chuỗi đầu vào
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            // Chuyển đổi chuỗi thành java.util.Date
+            Date utilDate = dateFormat.parse(date);
+
+            // Chuyển đổi java.util.Date thành java.sql.Date
+             sqlDate = new java.sql.Date(utilDate.getTime());
+
+            
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return sqlDate;
+    }
+    
     public Form_3() {
+//        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         initComponents();
+        
+        refreshTable();
+        
+        
+        sortComboBox.addActionListener(new ActionListener() {
+            @Override
+            
+            public void actionPerformed(ActionEvent e) {
+                // Lấy giá trị được chọn khi có sự kiện thay đổi
+                String selectedValue = sortComboBox.getSelectedItem().toString(); 
+                
+                if (selectedValue.equals("Sort By Quantity")){
+                   status=2;
+                   refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Status")){
+                    status=3;
+                    refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Name")){
+                    status=1;
+                    refreshTable();
+                }
+               
+            }
+        });
+        
     }
 
     /**
@@ -28,6 +129,7 @@ public class Form_3 extends javax.swing.JPanel {
     private void initComponents() {
 
         jToggleButton1 = new javax.swing.JToggleButton();
+        jDialog1 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         PanelLeft = new javax.swing.JPanel();
         PanelButton = new javax.swing.JPanel();
@@ -86,13 +188,24 @@ public class Form_3 extends javax.swing.JPanel {
         jPanel25 = new javax.swing.JPanel();
         jPanel26 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
-        categoryComboBox = new javax.swing.JComboBox<>();
+        txtCategory = new javax.swing.JTextField();
         PanelDUBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         deleteBtn = new javax.swing.JButton();
         updateBtn = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setBackground(new java.awt.Color(22, 23, 23));
         setForeground(new java.awt.Color(22, 23, 23));
@@ -112,7 +225,6 @@ public class Form_3 extends javax.swing.JPanel {
 
         txtSearch.setBackground(new java.awt.Color(36, 36, 36));
         txtSearch.setForeground(new java.awt.Color(255, 255, 255));
-        txtSearch.setText("Search");
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
@@ -146,6 +258,11 @@ public class Form_3 extends javax.swing.JPanel {
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
         sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Quantity", "Sort By Status" }));
+        sortComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortComboBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelFilterLayout = new javax.swing.GroupLayout(PanelFilter);
         PanelFilter.setLayout(PanelFilterLayout);
@@ -167,6 +284,11 @@ public class Form_3 extends javax.swing.JPanel {
         insertBtn.setBackground(new java.awt.Color(36, 36, 36));
         insertBtn.setForeground(new java.awt.Color(255, 255, 255));
         insertBtn.setText("Insert");
+        insertBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelInsertLayout = new javax.swing.GroupLayout(PanelInsert);
         PanelInsert.setLayout(PanelInsertLayout);
@@ -194,7 +316,7 @@ public class Form_3 extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Name", "Quantity", "Stock", "Status"
+                "Name", "Quantity", "Avaiable", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -203,6 +325,11 @@ public class Form_3 extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
             }
         });
         spTable.setViewportView(table);
@@ -265,7 +392,7 @@ public class Form_3 extends javax.swing.JPanel {
                 .addComponent(PanelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         jPanel1.add(PanelLeft);
@@ -287,7 +414,7 @@ public class Form_3 extends javax.swing.JPanel {
             PanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
         );
         PanelHeaderLayout.setVerticalGroup(
             PanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,7 +501,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -390,7 +517,7 @@ public class Form_3 extends javax.swing.JPanel {
         jLabel17.setBackground(new java.awt.Color(36, 36, 36));
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setText("Stock");
+        jLabel17.setText("Avaiable ");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -412,7 +539,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtStock, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtStock, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -456,7 +583,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtImpDate, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtImpDate, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
@@ -494,7 +621,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtManuDate, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtManuDate, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
@@ -538,7 +665,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtExpDate, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtExpDate, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
@@ -576,7 +703,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtUnitPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtUnitPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
@@ -614,7 +741,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtSellPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtSellPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
@@ -652,7 +779,7 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel23Layout.setVerticalGroup(
@@ -683,7 +810,11 @@ public class Form_3 extends javax.swing.JPanel {
             .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
         );
 
-        categoryComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phân hữu cơ", "Phân vô cơ" }));
+        txtCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCategoryActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
         jPanel25.setLayout(jPanel25Layout);
@@ -692,18 +823,18 @@ public class Form_3 extends javax.swing.JPanel {
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(categoryComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(txtCategory)
+                .addContainerGap())
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(categoryComboBox)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtCategory))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout PanelDetailLayout = new javax.swing.GroupLayout(PanelDetail);
@@ -748,7 +879,7 @@ public class Form_3 extends javax.swing.JPanel {
                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
 
         PanelRight.add(PanelDetail, java.awt.BorderLayout.CENTER);
@@ -762,7 +893,7 @@ public class Form_3 extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 256, Short.MAX_VALUE)
+            .addGap(0, 316, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -774,11 +905,16 @@ public class Form_3 extends javax.swing.JPanel {
         deleteBtn.setBackground(new java.awt.Color(36, 36, 36));
         deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteBtn.setText("DELETE");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
         PanelDUBtn.add(deleteBtn);
 
         updateBtn.setBackground(new java.awt.Color(36, 36, 36));
         updateBtn.setForeground(new java.awt.Color(255, 255, 255));
-        updateBtn.setText("UPUDATE");
+        updateBtn.setText("UPDATE");
         updateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateBtnActionPerformed(evt);
@@ -798,12 +934,108 @@ public class Form_3 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
-        // TODO add your handling code here:
+            int index=table.getSelectedRow();
+            JTextField productNameField = new JTextField();
+            JTextField manufacturingDate = new JTextField();
+            JTextField expiryDate = new JTextField();
+            JTextField importQuantity = new JTextField();
+            JTextField availableQuantity = new JTextField();
+            JTextField unitPrice = new JTextField();
+            JTextField sellPrice = new JTextField();
+            
+            
+  
+            JPanel panel = new JPanel(new GridLayout(0, 1));
+            
+            panel.add(new JLabel("Product Name:"));
+            productNameField.setText(import_list.get(index).getProductName());
+            productNameField.setEditable(false);
+            panel.add(productNameField);
+            
+            panel.add(new JLabel("ManufacturingDate:"));
+            manufacturingDate.setText(String.valueOf(import_list.get(index).getManufacturingDate()));
+            panel.add(manufacturingDate);
+            
+            panel.add(new JLabel("ExpiryDate:"));
+            expiryDate.setText(String.valueOf(import_list.get(index).getExpiryDate()));
+            panel.add(expiryDate);
+            
+            panel.add(new JLabel("ImportQuantity:"));
+            importQuantity.setText(Integer.toString(import_list.get(index).getImportQuantity()));
+            panel.add(importQuantity);
+            
+            panel.add(new JLabel("AvailableQuantity:"));
+            availableQuantity.setText(Integer.toString(import_list.get(index).getAvailableQuantity()));
+            panel.add(availableQuantity);
+            
+            
+            panel.add(new JLabel("UnitPrice:"));
+            unitPrice.setText(String.valueOf(import_list.get(index).getUnitPrice()));
+            panel.add(unitPrice);
+            
+            panel.add(new JLabel("SellPrice:"));
+             sellPrice.setText(String.valueOf(import_list.get(index).getSellPrice()));
+            panel.add(sellPrice);
+            
+
+            
+            int result = JOptionPane.showConfirmDialog(null, panel, "Change Import Information",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if(result==JOptionPane.OK_OPTION){
+                int importid=import_list.get(index).getImportId();
+                int productid=import_list.get(index).getProductId();
+                //khong can set ten , chi de ten mac dinh thoi 
+//                 int idproduct = name.get(comboBoxName.getSelectedIndex()).getProductId();0
+                // manufactureDate
+                java.sql.Date manufactureDate =convertStringtoDate(manufacturingDate.getText());
+                // ExpiryDate
+                java.sql.Date expirydate =convertStringtoDate(expiryDate.getText());
+                // import date 
+                 Calendar calendar = Calendar.getInstance();
+                java.util.Date utilDate = calendar.getTime();
+                // Chuyển đổi java.util.Date thành java.sql.Date
+                java.sql.Date updateimportDate = new java.sql.Date(utilDate.getTime());
+                
+                // import quanity
+                int importquanity=Integer.valueOf(importQuantity.getText());
+                int avaiblequanity=Integer.valueOf(availableQuantity.getText());
+                BigDecimal unitprice=BigDecimal.valueOf(Double.valueOf(unitPrice.getText()));
+                BigDecimal sellprice=BigDecimal.valueOf(Double.valueOf(sellPrice.getText()));
+                Import importss=new Import(manufactureDate, expirydate, updateimportDate, importquanity, avaiblequanity, unitprice, sellprice, importid,productid);
+                try {
+                    imports.editImport(importss);
+                    refreshTable();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+         int selectedRow = table.getSelectedRow();
+        Import tmp = import_list.get(selectedRow);
+        this.txtName.setText(tmp.getProductName());
+        this.txtQuantity.setText(String.valueOf(tmp.getImportQuantity()));
+        this.txtImpDate.setText(String.valueOf(tmp.getImportDate()));
+        this.txtManuDate.setText(String.valueOf(tmp.getManufacturingDate()));
+        this.txtExpDate.setText(String.valueOf(tmp.getExpiryDate()));
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        this.txtUnitPrice.setText(String.valueOf(decimalFormat.format(tmp.getUnitPrice())) +" VNĐ");
+        this.txtSellPrice.setText(String.valueOf(decimalFormat.format(tmp.getSellPrice()))+" VNĐ");
+        this.txtStock.setText(String.valueOf(tmp.getAvailableQuantity()));
+        this.txtCategory.setText(String.valueOf(tmp.getCategory()));
+        int quanity=tmp.getImportQuantity();
+        BigDecimal unitmoney=tmp.getUnitPrice();
+        BigDecimal total=unitmoney.multiply(BigDecimal.valueOf(quanity));
+        this.txtTotal.setText(String.valueOf(decimalFormat.format(total)) +" VNĐ");
+        
+        
+    }//GEN-LAST:event_tableMouseClicked
 
     private void txtImpDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImpDateActionPerformed
         // TODO add your handling code here:
@@ -812,6 +1044,117 @@ public class Form_3 extends javax.swing.JPanel {
     private void txtExpDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExpDateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtExpDateActionPerformed
+
+    private void sortComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortComboBoxActionPerformed
+        
+    }//GEN-LAST:event_sortComboBoxActionPerformed
+
+    private void txtCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCategoryActionPerformed
+
+    private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
+        
+            JTextField productNameField = new JTextField();
+            JTextField manufacturingDate = new JTextField();
+            JTextField expiryDate = new JTextField();
+            JTextField importQuantity = new JTextField();
+            JTextField availableQuantity = new JTextField();
+            JTextField unitPrice = new JTextField();
+            JTextField sellPrice = new JTextField();
+            JComboBox<String> comboBoxName = new JComboBox<>();
+            DefaultComboBoxModel<String> comboBoxModelName = new DefaultComboBoxModel<>();
+            //Take productName
+            try{
+            controller_Product products =new controller_Product();
+            name = products.getAllproduct();
+            for(Product tmp: name){
+                comboBoxModelName.addElement(tmp.getProductName());
+            }}
+            catch(SQLException ex){
+                ex.printStackTrace();
+            }
+            comboBoxName.setModel(comboBoxModelName);
+            //
+  
+            JPanel panel = new JPanel(new GridLayout(0, 1));
+            
+            panel.add(new JLabel("Product Name:"));
+            panel.add(comboBoxName);
+            
+            panel.add(new JLabel("ManufacturingDate:"));
+            panel.add(manufacturingDate);
+            
+            panel.add(new JLabel("ExpiryDate:"));
+            panel.add(expiryDate);
+            
+            panel.add(new JLabel("ImportQuantity:"));
+            panel.add(importQuantity);
+            
+            panel.add(new JLabel("AvailableQuantity:"));
+            panel.add(availableQuantity);
+            
+            
+            panel.add(new JLabel("UnitPrice:"));
+            panel.add(unitPrice);
+            
+            panel.add(new JLabel("SellPrice:"));
+            panel.add(sellPrice);
+            
+
+            
+            int result = JOptionPane.showConfirmDialog(null, panel, "Enter Import Information",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            if(result == JOptionPane.OK_OPTION){
+
+                int idproduct = name.get(comboBoxName.getSelectedIndex()).getProductId();
+                // manufactureDate
+                java.sql.Date manufactureDate =convertStringtoDate(manufacturingDate.getText());
+                // ExpiryDate
+                java.sql.Date expirydate =convertStringtoDate(expiryDate.getText());
+                // import date 
+                 Calendar calendar = Calendar.getInstance();
+                java.util.Date utilDate = calendar.getTime();
+                // Chuyển đổi java.util.Date thành java.sql.Date
+                java.sql.Date importdate = new java.sql.Date(utilDate.getTime());
+                
+                // import quanity
+                int importquanity=Integer.valueOf(importQuantity.getText());
+                int avaiblequanity=Integer.valueOf(availableQuantity.getText());
+                BigDecimal unitprice=BigDecimal.valueOf(Double.valueOf(unitPrice.getText()));
+                BigDecimal sellprice=BigDecimal.valueOf(Double.valueOf(sellPrice.getText()));
+                Import importss=new Import(idproduct, manufactureDate, expirydate, importdate,importquanity, avaiblequanity,unitprice, sellprice);
+                try {
+                    imports.addImport(importss);
+                    refreshTable();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        
+      
+    }//GEN-LAST:event_insertBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        // Tao su kien xoa 
+        Object[] options = {"Yes", "No"};
+                // Hiển thị hộp thoại xác nhận và đặt giá trị mặc định là "Yes"
+                int option = JOptionPane.showOptionDialog(null,
+                        "Bạn có muốn xóa không?", "Xác nhận xóa",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+        if(option == JOptionPane.YES_OPTION){
+             int index=table.getSelectedRow();
+             int id=import_list.get(index).getImportId();
+            try {
+                imports.deleteImport(id);
+                refreshTable();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }        
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -825,9 +1168,9 @@ public class Form_3 extends javax.swing.JPanel {
     private javax.swing.JPanel PanelRight;
     private javax.swing.JPanel PanelSearch;
     private javax.swing.JPanel PanelTable;
-    private javax.swing.JComboBox<String> categoryComboBox;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JButton insertBtn;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -868,6 +1211,7 @@ public class Form_3 extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> sortComboBox;
     private javax.swing.JScrollPane spTable;
     private com.view.swing.Table table;
+    private javax.swing.JTextField txtCategory;
     private javax.swing.JTextField txtExpDate;
     private javax.swing.JTextField txtImpDate;
     private javax.swing.JTextField txtManuDate;

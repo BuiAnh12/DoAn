@@ -12,17 +12,28 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.util.Date;
+import java.sql.Date;
 
 
 public class controller_Import {
-      public List<Import>getAllStaff() throws SQLException{
+       
+      public static List<Import>getAllImports(int status) throws SQLException{
             List<Import> imports =new ArrayList<>();
             Connection cnn=ConnectionDB.getConnection();
             Statement statement=cnn.createStatement();
-            String query="SELECT * FROM Imports";
+            String query="";
+            if(status==1){
+                query="SELECT * FROM Products, Imports WHERE Products.ProductId = Imports.ProductId ORDER BY ProductName;";
+            }
+            else if(status==2){
+                query="SELECT * FROM Products, Imports WHERE Products.ProductId = Imports.ProductId ORDER BY ImportQuantity;";
+            }
+            else if(status==3){
+                query="SELECT * FROM Products, Imports WHERE Products.ProductId = Imports.ProductId ORDER BY AvailableQuantity;";
+            }
             try{
                    ResultSet re=statement.executeQuery(query);
+                   imports.clear();
                    while(re.next()){
                          int productid=re.getInt("ProductId");              
                         Date manuDate=re.getDate("ManufacturingDate");
@@ -30,11 +41,13 @@ public class controller_Import {
                         Date imDate=re.getDate("ImportDate");
                         int importQuanity=re.getInt("ImportQuantity");
                         int avaiableQuanity=re.getInt("AvailableQuantity");
-                        double unitprice=re.getDouble("UnitPrice");
-                        double sellprice=re.getDouble("SellPrice");
+                        BigDecimal unitprice=re.getBigDecimal("UnitPrice");
+                        BigDecimal sellprice=re.getBigDecimal("SellPrice");
                         int id=re.getInt("ImportId");
+                        String name=re.getString("ProductName");
+                        String category=re.getString("Category");
 
-                        Import importss =new Import(id, productid, manuDate, exDate, imDate, importQuanity, avaiableQuanity, BigDecimal.ONE, BigDecimal.ZERO);
+                        Import importss =new Import(id, productid, manuDate, exDate, imDate, importQuanity, avaiableQuanity,unitprice, sellprice,name,category);
                         imports.add(importss);
                    }
                  
@@ -44,7 +57,7 @@ public class controller_Import {
             }   
            return imports;
     }
-      
+
      public void addImport(Import importss) throws SQLException{
             Connection cnn=ConnectionDB.getConnection();
             String query="INSERT INTO Imports (ProductId, ManufacturingDate, ExpiryDate, ImportDate, ImportQuantity, AvailableQuantity, UnitPrice, SellPrice) VALUES(?,?,?,?,?,?,?,?)";
