@@ -1,5 +1,6 @@
 package com.view.main;
 
+import com.model.Login_account;
 import com.view.event.EventMenuSelected;
 import com.view.form.Form_1;
 import com.view.form.Form_2;
@@ -18,13 +19,22 @@ import javax.swing.SwingUtilities;
 public class Main extends javax.swing.JFrame {
     
     private int previlege;
-
+    private Login_account account;
+    
     private Form_Home home;
     private Form_1 form1;
     private Form_2 form2;
     private Form_3 form3;
     private Form_4 form4;
     private Form_5 form5;
+
+    public Login_account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Login_account account) {
+        this.account = account;
+    }
     
     public void setMenuPrevilege(int previlege){
         this.menu.setPrevilege(previlege);
@@ -34,6 +44,8 @@ public class Main extends javax.swing.JFrame {
     public void reset(){
         form2.setPrevilege(previlege);
         form3.setPrevilege(previlege);
+        header2.setAccount(account);
+        header2.UpdateAccountName();
         if(previlege == 3){
                 menu.addEventMenuSelected(new EventMenuSelected() {
                 @Override
@@ -123,7 +135,9 @@ public class Main extends javax.swing.JFrame {
     public int getPrivilege(){
         return this.previlege;
     }
-
+    
+//    public void
+    
     private void setForm(JComponent com) {
         mainPanel.removeAll();
         mainPanel.add(com);

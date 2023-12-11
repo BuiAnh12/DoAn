@@ -55,11 +55,11 @@ public class controller_Account {
         return isValid;
     }
     
-    public boolean login(String username, String password) throws SQLException{
+    public int login(String username, String password) throws SQLException{
         Connection cnn = null;
         PreparedStatement preparedStatement = null;
         ResultSet re = null;
-        boolean runable = false;
+        int userId = -1;
         
         if (this.checkCredentials(username, password)){
             try {
@@ -80,7 +80,7 @@ public class controller_Account {
                     Staff staff =new Staff(id, name, age, email, address,username, password, accountPrevilege);
                     account = new Login_account();
                     account.setUserAccount(staff);
-                    runable = true;
+                    userId = id;
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -99,7 +99,7 @@ public class controller_Account {
 
 
         }
-        return runable;
+        return userId;
     }
         
     public void logout(){

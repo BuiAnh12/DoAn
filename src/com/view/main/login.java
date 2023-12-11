@@ -2,6 +2,7 @@ package com.view.main;
 import com.controller.controller_Account;
 import java.sql.SQLException;
 import com.model.Login_account;
+import javax.swing.JOptionPane;
 
 public class login extends javax.swing.JFrame {
     controller_Account control_account;
@@ -75,6 +76,7 @@ public class login extends javax.swing.JFrame {
         jLabel5.setText("Username");
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 182, 89, 36));
 
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("_____________________________________________________________________________________");
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 224, 430, 33));
 
@@ -88,6 +90,7 @@ public class login extends javax.swing.JFrame {
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 275, 89, 36));
 
         jLabel9.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("_____________________________________________________________________________________");
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 317, 430, 33));
 
@@ -132,22 +135,30 @@ public class login extends javax.swing.JFrame {
         char[] passwordChars = this.txtPassword.getPassword();
         String password = new String(passwordChars);
         try {
-            boolean loggedIn = control_account.login(username, password);
-            if (loggedIn) {
+            int loggedInId = control_account.login(username, password);
+            if (loggedInId >= 0) {
                 System.out.println("Authorized");
+                
+                
                 Main dashboard = new Main();
                 dashboard.setVisible(false);
                 this.dispose(); // Close the login window
                 int privelge = control_account.getAccount().getPrevilege();
                 dashboard.setPrivilege(privelge);
                 dashboard.setMenuPrevilege(privelge);
+                dashboard.setAccount(control_account.getAccount());
                 dashboard.reset();
                 dashboard.setVisible(true);
                 dashboard.repaint();
+                
+                
+                
                 System.out.println(dashboard.getPrivilege());
                 
             } else {
                 System.out.println("Not Authorized");
+                JOptionPane.showMessageDialog(null, "Your username or password is wrong! Please enter again.",
+            "Incorrect Login", JOptionPane.WARNING_MESSAGE);
             } 
         } catch (SQLException ex) {
             ex.printStackTrace();
