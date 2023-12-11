@@ -60,14 +60,17 @@ public class controller_Staff {
         public void editStaff(Staff staff) throws SQLException{
         Connection cnn=ConnectionDB.getConnection();
 
-        String query="UPDATE Staffs SET  Name =?,Age =?,Email =?,Address=? WHERE StaffId =?";
+        String query = "UPDATE Staffs SET Name=?, Age=?, Email=?, Address=?, AccountPrevilege=?, Username=?, Password=? WHERE StaffId=?";
         try{
             PreparedStatement pre=cnn.prepareStatement(query);
-            pre.setString(1, staff.getName());       
+            pre.setString(1, staff.getName());
             pre.setInt(2, staff.getAge());
             pre.setString(3, staff.getEmail());
             pre.setString(4, staff.getAddress());
-            pre.setInt(5, staff.getStaffId());
+            pre.setInt(5, staff.getPrevilege());
+            pre.setString(6, staff.getUsername());
+            pre.setString(7, staff.getPassword());
+            pre.setInt(8, staff.getStaffId());
             int tmp=pre.executeUpdate();
         }
         catch (Exception ex) {
@@ -92,7 +95,7 @@ public class controller_Staff {
             }
         }
     //
-         public void deleteStaff(int staffId) throws SQLException{
+     public void deleteStaff(int staffId) throws SQLException{
          Connection cnn=ConnectionDB.getConnection();
          Statement statement=cnn.createStatement();
          String query="DELETE FROM Staffs WHERE StaffId =?";
@@ -105,4 +108,27 @@ public class controller_Staff {
             ex.printStackTrace();
         }
     }
+         public boolean isUsernameAvailable(String usernameString) throws SQLException {
+            Connection cnn = ConnectionDB.getConnection();
+            String query = "SELECT COUNT(*) AS count FROM Staffs WHERE Username = ?";
+
+            try (PreparedStatement pre = cnn.prepareStatement(query)) {
+                pre.setString(1, usernameString);
+                ResultSet resultSet = pre.executeQuery();
+
+                if (resultSet.next()) {
+                    int count = resultSet.getInt("count");
+                    if (count == 0){
+                        System.out.println("Valid Username");
+                        return true;
+                        
+                    }
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+            return false; 
+        }
+
 }
