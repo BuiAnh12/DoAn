@@ -114,5 +114,44 @@ public class controller_Import {
             ex.printStackTrace();
         }
     }
-      
+    public List<Import> findListImport(String name) throws SQLException{
+        List<Import> importList = new ArrayList<>();
+        Connection cnn = ConnectionDB.getConnection();
+
+        String query = "SELECT * FROM Products JOIN Imports ON Products.ProductId = Imports.ProductId WHERE ProductName LIKE ?";
+        String searchTerm = "%" + name + "%";
+
+        try {
+            importList.clear();
+            PreparedStatement statement = cnn.prepareStatement(query);
+            statement.setString(1, searchTerm);
+
+            ResultSet re = statement.executeQuery();
+
+            while (re.next()) {
+                int productid=re.getInt("ProductId");              
+                Date manuDate=re.getDate("ManufacturingDate");
+                Date exDate=re.getDate("ExpiryDate");
+                Date imDate=re.getDate("ImportDate");
+                int importQuanity=re.getInt("ImportQuantity");
+                int avaiableQuanity=re.getInt("AvailableQuantity");
+                BigDecimal unitprice=re.getBigDecimal("UnitPrice");
+                BigDecimal sellprice=re.getBigDecimal("SellPrice");
+                int id=re.getInt("ImportId");
+                String productName=re.getString("ProductName");
+                String category=re.getString("Category");
+
+                Import imports =new Import(id, productid, manuDate, exDate, imDate, importQuanity, avaiableQuanity,unitprice, sellprice,productName,category);
+                importList.add(imports);
+            }
+
+            statement.close();
+            cnn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log the error, etc.)
+        }
+        return importList;
+    }
+
 }

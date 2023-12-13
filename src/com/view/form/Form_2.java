@@ -147,10 +147,20 @@ public class Form_2 extends javax.swing.JPanel {
                 txtSearchActionPerformed(evt);
             }
         });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchKeyTyped(evt);
+            }
+        });
 
         jLabel2.setBackground(new java.awt.Color(22, 23, 23));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/view/icon/search.png"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelSearchLayout = new javax.swing.GroupLayout(PanelSearch);
         PanelSearch.setLayout(PanelSearchLayout);
@@ -653,6 +663,52 @@ public class Form_2 extends javax.swing.JPanel {
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        System.out.println("Search Click");
+        String searchTxt = this.txtSearch.getText();
+        controller_Product search = new controller_Product();
+        try {
+            // Assuming productList is a List<Product>
+            List<Product> productList = search.findListProduct(searchTxt);
+
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+            // Clearing the existing rows in the table
+            tableModel.setRowCount(0);
+
+            // Adding the fetched productList data to the table
+            for (Product product : productList) {
+                tableModel.addRow(new Object[]{product.getProductName(), product.getManufacturer(), product.getDescription(), product.getCategory()});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log, etc.)
+        }
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
+        System.out.println("Search Click");
+        String searchTxt = this.txtSearch.getText();
+        controller_Product search = new controller_Product();
+        try {
+            // Assuming productList is a List<Product>
+            List<Product> productList = search.findListProduct(searchTxt);
+
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+            // Clearing the existing rows in the table
+            tableModel.setRowCount(0);
+
+            // Adding the fetched productList data to the table
+            for (Product product : productList) {
+                tableModel.addRow(new Object[]{product.getProductName(), product.getManufacturer(), product.getDescription(), product.getCategory()});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log, etc.)
+        }
+    }//GEN-LAST:event_txtSearchKeyTyped
     
     
 

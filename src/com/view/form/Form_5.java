@@ -124,10 +124,20 @@ public class Form_5 extends javax.swing.JPanel {
                 txtSearchActionPerformed(evt);
             }
         });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchKeyTyped(evt);
+            }
+        });
 
         jLabel2.setBackground(new java.awt.Color(22, 23, 23));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/view/icon/search.png"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelSearchLayout = new javax.swing.GroupLayout(PanelSearch);
         PanelSearch.setLayout(PanelSearchLayout);
@@ -321,6 +331,8 @@ public class Form_5 extends javax.swing.JPanel {
 
         jPanel6.setBackground(new java.awt.Color(36, 36, 36));
 
+        txtCustomerName.setEditable(false);
+
         jPanel8.setBackground(new java.awt.Color(36, 36, 36));
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -363,6 +375,8 @@ public class Form_5 extends javax.swing.JPanel {
 
         jPanel9.setBackground(new java.awt.Color(36, 36, 36));
 
+        txtEmail.setEditable(false);
+
         jPanel10.setBackground(new java.awt.Color(36, 36, 36));
 
         lableEmail.setBackground(new java.awt.Color(255, 255, 255));
@@ -402,6 +416,8 @@ public class Form_5 extends javax.swing.JPanel {
         );
 
         jPanel11.setBackground(new java.awt.Color(36, 36, 36));
+
+        txtAddress.setEditable(false);
 
         jPanel12.setBackground(new java.awt.Color(36, 36, 36));
 
@@ -469,6 +485,7 @@ public class Form_5 extends javax.swing.JPanel {
         );
 
         positionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Sale", "Stock Manager", " " }));
+        positionComboBox.setEnabled(false);
         positionComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 positionComboBoxActionPerformed(evt);
@@ -519,6 +536,7 @@ public class Form_5 extends javax.swing.JPanel {
             .addComponent(lablePosition1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
+        txtUsername.setEditable(false);
         jScrollPane1.setViewportView(txtUsername);
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
@@ -563,6 +581,7 @@ public class Form_5 extends javax.swing.JPanel {
             .addComponent(lablePosition2, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
+        txtPassword.setEditable(false);
         jScrollPane2.setViewportView(txtPassword);
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
@@ -586,6 +605,8 @@ public class Form_5 extends javax.swing.JPanel {
         );
 
         jPanel19.setBackground(new java.awt.Color(36, 36, 36));
+
+        txtAge.setEditable(false);
 
         jPanel20.setBackground(new java.awt.Color(36, 36, 36));
 
@@ -920,6 +941,52 @@ public class Form_5 extends javax.swing.JPanel {
         this.txtUsername.setText(selectedStaff.getUsername());
         this.txtPassword.setText(selectedStaff.getPassword());
     }//GEN-LAST:event_tableMouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        System.out.println("Search Click");
+        String searchTxt = this.txtSearch.getText();
+        controller_Staff search = new controller_Staff();
+        try {
+            // Assuming productList is a List<Product>
+            List<Staff> staffList = search.findListStaff(searchTxt);
+
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+            // Clearing the existing rows in the table
+            tableModel.setRowCount(0);
+
+            // Adding the fetched productList data to the table
+            for (Staff staff : staffList) {
+                tableModel.addRow(new Object[]{staff.getName(), staff.getEmail(), staff.getAddress(), staff.getPosition()});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log, etc.)
+        }
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
+        System.out.println("Search Click");
+        String searchTxt = this.txtSearch.getText();
+        controller_Staff search = new controller_Staff();
+        try {
+            // Assuming productList is a List<Product>
+            List<Staff> staffList = search.findListStaff(searchTxt);
+
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+            // Clearing the existing rows in the table
+            tableModel.setRowCount(0);
+
+            // Adding the fetched productList data to the table
+            for (Staff staff : staffList) {
+                tableModel.addRow(new Object[]{staff.getName(), staff.getEmail(), staff.getAddress(), staff.getPosition()});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log, etc.)
+        }
+    }//GEN-LAST:event_txtSearchKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

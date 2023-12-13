@@ -25,7 +25,7 @@ public class controller_Customer {
          try{
                 ResultSet re=statement.executeQuery(query);
                 while(re.next()){
-                      int id=re.getInt("CustomerId");
+                    int id=re.getInt("CustomerId");
                     String name=re.getString("CustomerName");
                     String email=re.getString("Email");
                     String address=re.getString("Address");
@@ -87,4 +87,42 @@ public class controller_Customer {
             ex.printStackTrace();
         }
     }
+       
+    public List<Customer> findListCustomer(String name) throws SQLException{
+        List<Customer> customers = new ArrayList<>();
+        Connection cnn = ConnectionDB.getConnection();
+
+        String query = "SELECT Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
+                   "FROM Customers " +
+                   "JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
+                   "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId WHERE Customers.CustomerName LIKE ?" +
+                   "GROUP BY Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address";
+        String searchTerm = "%" + name + "%";
+
+        try {
+            customers.clear();
+            PreparedStatement statement = cnn.prepareStatement(query);
+            statement.setString(1, searchTerm);
+
+            ResultSet re = statement.executeQuery();
+
+            while (re.next()) {
+                int id=re.getInt("CustomerId");
+                    String customerName=re.getString("CustomerName");
+                    String email=re.getString("Email");
+                    String address=re.getString("Address");
+                    int totalAmount = re.getInt("TotalAmount");
+                    Customer customer =new Customer(id, customerName, email, address,totalAmount);
+                    customers.add(customer);
+            }
+
+            statement.close();
+            cnn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log the error, etc.)
+        }
+        return customers;
+    }
+
 }

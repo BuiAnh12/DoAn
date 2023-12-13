@@ -130,5 +130,39 @@ public class controller_Staff {
 
             return false; 
         }
+         public List<Staff> findListStaff(String name) throws SQLException{
+            List<Staff> staffs = new ArrayList<>();
+            Connection cnn = ConnectionDB.getConnection();
 
+            String query = "SELECT * FROM Staffs WHERE Name LIKE ?";
+            String searchTerm = "%" + name + "%";
+
+            try {
+                staffs.clear();
+                PreparedStatement statement = cnn.prepareStatement(query);
+                statement.setString(1, searchTerm);
+
+                ResultSet re = statement.executeQuery();
+
+                while (re.next()) {
+                    int id=re.getInt("StaffId");
+                    String staffName=re.getString("Name");
+                    int age=re.getInt("Age");
+                    String email=re.getString("Email");
+                    String address=re.getString("Address");
+                    String username = re.getString("Username");
+                    String password = re.getString("Password");
+                    int accountPrevilege = re.getInt("AccountPrevilege");
+                    Staff staff =new Staff(id,staffName, age, email, address,username, password, accountPrevilege);
+                    staffs.add(staff);
+                }
+
+                statement.close();
+                cnn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                // Handle the SQL exception (show a message dialog, log the error, etc.)
+            }
+            return staffs;
+        }
 }

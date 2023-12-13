@@ -132,6 +132,7 @@
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchActionPerformed"/>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSearchKeyTyped"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -144,6 +145,9 @@
                           <Image iconType="3" name="/com/view/icon/search.png"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel2MouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -531,6 +535,9 @@
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JTextField" name="txtCustomerName">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                          </Properties>
                         </Component>
                         <Container class="javax.swing.JPanel" name="jPanel8">
                           <Properties>
@@ -606,6 +613,9 @@
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JTextField" name="txtEmail">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                          </Properties>
                         </Component>
                         <Container class="javax.swing.JPanel" name="jPanel10">
                           <Properties>
@@ -683,6 +693,9 @@
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JTextField" name="txtAddress">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                          </Properties>
                         </Component>
                         <Container class="javax.swing.JPanel" name="jPanel12">
                           <Properties>
@@ -809,6 +822,7 @@
                                 <StringItem index="3" value=" "/>
                               </StringArray>
                             </Property>
+                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="positionComboBoxActionPerformed"/>
@@ -898,6 +912,9 @@
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
                             <Component class="javax.swing.JTextPane" name="txtUsername">
+                              <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
+                              </Properties>
                             </Component>
                           </SubComponents>
                         </Container>
@@ -982,6 +999,9 @@
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
                             <Component class="javax.swing.JTextPane" name="txtPassword">
+                              <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
+                              </Properties>
                             </Component>
                           </SubComponents>
                         </Container>
@@ -1020,6 +1040,9 @@
                       </Layout>
                       <SubComponents>
                         <Component class="javax.swing.JTextField" name="txtAge">
+                          <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
+                          </Properties>
                         </Component>
                         <Container class="javax.swing.JPanel" name="jPanel20">
                           <Properties>
