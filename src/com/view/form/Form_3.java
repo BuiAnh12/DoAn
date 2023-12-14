@@ -63,7 +63,8 @@ public class Form_3 extends javax.swing.JPanel {
     
     public void refreshTable(){
         try {
-            import_list=imports.getAllImports(status);
+            String searchTxt = this.txtSearch.getText();
+            import_list=imports.getAllImports(status,searchTxt);
         } catch (SQLException ex) {
            ex.printStackTrace();
         }
@@ -1190,49 +1191,51 @@ public class Form_3 extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        System.out.println("Search Click");
-        String searchTxt = this.txtSearch.getText();
-        controller_Import search = new controller_Import();
-        try {
-            // Assuming productList is a List<Product>
-            List<Import> importList = search.findListImport(searchTxt);
-
-            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-            // Clearing the existing rows in the table
-            tableModel.setRowCount(0);
-
-            // Adding the fetched productList data to the table
-            for (Import imp : importList) {
-                tableModel.addRow(new Object[]{imp.getProductName(), imp.getImportQuantity(), imp.getAvailableQuantity(), imp.getAvailableQuantity()});
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                // Handle the SQL exception (show a message dialog, log, etc.)
-            }                                    
+//        System.out.println("Search Click");
+//        String searchTxt = this.txtSearch.getText();
+//        controller_Import search = new controller_Import();
+//        try {
+//            // Assuming productList is a List<Product>
+//            List<Import> importList = search.findListImport(searchTxt);
+//
+//            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//
+//            // Clearing the existing rows in the table
+//            tableModel.setRowCount(0);
+//
+//            // Adding the fetched productList data to the table
+//            for (Import imp : importList) {
+//                tableModel.addRow(new Object[]{imp.getProductName(), imp.getImportQuantity(), imp.getAvailableQuantity(), imp.getAvailableQuantity()});
+//                }
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//                // Handle the SQL exception (show a message dialog, log, etc.)
+//            }     
+        this.refreshTable();
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-        System.out.println("Search Click");
-        String searchTxt = this.txtSearch.getText();
-        controller_Import search = new controller_Import();
-        try {
-            // Assuming productList is a List<Product>
-            List<Import> importList = search.findListImport(searchTxt);
-
-            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-            // Clearing the existing rows in the table
-            tableModel.setRowCount(0);
-
-            // Adding the fetched productList data to the table
-            for (Import imp : importList) {
-                tableModel.addRow(new Object[]{imp.getProductName(), imp.getImportQuantity(), imp.getAvailableQuantity(), imp.getAvailableQuantity()});
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                // Handle the SQL exception (show a message dialog, log, etc.)
-            } 
+//        System.out.println("Search Click");
+//        String searchTxt = this.txtSearch.getText();
+//        controller_Import search = new controller_Import();
+//        try {
+//            // Assuming productList is a List<Product>
+//            List<Import> importList = search.findListImport(searchTxt);
+//
+//            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//
+//            // Clearing the existing rows in the table
+//            tableModel.setRowCount(0);
+//
+//            // Adding the fetched productList data to the table
+//            for (Import imp : importList) {
+//                tableModel.addRow(new Object[]{imp.getProductName(), imp.getImportQuantity(), imp.getAvailableQuantity(), imp.getAvailableQuantity()});
+//                }
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//                // Handle the SQL exception (show a message dialog, log, etc.)
+//            } 
+        this.refreshTable();
     }//GEN-LAST:event_txtSearchKeyTyped
 
 
