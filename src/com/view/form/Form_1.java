@@ -164,6 +164,11 @@ public class Form_1 extends javax.swing.JPanel {
         jLabel2.setBackground(new java.awt.Color(22, 23, 23));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/view/icon/search.png"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelSearchLayout = new javax.swing.GroupLayout(PanelSearch);
         PanelSearch.setLayout(PanelSearchLayout);
@@ -353,6 +358,8 @@ public class Form_1 extends javax.swing.JPanel {
 
         PanelDetail.setBackground(new java.awt.Color(36, 36, 36));
 
+        jPanel7.setBackground(new java.awt.Color(36, 36, 36));
+
         jPanel6.setBackground(new java.awt.Color(36, 36, 36));
         jPanel6.setForeground(new java.awt.Color(36, 36, 36));
 
@@ -428,7 +435,7 @@ public class Form_1 extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(33, 33, 33)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtCustomerName)
                     .addComponent(txtStaffName, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
@@ -448,7 +455,7 @@ public class Form_1 extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(totalAmountField)
                 .addContainerGap())
-            .addGroup(jPanel6Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -835,6 +842,10 @@ public class Form_1 extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Please select an invoice to delete!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        
+    }//GEN-LAST:event_jLabel2MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

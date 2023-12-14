@@ -1,5 +1,6 @@
 package com.view.main;
 
+import com.model.Login_account;
 import com.view.event.EventMenuSelected;
 import com.view.form.Form_1;
 import com.view.form.Form_2;
@@ -16,21 +17,95 @@ import javax.swing.SwingUtilities;
 
 
 public class Main extends javax.swing.JFrame {
-
+    
+    private int previlege;
+    private Login_account account;
+    
     private Form_Home home;
     private Form_1 form1;
     private Form_2 form2;
     private Form_3 form3;
     private Form_4 form4;
     private Form_5 form5;
+
+    public Login_account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Login_account account) {
+        this.account = account;
+    }
     
+    public void setMenuPrevilege(int previlege){
+        this.menu.setPrevilege(previlege);
+        this.menu.reset();
+    }
     
+    public void reset(){
+        form2.setPrevilege(previlege);
+        form3.setPrevilege(previlege);
+        header2.setAccount(account);
+        header2.UpdateAccountName();
+        if(previlege == 3){
+                menu.addEventMenuSelected(new EventMenuSelected() {
+                @Override
+                public void selected(int index) {
+
+                    if (index == 0) {
+                        setForm(home);
+                    } else if (index == 1) {
+                        setForm(form1);
+                    } else if (index == 2) {
+                        setForm(form2);
+                    } else if (index == 3) {
+                        setForm(form3);
+                    } else if (index == 4){
+                        setForm(form4);
+                    } else if (index == 5){
+                        setForm(form5);
+                    }
+                }
+            });
+            setForm(new Form_Home());
+        }
+        else if(previlege == 2){
+                menu.addEventMenuSelected(new EventMenuSelected() {
+                @Override
+                public void selected(int index) {
+
+                    if (index == 0) {
+                        setForm(form2);
+                    } else if (index == 1) {
+                        setForm(form3);
+                    } 
+                }
+            });
+            setForm(new Form_2());
+        }
+        else if(previlege == 1){
+                menu.addEventMenuSelected(new EventMenuSelected() {
+                @Override
+                public void selected(int index) {
+
+                    if (index == 0) {
+                        setForm(form1);
+                    } else if (index == 1) {
+                        setForm(form2);
+                    } else if (index == 2) {
+                        setForm(form3);
+                    } else if (index == 3) {
+                        setForm(form4);
+                    }
+                }     
+            });
+            setForm(new Form_1());
+        }
+    }
     
     public Main() throws SQLException {
         initComponents();
         
         setBackground(new Color(0, 0, 0, 0));
-        
         
         home = new Form_Home();
         form1 = new Form_1();
@@ -39,28 +114,30 @@ public class Main extends javax.swing.JFrame {
         form4 = new Form_4();
         form5 = new Form_5();
         menu.initMoving(Main.this);
-        menu.addEventMenuSelected(new EventMenuSelected() {
-            @Override
-            public void selected(int index) {
-                if (index == 0) {
-                    setForm(home);
-                } else if (index == 1) {
-                    setForm(form1);
-                } else if (index == 2) {
-                    setForm(form2);
-                } else if (index == 3) {
-                    setForm(form3);
-                } else if (index == 4){
-                    setForm(form4);
-                } else if (index == 5){
-                    setForm(form5);
-                }
-            }
-        });
+        
         //  set when system open start with home form
-        setForm(new Form_Home());
+        if(previlege == 3){
+            setForm(new Form_Home());
+        }
+        else if(previlege == 2){
+            setForm(new Form_2());
+        }
+        else if(previlege == 1){
+            setForm(new Form_1());
+        }
+        
     }
-
+    
+    public void setPrivilege(int pre){
+        this.previlege = pre;
+    }
+    
+    public int getPrivilege(){
+        return this.previlege;
+    }
+    
+//    public void
+    
     private void setForm(JComponent com) {
         mainPanel.removeAll();
         mainPanel.add(com);

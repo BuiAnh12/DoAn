@@ -81,5 +81,37 @@ public class controller_Product {
         catch (Exception ex) {
             ex.printStackTrace();
         }
-    }  
+    }
+      public List<Product> findListProduct(String name) throws SQLException{
+        List<Product> products = new ArrayList<>();
+        Connection cnn = ConnectionDB.getConnection();
+
+        String query = "SELECT * FROM Products WHERE ProductName LIKE ?";
+        String searchTerm = "%" + name + "%";
+
+        try {
+            products.clear();
+            PreparedStatement statement = cnn.prepareStatement(query);
+            statement.setString(1, searchTerm);
+
+            ResultSet re = statement.executeQuery();
+
+            while (re.next()) {
+                int id = re.getInt("ProductId");
+                String productName = re.getString("ProductName");
+                String manufacturer = re.getString("Manufacturer");
+                String description = re.getString("Description");
+                String category = re.getString("Category");
+                Product product = new Product(id, productName, manufacturer, description, category);
+                products.add(product);
+            }
+
+            statement.close();
+            cnn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log the error, etc.)
+        }
+        return products;
+    }
 }
