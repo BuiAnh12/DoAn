@@ -1,12 +1,15 @@
 
 package com.view.form;
 
+import com.control.db.ConnectionDB;
 import com.controller.controller_Staff;
 import com.model.Product;
 import com.model.Staff;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,28 +21,62 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class Form_5 extends javax.swing.JPanel {
-    List<Staff> staffList = new ArrayList<>();
+    private List<Staff> staffList = new ArrayList<>();
+    private int status=1;
+    private controller_Staff staff_control=new controller_Staff();
+
+    
+    public void refreshTable(){
+        try {
+            String searchTxt = this.txtSearch.getText();
+            staffList=staff_control.getAllStaff(status,searchTxt);
+        } catch (SQLException ex) {
+           ex.printStackTrace();
+        }
+        DefaultTableModel model =(DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for(Staff tmp:staffList){
+            table.addRow(new Object[]{tmp.getName(),tmp.getEmail(),tmp.getAddress(),tmp.getPosition()});
+        }
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+    
     
     public Form_5() {
         initComponents();
-        controller_Staff staffs = new controller_Staff();
-        try {
-            staffList = staffs.getAllStaff();
-        } catch (SQLException ex) {
-            Logger.getLogger(Form_5.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        sortComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lấy giá trị được chọn khi có sự kiện thay đổi
+                String selectedValue = sortComboBox.getSelectedItem().toString(); 
+                if (selectedValue.equals("Sort By Email")){
+                   status=2;
+                   refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Position")){
+                    status=3;
+                    refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Name")){
+                    status=1;
+                    refreshTable();
+                }
+               
+            }
+        });
+        
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        for (Staff staff : staffList ) {
-            table.addRow(new Object[]{staff.getName(), staff.getEmail(), staff.getAddress(), staff.getPosition()});
-        }
+        refreshTable();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -118,7 +155,6 @@ public class Form_5 extends javax.swing.JPanel {
 
         txtSearch.setBackground(new java.awt.Color(36, 36, 36));
         txtSearch.setForeground(new java.awt.Color(255, 255, 255));
-        txtSearch.setText("Search");
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
@@ -161,7 +197,7 @@ public class Form_5 extends javax.swing.JPanel {
 
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
-        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Quantity", "Sort By Status" }));
+        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Email", "Sort By Position" }));
 
         javax.swing.GroupLayout PanelFilterLayout = new javax.swing.GroupLayout(PanelFilter);
         PanelFilter.setLayout(PanelFilterLayout);
@@ -966,7 +1002,7 @@ public class Form_5 extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-        System.out.println("Search Click");
+//        System.out.println("Search Click");
         String searchTxt = this.txtSearch.getText();
         controller_Staff search = new controller_Staff();
         try {

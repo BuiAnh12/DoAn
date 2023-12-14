@@ -61,12 +61,12 @@ public class Form_1 extends javax.swing.JPanel {
     public Form_1() {
         initComponents();  
         try {
-            staffList = staff_control.getAllStaff();
+            staffList = staff_control.getAllStaff(1, "");
         } catch (SQLException ex) {
             Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-                    customers=customer_control.getAllCustomers();
+                    customers=customer_control.getAllCustomers(1,"");
             } catch (SQLException ex) {
                     Logger.getLogger(Form_2.class.getName()).log(Level.SEVERE, null, ex);
             }

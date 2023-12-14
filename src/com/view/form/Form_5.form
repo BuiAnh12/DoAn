@@ -128,7 +128,6 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Search"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchActionPerformed"/>
@@ -185,8 +184,8 @@
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="3">
                             <StringItem index="0" value="Sort By Name"/>
-                            <StringItem index="1" value="Sort By Quantity"/>
-                            <StringItem index="2" value="Sort By Status"/>
+                            <StringItem index="1" value="Sort By Email"/>
+                            <StringItem index="2" value="Sort By Position"/>
                           </StringArray>
                         </Property>
                       </Properties>

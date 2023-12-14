@@ -13,15 +13,27 @@ import java.sql.PreparedStatement;
 
 public class controller_Product {
     
-     public List<Product> getAllproduct() throws SQLException{
+     public List<Product> getAllproduct(int status,String name) throws SQLException{
          List<Product> products =new ArrayList<>();
          Connection cnn=ConnectionDB.getConnection();
-         Statement statement=cnn.createStatement();
-         String query="SELECT * FROM Products";
+         String query="";
+         
+         if(status ==1){
+             query="SELECT * FROM Products WHERE ProductName LIKE ? ORDER BY ProductName ";
+         }else if(status ==2){
+             query="SELECT * FROM Products WHERE ProductName LIKE ? ORDER BY Manufacturer ";
+         }else if(status==3){
+             query="SELECT * FROM Products WHERE ProductName LIKE ? ORDER BY Category ";
+         }
+         String searchTerm = "%" + name + "%";
          try{
-                ResultSet re=statement.executeQuery(query);
+                products.clear();
+                PreparedStatement statement = cnn.prepareStatement(query);
+                statement.setString(1, searchTerm);
+                ResultSet re = statement.executeQuery();
+                
                 while(re.next()){
-                     String productName=re.getString("ProductName");
+                    String productName=re.getString("ProductName");
                     String manufacturer=re.getString("Manufacturer");
                     String description=re.getString("Description");
                     String category=re.getString("Category");

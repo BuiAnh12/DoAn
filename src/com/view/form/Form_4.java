@@ -5,6 +5,8 @@ import com.model.Customer;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,27 +17,62 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class Form_4 extends javax.swing.JPanel {
-    List<Customer> customerList = new ArrayList<>();
+    private List<Customer> customerList = new ArrayList<>();
+    private int status=1;
+    private controller_Customer customer_control =new controller_Customer();
+    
+    
+    public void refreshTable(){
+        try {
+            String searchTxt = this.txtSearch.getText();
+            customerList=customer_control.getAllCustomers(status,searchTxt);
+        } catch (SQLException ex) {
+           ex.printStackTrace();
+        }
+        DefaultTableModel model =(DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for(Customer tmp:customerList){
+            table.addRow(new Object[]{tmp.getCustomerName(),tmp.getEmail(),tmp.getAddress(),tmp.getTotalAmount()});
+        }
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+    
     public Form_4() {
         initComponents();
-        controller_Customer customers = new controller_Customer();
-        try {
-            customerList = customers.getAllCustomers();
-        } catch (SQLException ex) {
-            Logger.getLogger(Form_4.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+         sortComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lấy giá trị được chọn khi có sự kiện thay đổi
+                String selectedValue = sortComboBox.getSelectedItem().toString(); 
+                
+                if (selectedValue.equals("Sort By Email")){
+                   status=2;
+                   refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Amount")){
+                    status=3;
+                    refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Name")){
+                    status=1;
+                    refreshTable();
+                }
+               
+            }
+        });
+         
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        for (Customer customer: customerList) {
-            table.addRow(new Object[]{customer.getCustomerName(), customer.getEmail(), customer.getAddress(), customer.getTotalAmount()});
-        }
+        refreshTable();
     }
 
     @SuppressWarnings("unchecked")
@@ -80,7 +117,7 @@ public class Form_4 extends javax.swing.JPanel {
         lableTotalAmount = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         spTable1 = new javax.swing.JScrollPane();
-        table1 = new com.view.swing.Table();
+        detail_table = new com.view.swing.Table();
         PanelDUBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         deleteBtn = new javax.swing.JButton();
@@ -104,7 +141,6 @@ public class Form_4 extends javax.swing.JPanel {
 
         txtSearch.setBackground(new java.awt.Color(36, 36, 36));
         txtSearch.setForeground(new java.awt.Color(255, 255, 255));
-        txtSearch.setText("Search");
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
@@ -147,7 +183,7 @@ public class Form_4 extends javax.swing.JPanel {
 
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
-        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Quantity", "Sort By Status" }));
+        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Email", "Sort By Amount" }));
 
         javax.swing.GroupLayout PanelFilterLayout = new javax.swing.GroupLayout(PanelFilter);
         PanelFilter.setLayout(PanelFilterLayout);
@@ -520,8 +556,8 @@ public class Form_4 extends javax.swing.JPanel {
 
         spTable1.setBorder(null);
 
-        table1.setForeground(new java.awt.Color(22, 23, 23));
-        table1.setModel(new javax.swing.table.DefaultTableModel(
+        detail_table.setForeground(new java.awt.Color(22, 23, 23));
+        detail_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -537,7 +573,7 @@ public class Form_4 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        spTable1.setViewportView(table1);
+        spTable1.setViewportView(detail_table);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -826,6 +862,7 @@ public class Form_4 extends javax.swing.JPanel {
     private javax.swing.JPanel PanelSearch;
     private javax.swing.JPanel PanelTable;
     private javax.swing.JButton deleteBtn;
+    private com.view.swing.Table detail_table;
     private javax.swing.JButton insertBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -851,7 +888,6 @@ public class Form_4 extends javax.swing.JPanel {
     private javax.swing.JScrollPane spTable;
     private javax.swing.JScrollPane spTable1;
     private com.view.swing.Table table;
-    private com.view.swing.Table table1;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtEmail;

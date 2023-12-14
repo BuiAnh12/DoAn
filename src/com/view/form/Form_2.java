@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import com.view.modal.ProductInsertModal;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
@@ -35,9 +37,11 @@ import javax.swing.table.TableRowSorter;
 
 public class Form_2 extends javax.swing.JPanel {
     private int previlege;
-    List<Product> productList = new ArrayList<>();
-    ProductInsertModal insertModal = new ProductInsertModal(null,true);
-
+    private List<Product> productList = new ArrayList<>();
+    private ProductInsertModal insertModal = new ProductInsertModal(null,true);
+    private controller_Product product_control =new controller_Product();
+    private int status=1;
+    
     public int getPrevilege() {
         return previlege;
     }
@@ -46,29 +50,45 @@ public class Form_2 extends javax.swing.JPanel {
         this.previlege = previlege;
     }
     
+     public void refreshTable(){
+        try {
+            String searchTxt = this.txtSearch.getText();
+            productList=product_control.getAllproduct(status,searchTxt);
+        } catch (SQLException ex) {
+           ex.printStackTrace();
+        }
+        DefaultTableModel model =(DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for(Product tmp:productList){
+            table.addRow(new Object[]{tmp.getProductName(),tmp.getManufacturer(),tmp.getDescription(),tmp.getCategory()});
+        }
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
     
     public Form_2() {
         initComponents();
-        controller_Product products =new  controller_Product();
-        
-        controller_Staff staff_control =new controller_Staff();
-        controller_Customer customer_control=new controller_Customer();
-        List<Staff>staffs =new ArrayList<>();
-        List<Customer>customers =new ArrayList<>();
-
-            try {
-                staffs=staff_control.getAllStaff();
-                customers=customer_control.getAllCustomers();
-            } catch (SQLException ex) {
-                Logger.getLogger(Form_2.class.getName()).log(Level.SEVERE, null, ex);
+          sortComboBox.addActionListener(new ActionListener() {
+            @Override
+            
+            public void actionPerformed(ActionEvent e) {
+                // Lấy giá trị được chọn khi có sự kiện thay đổi
+                String selectedValue = sortComboBox.getSelectedItem().toString(); 
+                
+                if (selectedValue.equals("Sort by Manufacture")){
+                   status=2;
+                   refreshTable();
+                }
+                else if(selectedValue.equals("Sort by Category")){
+                    status=3;
+                    refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Name")){
+                    status=1;
+                    refreshTable();
+                }
+               
             }
-  
-        
-        try {
-               productList = products.getAllproduct();
-            } catch (SQLException ex) {
-               ex.printStackTrace();
-            }
+        });
         
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -76,9 +96,7 @@ public class Form_2 extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        for (Product product : productList) {
-            table.addRow(new Object[]{product.getProductName(), product.getManufacturer(), product.getDescription(), product.getCategory()});
-        }
+        refreshTable();
     }
 
     /**
@@ -141,7 +159,6 @@ public class Form_2 extends javax.swing.JPanel {
 
         txtSearch.setBackground(new java.awt.Color(36, 36, 36));
         txtSearch.setForeground(new java.awt.Color(255, 255, 255));
-        txtSearch.setText("Search");
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
@@ -184,7 +201,7 @@ public class Form_2 extends javax.swing.JPanel {
 
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
-        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Name", "Sort by Manufacture", "Sort byCategory", " " }));
+        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Name", "Sort by Manufacture", "Sort by Category", "" }));
         sortComboBox.setToolTipText("");
         sortComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -665,7 +682,7 @@ public class Form_2 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        System.out.println("Search Click");
+//        System.out.println("Search Click");
         String searchTxt = this.txtSearch.getText();
         controller_Product search = new controller_Product();
         try {

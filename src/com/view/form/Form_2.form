@@ -128,7 +128,6 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Search"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchActionPerformed"/>
@@ -186,8 +185,8 @@
                           <StringArray count="4">
                             <StringItem index="0" value="Sort by Name"/>
                             <StringItem index="1" value="Sort by Manufacture"/>
-                            <StringItem index="2" value="Sort byCategory"/>
-                            <StringItem index="3" value=" "/>
+                            <StringItem index="2" value="Sort by Category"/>
+                            <StringItem index="3" value=""/>
                           </StringArray>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value=""/>

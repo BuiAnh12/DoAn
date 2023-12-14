@@ -13,32 +13,61 @@ import java.sql.PreparedStatement;
 
 public class controller_Customer {
     //
-      public List<Customer>getAllCustomers() throws SQLException{
+      public List<Customer>getAllCustomers(int status ,String name) throws SQLException{
          List<Customer> customers =new ArrayList<>();
          Connection cnn=ConnectionDB.getConnection();
-         Statement statement=cnn.createStatement();
-         String query = "SELECT Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
-                   "FROM Customers " +
-                   "JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
-                   "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
-                   "GROUP BY Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address";
+         String query="";
+         
+         if (status == 1) {
+            query = "SELECT Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
+                    "FROM Customers " +
+                    "JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
+                    "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
+                    "GROUP BY Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address " +
+                    "HAVING Customers.CustomerName LIKE ? ORDER BY CustomerName";
+        } else if (status == 2) {
+            query = "SELECT Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
+                    "FROM Customers " +
+                    "JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
+                    "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
+                    "GROUP BY Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address " +
+                    "HAVING Customers.CustomerName LIKE ? ORDER BY Email";
+        } else if (status == 3) {
+            query = "SELECT Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
+                    "FROM Customers " +
+                    "JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
+                    "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
+                    "GROUP BY Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address " +
+                    "HAVING Customers.CustomerName LIKE ? ORDER BY TotalAmount";
+        }
+         String searchTerm = "%" + name + "%";
+       
          try{
-                ResultSet re=statement.executeQuery(query);
+                customers.clear();
+                PreparedStatement statement = cnn.prepareStatement(query);
+                statement.setString(1, searchTerm);
+                ResultSet re = statement.executeQuery();
+                
                 while(re.next()){
-                    int id=re.getInt("CustomerId");
-                    String name=re.getString("CustomerName");
+                    int id=re.getInt("CustomerId");  
+                    String customername=re.getString("CustomerName");
                     String email=re.getString("Email");
                     String address=re.getString("Address");
                     int totalAmount = re.getInt("TotalAmount");
-
-                    Customer customer =new Customer(id, name, email, address,totalAmount);
+                    Customer customer =new Customer(id, customername, email, address,totalAmount);
                     customers.add(customer);
                 }
               
          }   
-         catch(Exception ex){
-             ex.printStackTrace();
-         }   
+         catch (SQLException ex) {
+    System.err.println("SQL Exception: " + ex.getMessage());
+    System.err.println("SQL State: " + ex.getSQLState());
+    System.err.println("Vendor Error Code: " + ex.getErrorCode());
+    ex.printStackTrace();
+} catch (Exception ex) {
+    System.err.println("Exception: " + ex.getMessage());
+    ex.printStackTrace();
+}
         return customers;
     }
     //

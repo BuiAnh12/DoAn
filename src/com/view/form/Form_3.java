@@ -73,6 +73,7 @@ public class Form_3 extends javax.swing.JPanel {
         for(Import tmp:import_list){
             table.addRow(new Object[]{tmp.getProductName(),tmp.getImportQuantity(),tmp.getAvailableQuantity(),tmp.getAvailableQuantity()});
         }
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
     public  java.sql.Date convertStringtoDate(String date){
          // Chuỗi đại diện cho ngày
@@ -1090,7 +1091,7 @@ public class Form_3 extends javax.swing.JPanel {
             //Take productName
             try{
             controller_Product products =new controller_Product();
-            name = products.getAllproduct();
+            name = products.getAllproduct(1,"");
             for(Product tmp: name){
                 comboBoxModelName.addElement(tmp.getProductName());
             }}

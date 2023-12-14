@@ -11,23 +11,34 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 
 public class controller_Staff {
-     public List<Staff>getAllStaff() throws SQLException{
+     public List<Staff>getAllStaff(int status , String name) throws SQLException{
          List<Staff> staffs =new ArrayList<>();
          Connection cnn=ConnectionDB.getConnection();
-         Statement statement=cnn.createStatement();
-         String query="SELECT * FROM Staffs";
+         
+         String query="";
+         if(status==1){
+             query="SELECT * FROM Staffs WHERE Name LIKE ? ORDER BY Name";
+         }else if(status==2){
+             query="SELECT * FROM Staffs WHERE Name LIKE ? ORDER BY Email";
+         }else if(status==3){
+             query="SELECT * FROM Staffs WHERE Name LIKE ? ORDER BY AccountPrevilege";
+         }
+         String searchTerm = "%" + name + "%";
          try{
-                ResultSet re=statement.executeQuery(query);
+                staffs.clear();
+                PreparedStatement statement = cnn.prepareStatement(query);
+                statement.setString(1, searchTerm);
+                ResultSet re = statement.executeQuery();
                 while(re.next()){
                     int id=re.getInt("StaffId");
-                    String name=re.getString("Name");
+                    String staffsname=re.getString("Name");
                     int age=re.getInt("Age");
                     String email=re.getString("Email");
                     String address=re.getString("Address");
                     String username = re.getString("Username");
                     String password = re.getString("Password");
                     int accountPrevilege = re.getInt("AccountPrevilege");
-                    Staff staff =new Staff(id, name, age, email, address,username, password, accountPrevilege);
+                    Staff staff =new Staff(id, staffsname, age, email, address,username, password, accountPrevilege);
                     staffs.add(staff);
                 }
                 
