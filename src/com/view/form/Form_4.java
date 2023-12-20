@@ -2,12 +2,14 @@ package com.view.form;
 
 import com.controller.controller_Customer;
 import com.model.Customer;
+import com.model.Detail_Customer;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -40,6 +42,27 @@ public class Form_4 extends javax.swing.JPanel {
         }
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
+    public void refreshdetailTable(Customer selectedCustomer){
+          List<Detail_Customer>deltaiCustomers=new ArrayList<>();
+          try {
+            //Handel Customer_Details
+            deltaiCustomers =customer_control.getDetail_Customers(selectedCustomer.getCustomerId());
+           
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+          
+             DefaultTableModel model =(DefaultTableModel) detail_table.getModel();
+               model.setRowCount(0);
+               
+               DecimalFormat decimalFormat = new DecimalFormat("#,###");
+               
+             for(Detail_Customer tmp :deltaiCustomers){
+                detail_table.addRow(new Object[]{tmp.getProductName(),tmp.getQuanity(),String.valueOf(decimalFormat.format(tmp.getPrice())+" VNĐ"),String.valueOf(decimalFormat.format(tmp.getTotal())+" VNĐ")});
+            }
+    }
+    
+    
     
     public Form_4() {
         initComponents();
@@ -780,6 +803,9 @@ public class Form_4 extends javax.swing.JPanel {
         txtEmail.setText(selectedCustomer.getEmail());
         txtAddress.setText(selectedCustomer.getAddress());
         txtTotalAmount.setText(String.valueOf(selectedCustomer.getTotalAmount()));
+       
+        refreshdetailTable(selectedCustomer);
+      
     }//GEN-LAST:event_tableMouseClicked
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
