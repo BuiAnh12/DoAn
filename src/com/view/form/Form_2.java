@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import com.view.modal.ProductInsertModal;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -582,6 +583,16 @@ public class Form_2 extends javax.swing.JPanel {
         this.txtManufacture.setText(tmp.getManufacturer());
         this.categorySelect.setSelectedItem(tmp.getCategory());
         this.descriptionTxt.setText(tmp.getDescription());
+        
+         this.txtName.setEditable(false);
+        this.txtManufacture.setEditable(false);
+        this.categorySelect.setEditable(false);
+        this.descriptionTxt.setEditable(false);
+        
+        this.txtName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        this.txtManufacture.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        this.categorySelect.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        this.descriptionTxt.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
     }//GEN-LAST:event_tableMouseClicked
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed

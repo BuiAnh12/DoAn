@@ -5,6 +5,7 @@ import com.model.Customer;
 import com.model.Detail_Customer;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -805,6 +806,19 @@ public class Form_4 extends javax.swing.JPanel {
         txtTotalAmount.setText(String.valueOf(selectedCustomer.getTotalAmount()));
        
         refreshdetailTable(selectedCustomer);
+        
+        txtCustomerName.setEditable(false);        
+        txtEmail.setEditable(false);
+        txtAddress.setEditable(false);
+        txtTotalAmount.setEditable(false);
+        
+        txtCustomerName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtEmail.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+        txtAddress.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+        txtTotalAmount.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+      
+
+
       
     }//GEN-LAST:event_tableMouseClicked
 

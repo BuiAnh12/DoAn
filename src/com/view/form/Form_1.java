@@ -363,7 +363,7 @@ public class Form_1 extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(36, 36, 36));
         jPanel6.setForeground(new java.awt.Color(36, 36, 36));
 
-        txtCustomerName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtCustomerName.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         txtCustomerName.setForeground(new java.awt.Color(102, 102, 102));
         txtCustomerName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -371,10 +371,10 @@ public class Form_1 extends javax.swing.JPanel {
             }
         });
 
-        txtStaffName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtStaffName.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         txtStaffName.setForeground(new java.awt.Color(102, 102, 102));
 
-        txtDate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtDate.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         txtDate.setForeground(new java.awt.Color(102, 102, 102));
 
         jPanel4.setBackground(new java.awt.Color(36, 36, 36));
@@ -422,6 +422,7 @@ public class Form_1 extends javax.swing.JPanel {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
+        totalAmountField.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         totalAmountField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 totalAmountFieldActionPerformed(evt);

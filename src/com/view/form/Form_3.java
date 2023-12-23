@@ -9,6 +9,7 @@ import com.controller.controller_Import;
 import com.controller.controller_Product;
 import com.model.Import;
 import com.model.Product;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -963,6 +964,8 @@ public class Form_3 extends javax.swing.JPanel {
             JTextField unitPrice = new JTextField();
             JTextField sellPrice = new JTextField();
             
+        
+
             
   
             JPanel panel = new JPanel(new GridLayout(0, 1));
@@ -1058,7 +1061,29 @@ public class Form_3 extends javax.swing.JPanel {
         BigDecimal total=unitmoney.multiply(BigDecimal.valueOf(quanity));
         this.txtTotal.setText(String.valueOf(decimalFormat.format(total)) +" VNĐ");
         
+        // DONT ALLOW EDIT TEXT 
+        txtName.setEditable(false);
+        txtQuantity.setEditable(false);
+        txtImpDate.setEditable(false);
+        txtManuDate.setEditable(false);
+        txtExpDate.setEditable(false);
+        txtUnitPrice.setEditable(false);
+        txtSellPrice.setEditable(false);
+        txtStock.setEditable(false);
+        txtCategory.setEditable(false);
+        txtTotal.setEditable(false);
+           
         
+        txtName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+        txtQuantity.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtImpDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtManuDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtUnitPrice.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtSellPrice.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtStock.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtCategory.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtTotal.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtExpDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
     }//GEN-LAST:event_tableMouseClicked
 
     private void txtImpDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImpDateActionPerformed
