@@ -16,6 +16,7 @@ public class Import{
     
     
 
+    public Import(){};
     public Import(int importId,int productId, Date manufacturingDate, Date expiryDate, Date importDate, int importQuantity, int availableQuantity, BigDecimal unitPrice, BigDecimal sellPrice,String productName,String category ) {
         this.importId = importId;
         this.productId = productId;
@@ -29,7 +30,19 @@ public class Import{
         this.productName=productName;
         this.category=category;
     }
-
+    
+    public Import(int importId,int productId, Date manufacturingDate, Date expiryDate, Date importDate, int importQuantity, int availableQuantity, BigDecimal unitPrice, BigDecimal sellPrice) {
+        this.importId = importId;
+        this.productId = productId;
+        this.manufacturingDate = manufacturingDate;
+        this.expiryDate = expiryDate;
+        this.importDate = importDate;
+        this.importQuantity = importQuantity;
+        this.availableQuantity = availableQuantity;
+        this.unitPrice = unitPrice;
+        this.sellPrice = sellPrice;
+    }
+    
     public Import(int productId, Date manufacturingDate, Date expiryDate, Date importDate,int importQuantity, int availableQuantity, BigDecimal unitPrice, BigDecimal sellPrice) {
         this.productId = productId;
         this.manufacturingDate = manufacturingDate;

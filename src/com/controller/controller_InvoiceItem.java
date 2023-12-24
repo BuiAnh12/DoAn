@@ -38,20 +38,19 @@ public class controller_InvoiceItem {
                     BigDecimal profit=re.getBigDecimal("Profit");
                      java.sql.Date createAt=re.getDate("CreatedAt");            
                     java.sql.Date updateAt=re.getDate("UpdatedAt");
-                     InvoiceItem invoiceitem=new InvoiceItem(invoiceitemId, invoiceid, productid, importid, unitprice, quanity, totalprice, profit, LocalDateTime.MAX, LocalDateTime.MAX);
+                     InvoiceItem invoiceitem=new InvoiceItem(invoiceitemId, invoiceid, productid, importid, unitprice, quanity, totalprice, profit);
                     invoiceItems.add(invoiceitem);
                 }
                
          }   
-         catch(Exception ex){
-             ex.printStackTrace();
+         catch(SQLException ex){
          }   
         return invoiceItems;
     }
       
        public void addInvoiceItem(InvoiceItem invoiceitem) throws SQLException{
         Connection cnn=ConnectionDB.getConnection();
-        String query="INSERT INTO Invoice_Items (InvoiceId, ProductId, ImportId, UnitPrice, Quantity, TotalPrice, Profit, CreatedAt, UpdatedAt) VALUES(?,?,?,?,?,?,?,?,?)";
+        String query="INSERT INTO Invoice_Items (InvoiceId, ProductId, ImportId, UnitPrice, Quantity, TotalPrice, Profit) VALUES(?,?,?,?,?,?,?)";
         try{
             PreparedStatement pre=cnn.prepareStatement(query);
             pre.setInt(1, invoiceitem.getInvoiceId());                    
@@ -62,21 +61,23 @@ public class controller_InvoiceItem {
             pre.setBigDecimal(6, invoiceitem.getTotalPrice());
             pre.setBigDecimal(7, invoiceitem.getProfit());
             
-            Date createAt = Date.from(invoiceitem.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant());
-            pre.setDate(8, (java.sql.Date) createAt);
+            //Date createAt = Date.from(invoiceitem.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant());
+            //pre.setDate(8, (java.sql.Date) createAt);
       
-            Date uppdateAt = Date.from(invoiceitem.getUpdatedAt().atZone(ZoneId.systemDefault()).toInstant());
-            pre.setDate(9, (java.sql.Date) uppdateAt);
-            int tmp=pre.executeUpdate();
+            //Date uppdateAt = Date.from(invoiceitem.getUpdatedAt().atZone(ZoneId.systemDefault()).toInstant());
+            //pre.setDate(9, (java.sql.Date) uppdateAt);
+            int tmp = pre.executeUpdate();
+            System.out.println("run");
         }
-        catch (Exception ex) {
+        catch (SQLException ex) {
             ex.printStackTrace();
+            System.out.println("fail");
         }
     } 
      public void editInvoiceItem(InvoiceItem invoiceitem) throws SQLException{
         Connection cnn=ConnectionDB.getConnection();
 
-        String query="UPDATE Invoice_Items SET  InvoiceId=?, ProductId=?, ImportId=?, UnitPrice=?, Quantity=?, TotalPrice=?, Profit=?, CreatedAt=?, UpdatedAt=?WHERE InvoiceItemId =?";
+        String query="UPDATE Invoice_Items SET  InvoiceId=?, ProductId=?, ImportId=?, UnitPrice=?, Quantity=?, TotalPrice=?, Profit=? WHERE InvoiceItemId =?";
         try{
            PreparedStatement pre=cnn.prepareStatement(query);
             pre.setInt(1, invoiceitem.getInvoiceId());                    
@@ -87,17 +88,16 @@ public class controller_InvoiceItem {
             pre.setBigDecimal(6, invoiceitem.getTotalPrice());
             pre.setBigDecimal(7, invoiceitem.getProfit());
             
-            Date createAt = Date.from(invoiceitem.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant());
-            pre.setDate(8, (java.sql.Date) createAt);
+            //Date createAt = Date.from(invoiceitem.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant());
+            //pre.setDate(8, (java.sql.Date) createAt);
       
-            Date uppdateAt = Date.from(invoiceitem.getUpdatedAt().atZone(ZoneId.systemDefault()).toInstant());
-            pre.setDate(9, (java.sql.Date) uppdateAt);
-            pre.setInt(10,invoiceitem.getInvoiceItemId() );
+            //Date uppdateAt = Date.from(invoiceitem.getUpdatedAt().atZone(ZoneId.systemDefault()).toInstant());
+            //pre.setDate(9, (java.sql.Date) uppdateAt);
+            pre.setInt(8,invoiceitem.getInvoiceItemId() );
             
             int tmp=pre.executeUpdate();
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
+        catch (SQLException ex) {
         }
     }   
     public void deleteInvoiceItem (int invoiceItemId) throws SQLException{
@@ -109,9 +109,21 @@ public class controller_InvoiceItem {
             pre.setInt(1,invoiceItemId);       
             int tmp=pre.executeUpdate();
         }
-        catch (Exception ex) {
+        catch (SQLException ex) {
+        }
+    }  
+    public void deleteInvoiceItemId (int invoiceId) throws SQLException{
+         Connection cnn=ConnectionDB.getConnection();
+         Statement statement=cnn.createStatement();
+         String query="DELETE FROM Invoice_Items WHERE InvoiceId =?";
+         try{
+            PreparedStatement pre=cnn.prepareStatement(query);
+            pre.setInt(1,invoiceId);       
+            int tmp=pre.executeUpdate();
+        }
+        catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }     
+    }
       
 }

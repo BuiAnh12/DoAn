@@ -17,7 +17,7 @@ import java.sql.Date;
 
 public class controller_Import {
        
-      public static List<Import>getAllImports(int status) throws SQLException{
+      public static List<Import> getAllImports (int status) throws SQLException{
             List<Import> imports =new ArrayList<>();
             Connection cnn=ConnectionDB.getConnection();
             Statement statement=cnn.createStatement();

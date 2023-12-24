@@ -7,31 +7,43 @@ soidfsoidù
 package com.view.form;
 
 import com.controller.controller_Customer;
+import com.controller.controller_Import;
 import com.controller.controller_Invoice;
+import com.controller.controller_InvoiceItem;
 import com.controller.controller_Product;
 import com.controller.controller_Staff;
 import com.model.Customer;
+import com.model.Import;
 import com.model.Invoice;
+import com.model.InvoiceItem;
 import com.model.Product;
 import com.model.Staff;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -39,9 +51,11 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -52,13 +66,79 @@ public class Form_1 extends javax.swing.JPanel {
     List<Invoice> invoiceList = new ArrayList<>();
     List<Customer>customers =new ArrayList<>();
     List<Staff> staffList = new ArrayList<>();
-    controller_Staff staff_control =new controller_Staff();
+    List<Product> productList ;
+    List<Import> importList =new ArrayList<>();
+    List<InvoiceItem> invoiceItemList = new ArrayList<>();
+    controller_InvoiceItem invoiceItem_control = new controller_InvoiceItem();
+    controller_Import import_control = new controller_Import();
+    controller_Product product_controller = new controller_Product();
+    controller_Staff staff_control =new controller_Staff(); 
     controller_Customer customer_control=new controller_Customer();
+    controller_Invoice invoice_control=new controller_Invoice();
     private int selectedCustomerId;
     private String selectedCustomerName;
     private int selectedStaffId;
     private String selectedStaffName;
-    public Form_1() {
+    private int status = 1;
+    private List<Import> imports = new ArrayList();
+    private List<InvoiceItem> invoiceItemListLz = new ArrayList<>();
+    private List<Import> importListLz = new ArrayList();
+    
+    
+    public void refreshimportList(){
+        try {
+            importList.clear();
+            importList=controller_Import.getAllImports(status);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void refreshimportListLz(){
+        try {
+            importListLz.clear();
+            importList=controller_Import.getAllImports(status);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+      
+    
+    
+    public void refreshtable(){
+        try {
+            invoiceList=invoice_control.getAllInvoices();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+          DefaultTableModel model =(DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+       for (Invoice invoice : invoiceList) {
+            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate(), invoice.getTotalAmount()});
+        }
+        
+    }
+    public  java.sql.Date convertStringtoDate(String date){
+         // Chuỗi đại diện cho ngày
+        String dateString = "2023-12-07";
+        java.sql.Date sqlDate = new java.sql.Date(0);
+        try {
+            // Định dạng cho chuỗi đầu vào
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            // Chuyển đổi chuỗi thành java.util.Date
+            Date utilDate = dateFormat.parse(date);
+
+            // Chuyển đổi java.util.Date thành java.sql.Date
+             sqlDate = new java.sql.Date(utilDate.getTime());
+
+            
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return sqlDate;
+    }
+    public Form_1() throws SQLException {
         initComponents();  
         try {
             staffList = staff_control.getAllStaff();
@@ -72,13 +152,18 @@ public class Form_1 extends javax.swing.JPanel {
             }
         controller_Invoice invoices =new  controller_Invoice();
         
-        
+        try {
+            productList = product_controller.getAllproduct();
+        } catch (SQLException ex) {
+            Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
                invoiceList = invoices.getAllInvoices();
             } catch (SQLException ex) {
-               ex.printStackTrace();
             }
         
+        importList = controller_Import.getAllImports(status);
+        invoiceItemList = invoiceItem_control.getAllInvoiceItems();
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
@@ -134,6 +219,7 @@ public class Form_1 extends javax.swing.JPanel {
         tableDetail = new com.view.swing.Table();
         PanelDUBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        returnBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
         updateBtn = new javax.swing.JButton();
 
@@ -171,7 +257,7 @@ public class Form_1 extends javax.swing.JPanel {
             PanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -299,7 +385,7 @@ public class Form_1 extends javax.swing.JPanel {
         PanelLeft.setLayout(PanelLeftLayout);
         PanelLeftLayout.setHorizontalGroup(
             PanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
+            .addComponent(PanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
             .addGroup(PanelLeftLayout.createSequentialGroup()
                 .addGroup(PanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -533,15 +619,28 @@ public class Form_1 extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(22, 23, 23));
 
+        returnBtn.setBackground(new java.awt.Color(36, 36, 36));
+        returnBtn.setForeground(new java.awt.Color(255, 255, 255));
+        returnBtn.setText("RETURN");
+        returnBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 226, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 182, Short.MAX_VALUE)
+                .addComponent(returnBtn))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(returnBtn))
         );
 
         PanelDUBtn.add(jPanel3);
@@ -558,7 +657,7 @@ public class Form_1 extends javax.swing.JPanel {
 
         updateBtn.setBackground(new java.awt.Color(36, 36, 36));
         updateBtn.setForeground(new java.awt.Color(255, 255, 255));
-        updateBtn.setText("UPUDATE");
+        updateBtn.setText("UPDATE");
         updateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateBtnActionPerformed(evt);
@@ -582,7 +681,6 @@ public class Form_1 extends javax.swing.JPanel {
         if (selectedRow != -1) {
             // Lấy Invoice từ danh sách
             Invoice selectedInvoice = invoiceList.get(selectedRow);
-
             // Tạo các trường nhập liệu
             JComboBox<Customer> customerDropdown = new JComboBox<>();
             for (Customer customer : customers) {
@@ -591,23 +689,21 @@ public class Form_1 extends javax.swing.JPanel {
             customerDropdown.setRenderer(new DefaultListCellRenderer() {
                 @Override
                 public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                    if (value instanceof Customer) {
+                    if (value instanceof Customer customer) {
                         // Hiển thị tên khách hàng
-                        value = ((Customer) value).getCustomerName();
+                        value = customer.getCustomerName();
                     }
                     return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 }
             });
+            int invoiceid = selectedInvoice.getInvoiceId();
             customerDropdown.setSelectedItem(selectedInvoice.getCustomerName());
-            customerDropdown.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Customer selectedCustomer = (Customer) customerDropdown.getSelectedItem();
-                    if (selectedCustomer != null) {
-                        // Lấy ID và tên của khách hàng
-                        selectedCustomerId = selectedCustomer.getCustomerId();
-                        selectedCustomerName = selectedCustomer.getCustomerName();
-                    }
+            customerDropdown.addActionListener((ActionEvent e) -> {
+                Customer selectedCustomer = (Customer) customerDropdown.getSelectedItem();
+                if (selectedCustomer != null) {
+                    // Lấy ID và tên của khách hàng
+                    selectedCustomerId = selectedCustomer.getCustomerId();
+                    selectedCustomerName = selectedCustomer.getCustomerName();
                 }
             });
 
@@ -618,55 +714,402 @@ public class Form_1 extends javax.swing.JPanel {
             staffDropdown.setRenderer(new DefaultListCellRenderer() {
                 @Override
                 public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                    if (value instanceof Staff) {
+                    if (value instanceof Staff staff) {
                         // Hiển thị tên nhân viên
-                        value = ((Staff) value).getName();
+                        value = staff.getName();
                     }
                     return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 }
             });
             staffDropdown.setSelectedItem(selectedInvoice.getStaffName());
-            staffDropdown.addActionListener(new ActionListener() {
+            staffDropdown.addActionListener((ActionEvent e) -> {
+                Staff selectedStaff = (Staff) staffDropdown.getSelectedItem();
+                if (selectedStaff != null) {
+                    // Lấy ID và tên của nhân viên
+                    selectedStaffId = selectedStaff.getStaffId();
+                    selectedStaffName = selectedStaff.getName();
+                }
+            });
+            JTextField dateField = new JTextField(String.valueOf(selectedInvoice.getPurchaseDate()));
+            JFormattedTextField totalAmountField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+            totalAmountField.setValue(selectedInvoice.getTotalAmount());
+            JComboBox<String> productNameField = new JComboBox<>();
+            DefaultComboBoxModel<String> comboBoxModelName = new DefaultComboBoxModel<>();
+            for (Product product:productList){
+                comboBoxModelName.addElement(product.getProductName());
+            };
+            productNameField.setModel(comboBoxModelName);
+            JFormattedTextField quantityField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+            //JFormattedTextField unitPriceField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+            JButton addProductButton = new JButton("Add Product");
+            DefaultTableModel detailTableModel = new DefaultTableModel();
+            detailTableModel.addColumn("Product Name");
+            detailTableModel.addColumn("Quantity");
+            detailTableModel.addColumn("Unit Price");
+            detailTableModel.addColumn("Total Price");
+            detailTableModel.addColumn("Mã lô hàng");
+            detailTableModel.addColumn("Profit");
+            detailTableModel.addColumn("productId");
+            detailTableModel.addColumn("invoiceItemId");
+            JTable detailTable = new JTable(detailTableModel);
+            detailTable.getColumnModel().getColumn(2).setMinWidth(0);
+            detailTable.getColumnModel().getColumn(2).setMaxWidth(0);
+            detailTable.getColumnModel().getColumn(2).setWidth(0);
+//            detailTable.getColumnModel().getColumn(4).setMinWidth(0);
+//            detailTable.getColumnModel().getColumn(4).setMaxWidth(0);
+//            detailTable.getColumnModel().getColumn(4).setWidth(0);
+            detailTable.getColumnModel().getColumn(5).setMinWidth(0);
+            detailTable.getColumnModel().getColumn(5).setMaxWidth(0);
+            detailTable.getColumnModel().getColumn(5).setWidth(0);
+            detailTable.getColumnModel().getColumn(6).setMinWidth(0);
+            detailTable.getColumnModel().getColumn(6).setMaxWidth(0);
+            detailTable.getColumnModel().getColumn(6).setWidth(0);
+            detailTable.getColumnModel().getColumn(7).setMinWidth(0);
+            detailTable.getColumnModel().getColumn(7).setMaxWidth(0);
+            detailTable.getColumnModel().getColumn(7).setWidth(0);
+            JScrollPane detailScrollPane = new JScrollPane(detailTable);
+            JButton editProductButton = new JButton("Edit Product");
+            JButton deleteProductButton = new JButton("Delete Product");
+            // Tạo một panel chứa các trường nhập liệu và bảng chi tiết sản phẩm
+            JPanel panel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.anchor = GridBagConstraints.WEST;
+            panel.add(new JLabel("Customer Name:"), gbc);
+            gbc.gridy++;
+            panel.add(new JLabel("Staff Name:"), gbc);
+            gbc.gridy++;
+            panel.add(new JLabel("Date:"), gbc);
+            //gbc.gridy++;
+            //panel.add(new JLabel("Total Amount:"), gbc);
+            gbc.gridy++;
+            panel.add(new JLabel("Product Details:"), gbc);     
+            gbc.gridx = 1;
+            gbc.gridy = 0;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            panel.add(customerDropdown, gbc);
+            gbc.gridy++;
+            panel.add(staffDropdown, gbc);
+            gbc.gridy++;
+            panel.add(dateField, gbc);
+            //gbc.gridy++;
+            //panel.add(totalAmountField, gbc);
+            gbc.gridy++;
+            gbc.gridwidth = 2;
+            gbc.weightx = 1.0;
+            gbc.weighty = 1.0;
+            gbc.fill = GridBagConstraints.BOTH;
+            panel.add(detailScrollPane, gbc);
+            gbc.gridx = 1;
+            gbc.gridy++;
+            panel.add(new JLabel("Product Name:"), gbc);
+            gbc.gridy++;
+            panel.add(productNameField, gbc);
+            gbc.gridy++;
+            panel.add(new JLabel("Quantity:"), gbc);
+            gbc.gridy++;
+            panel.add(quantityField, gbc);
+            gbc.gridy++;
+            gbc.gridx = 1;
+            gbc.gridwidth = 1;
+            gbc.weightx = 0.0;
+            gbc.insets = new Insets(0, 100, 0, 100);
+            panel.add(addProductButton, gbc);
+            gbc.gridy++;
+            gbc.gridx = 0;
+            gbc.gridwidth = 2;
+            gbc.weightx = 1.0;
+            gbc.insets = new Insets(0, 0, 0, 0); 
+            gbc.weighty = 1.0;
+            gbc.fill = GridBagConstraints.BOTH;
+            panel.add(detailScrollPane, gbc);
+            gbc.gridy++;
+            panel.add(editProductButton, gbc);
+            gbc.gridy++;
+            panel.add(deleteProductButton, gbc);
+            
+            for (InvoiceItem invoiceItem : invoiceItemList) {
+                        if (invoiceItem.getInvoiceId() == invoiceid) {
+                            String productName = "";
+                            for (Product product : productList) {
+                                if (product.getProductId() == invoiceItem.getProductId()) {
+                                    productName = product.getProductName();
+                                    break;
+                                }
+                            }
+                            detailTableModel.addRow(new Object[]{
+                                productName,
+                                invoiceItem.getQuantity(),
+                                invoiceItem.getUnitPrice(),
+                                invoiceItem.getTotalPrice(),
+                                invoiceItem.getImportId(),
+                                invoiceItem.getProfit(),
+                                invoiceItem.getProductId(),
+                                invoiceItem.getInvoiceItemId(),
+                            });
+                        }
+                    }
+            editProductButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Staff selectedStaff = (Staff) staffDropdown.getSelectedItem();
-                    if (selectedStaff != null) {
-                        // Lấy ID và tên của nhân viên
-                        selectedStaffId = selectedStaff.getStaffId();
-                        selectedStaffName = selectedStaff.getName();
+                    int selectedRow = detailTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        String ProductName = (String) detailTableModel.getValueAt(selectedRow, 0);
+                        int quantity = (int) detailTableModel.getValueAt(selectedRow, 1);
+                        BigDecimal unitPrice = (BigDecimal) detailTableModel.getValueAt(selectedRow, 2);
+                        BigDecimal totalPrice = (BigDecimal) detailTableModel.getValueAt(selectedRow, 3);
+                        int importId = (int) detailTableModel.getValueAt(selectedRow, 4);
+                        BigDecimal profit = (BigDecimal) detailTableModel.getValueAt(selectedRow, 5);
+                        int productId = (int) detailTableModel.getValueAt(selectedRow, 6);
+
+                        // Hiển thị hộp thoại chỉnh sửa
+//                        JComboBox<String> productNameComboBox = new JComboBox<>();
+//                        productNameComboBox.setSelectedItem(currentProductName);
+//                        for (Product product : productList) {
+//                            productNameComboBox.addItem(product.getProductName());
+//                        }
+                        JFormattedTextField quantityField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+                        quantityField.setValue(quantity);
+
+                        JPanel editPanel = new JPanel(new GridLayout(0, 2));
+                        //editPanel.add(new JLabel("Tên sản phẩm:"));
+                        //editPanel.add(productNameComboBox);
+                        editPanel.add(new JLabel("Số lượng:"));
+                        editPanel.add(quantityField);
+
+                        int result = JOptionPane.showConfirmDialog(null, editPanel, "Chỉnh sửa số lượng sản phẩm",
+                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                        if (result == JOptionPane.OK_OPTION) {
+                            // Lấy thông tin đã chỉnh sửa từ các trường nhập liệu
+                            //String newProductName = (String) productList.get(productNameComboBox.getSelectedIndex()).getProductName();
+//                            System.out.println(newProductName);
+//                            int newproductId = productList.get(productNameComboBox.getSelectedIndex()).getProductId();
+                            int newQuantity = ((Number) quantityField.getValue()).intValue();
+                            BigDecimal newtotalPrice = BigDecimal.ZERO;
+                            BigDecimal newprofit = BigDecimal.ZERO;
+                            
+                            for (Import importItem : importList) {
+                                if (importItem.getProductId() == productId && importItem.getImportId() == importId) {
+                                    controller_Import dm = new controller_Import();
+                                    if ((newQuantity - quantity) > 0){
+                                        if ((newQuantity - quantity) <= importItem.getAvailableQuantity()){
+                                            BigDecimal newquantityBigDecimal = new BigDecimal(newQuantity);
+                                            newtotalPrice = importItem.getSellPrice().multiply(newquantityBigDecimal);
+                                            newprofit = newtotalPrice.subtract(unitPrice.multiply(newquantityBigDecimal));
+                                            detailTableModel.setValueAt(newQuantity, selectedRow, 1);
+                                            detailTableModel.setValueAt(newtotalPrice,selectedRow,3);
+                                            detailTableModel.setValueAt(newprofit,selectedRow,5);
+                                            importItem.setAvailableQuantity(importItem.getAvailableQuantity() - (newQuantity - quantity));
+                                            try {
+                                                dm.editImport(importItem);
+                                            } catch (SQLException ex) {
+                                                Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+                                            }
+                                            break;
+                                        } else {
+                                            JOptionPane.showMessageDialog(null, "Hiện tại trong kho chỉ còn " + importItem.getAvailableQuantity() + " sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                                        }  
+                                    } else if((newQuantity - quantity) < 0){
+                                        BigDecimal newquantityBigDecimal = new BigDecimal(newQuantity);
+                                        newtotalPrice = importItem.getSellPrice().multiply(newquantityBigDecimal);
+                                        newprofit = newtotalPrice.subtract(unitPrice.multiply(newquantityBigDecimal));
+                                        detailTableModel.setValueAt(newQuantity, selectedRow, 1);
+                                        detailTableModel.setValueAt(newtotalPrice,selectedRow,3);
+                                        detailTableModel.setValueAt(newprofit,selectedRow,5);
+                                        importItem.setAvailableQuantity(importItem.getAvailableQuantity() + (quantity - newQuantity));
+                                        try {
+                                            dm.editImport(importItem);
+                                        } catch (SQLException ex) {
+                                            Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                    refreshtable();
+                                } 
+                            }
+                            
+                            
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm để chỉnh sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
 
-            JTextField dateField = new JTextField(selectedInvoice.getPurchaseDate());
-            JFormattedTextField totalAmountField = new JFormattedTextField(NumberFormat.getIntegerInstance());
-            totalAmountField.setValue(selectedInvoice.getTotalAmount());
+        deleteProductButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = detailTable.getSelectedRow();
+                if (selectedRow != -1) {
+                    String productName = (String) detailTableModel.getValueAt(selectedRow, 0);
+                    int quantity = (int) detailTableModel.getValueAt(selectedRow, 1);
+                    int invoiceItemiddd =(int) detailTableModel.getValueAt(selectedRow, 7);
+                    BigDecimal unitPrice = (BigDecimal) detailTableModel.getValueAt(selectedRow, 2);
+                    int importId = (int) detailTableModel.getValueAt(selectedRow, 4);
+                    int confirmDelete = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa sản phẩm '" + productName + "' không?",
+                            "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+                    if (confirmDelete == JOptionPane.YES_OPTION) {
+                        detailTableModel.removeRow(selectedRow);
+                        controller_InvoiceItem c = new controller_InvoiceItem();
+                        controller_Import b = new controller_Import();
+                        for (Import importx: importList){
+                            if ( importId == importx.getImportId()){
+                                importx.setAvailableQuantity(importx.getAvailableQuantity()+quantity);
+                                try {
+                                    b.editImport(importx);
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                        try {
+                            c.deleteInvoiceItem(invoiceItemiddd);
+                            
+                            System.out.println("run2");
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+//                    / CAN THEM O DAY NE 
+//                       DefaultTableModel detail_model =(DefaultTableModel) detailTable.getModel();
+//                       detail_model.setRowCount(0);
+//                       refreshtable();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+                    
+            
+            addProductButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String productName = (String) productNameField.getSelectedItem();
+                    Number quantityNumber = (Number) quantityField.getValue();
+                    BigDecimal totalPrice = BigDecimal.ZERO;
+                    int importId = 0;
+                    int productIdd = 0;
+                    int quantitys = 0;
+                    BigDecimal unitPrice = BigDecimal.ZERO;
+                    BigDecimal profit = BigDecimal.ZERO;
+                    int productId = productList.get(productNameField.getSelectedIndex()).getProductId();
+                    if ( quantityNumber == null) {
+                        JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    int quantity = quantityNumber.intValue();
+                    int conhangtmp = 0;
+                    for (Import abc : importListLz){
+                        if (abc.getProductId() == productId){
+                            conhangtmp += abc.getAvailableQuantity();
+                        }
+                    }
+                    for (Import abc : importListLz){
+                        if (abc.getProductId() == productId){
+                            
+                        }
+                    }
+                    
+                    controller_Invoice find = new controller_Invoice();             
+                    try{
+                        imports = find.findAvailableId(productId, quantity);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
 
-            // Tạo một panel chứa các trường nhập liệu
-            JPanel panel = new JPanel(new GridLayout(0, 1));
-            panel.add(new JLabel("Customer Name:"));
-            panel.add(customerDropdown);
-            panel.add(new JLabel("Staff Name:"));
-            panel.add(staffDropdown);
-            panel.add(new JLabel("Date:"));
-            panel.add(dateField);
-            panel.add(new JLabel("Total Amount:"));
-            panel.add(totalAmountField);
+                    int need = quantity;
+                    int conhang = 0;
+                    for (Import importv : importList){
+                        if(importv.getProductId() == productId){
+                            conhang += importv.getAvailableQuantity();
+                        }
+                    }
+                    if(conhangtmp == 0){
+                        if(need<=conhang){
+                            for (Import importItem : imports) {
+                            if (need>=importItem.getAvailableQuantity()){
+                                quantitys = importItem.getAvailableQuantity();
+                                need -= importItem.getAvailableQuantity();
+                            } else {
+                                quantitys = need;
+                                need = 0;
+                            }
+                            productIdd = importItem.getProductId();
+                            BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
+                            totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
+                            System.out.println(importItem.getSellPrice());
+                            importId = importItem.getImportId();
+                            unitPrice = importItem.getUnitPrice();
+                            profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
 
+                            InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
+                            importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
+                            System.out.println("moe m"+importItem.getAvailableQuantity());
+                            importListLz.add(importItem);
+                            invoiceItemListLz.add(invoiceItems);  
+                            refreshimportList();
+                            }                      
+                        } else {
+                                JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhang +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                    } else {
+                        if(need<=conhangtmp){
+                            for (Import importItem : imports) {
+                            if (need>=importItem.getAvailableQuantity()){
+                                quantitys = importItem.getAvailableQuantity();
+                                need -= importItem.getAvailableQuantity();
+                            } else {
+                                quantitys = need;
+                                need = 0;
+                            }
+                            productIdd = importItem.getProductId();
+                            BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
+                            totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
+                            System.out.println(importItem.getSellPrice());
+                            importId = importItem.getImportId();
+                            unitPrice = importItem.getUnitPrice();
+                            profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
+
+                            InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
+                            importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
+                            importListLz.add(importItem);
+                            invoiceItemListLz.add(invoiceItems);  
+                            refreshimportList();
+                            }                      
+                        } else {
+                                JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhangtmp +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                    }
+                    
+
+                    
+                    // Thêm thông tin sản phẩm vào bảng chi tiết sản phẩm
+                    detailTableModel.addRow(new Object[]{productName, quantity, unitPrice,totalPrice,importId, profit, productIdd,0});
+                    // Xóa dữ liệu từ các trường nhập liệu sau khi thêm
+                    refreshimportList();
+                    productNameField.setSelectedIndex(-1);
+                    quantityField.setValue(null);
+                    
+                    //unitPriceField.setValue(null);
+                }
+            });
             int result = JOptionPane.showConfirmDialog(null, panel, "Edit Invoice Information",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
             if (result == JOptionPane.OK_OPTION) {
+                
                 // Lấy thông tin từ các trường nhập liệu
-                String updatedDate = dateField.getText();
+                java.sql.Date updatedDate = convertStringtoDate(dateField.getText());
                 Number updatedTotalAmount = (Number) totalAmountField.getValue();
 
                 // Kiểm tra ràng buộc không được để trống
-                if (updatedDate.isEmpty() || updatedTotalAmount == null) {
+                if (updatedDate == null || updatedTotalAmount == null) {
                     JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
                 // Cập nhật thông tin của Invoice
                 selectedInvoice.setPurchaseDate(updatedDate);
                 selectedInvoice.setTotalAmount(updatedTotalAmount.intValue());
@@ -675,19 +1118,95 @@ public class Form_1 extends javax.swing.JPanel {
 
                 // Cập nhật bảng
                 DefaultTableModel model = (DefaultTableModel) table.getModel();
-                model.setValueAt(selectedCustomerName, selectedRow, 0); // Cột 0 là Customer Name
-                model.setValueAt(selectedStaffName, selectedRow, 1); // Cột 1 là Staff Name
+                model.setValueAt(selectedCustomerName, selectedRow, 0);
+                model.setValueAt(selectedStaffName, selectedRow, 1);
                 model.setValueAt(updatedDate, selectedRow, 2);
                 model.setValueAt(updatedTotalAmount.intValue(), selectedRow, 3);
-
                 // Lưu các thay đổi vào cơ sở dữ liệu hoặc thực hiện các hành động khác cần thiết
                 controller_Invoice updateController = new controller_Invoice();
                 try {
                     updateController.editInvoice(selectedInvoice);
                 } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                controller_InvoiceItem newInvoiceItem = new controller_InvoiceItem();
+                for (int row = 0; row < detailTableModel.getRowCount(); row++) {
+                    String productName = (String) detailTableModel.getValueAt(row, 0);
+                    int quantity = (int) detailTableModel.getValueAt(row, 1);
+                    BigDecimal unitPrice = (BigDecimal) detailTableModel.getValueAt(row, 2);
+                    BigDecimal totalPrice = (BigDecimal) detailTableModel.getValueAt(row, 3);
+                    int importId = (int) detailTableModel.getValueAt(row, 4);                   
+                    BigDecimal profit = (BigDecimal) detailTableModel.getValueAt(row, 5);
+                    int productIdd = (int) detailTableModel.getValueAt(row, 6);
+                    int invoiceItemidd = (int) detailTableModel.getValueAt(row, 7);
+                    System.out.println(invoiceItemidd);
+                    System.out.println(productName);
+                    
+                    
+                    try {
+                        if (invoiceItemidd != 0) {
+                            InvoiceItem invoiceItem = new InvoiceItem(invoiceid, productIdd, importId, unitPrice, quantity, totalPrice, profit,invoiceItemidd);                           
+                            newInvoiceItem.editInvoiceItem(invoiceItem);
+                            System.out.println(invoiceItemidd);
+                            System.out.println(quantity);
+                            System.out.println("run1");
+                            //controller_Invoice find = new controller_Invoice();
+//                            try{
+//                                imports = find.findAvailableId(productIdd, quantity);
+//                            } catch (Exception ex) {
+//                                    ex.printStackTrace();
+//                            } 
+//                            if (invoiceItemList.get(invoiceItemidd).getQuantity() != quantity){
+//                                
+//                            }
+                        }
+                        
+//                        else {
+//                            InvoiceItem invoiceItemp = new InvoiceItem(invoiceid, productIdd, importId, unitPrice, quantity, totalPrice, profit);
+//                            newInvoiceItem.addInvoiceItem(invoiceItemp);
+//                            System.out.println("run3");
+//                        }
+                        
+                    } catch (SQLException e) {
+                        System.out.println("fail1");
+                        e.printStackTrace();
+                    }
+                }
+                for (InvoiceItem invoiceItem : invoiceItemListLz) {
+                            //String productName = (String) detailTableModel.getValueAt(row, 0);
+                            int quantity2 = invoiceItem.getQuantity();
+                            BigDecimal unitPrice2 = invoiceItem.getUnitPrice();
+                            BigDecimal totalPrice2 = invoiceItem.getTotalPrice();
+                            int importId2 = invoiceItem.getImportId();
+                            BigDecimal profit2 = invoiceItem.getProfit();
+                            int productIdd2 = invoiceItem.getProductId();
+                            InvoiceItem invoiceItemmm = new InvoiceItem(invoiceid,productIdd2,importId2,unitPrice2,quantity2, totalPrice2,profit2);
+                            controller_InvoiceItem newInvoiceItemm = new controller_InvoiceItem();
+                            try {
+                                System.out.println("start try invoiceItem");
+                                newInvoiceItem.addInvoiceItem(invoiceItemmm);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            for (Import importt : importList){                     
+                                if (importt.getImportId() == importId2){
+                                    controller_Import i = new controller_Import();
+                                    importt.setAvailableQuantity(importt.getAvailableQuantity() - quantity2);                              
+                                        try {
+                                            i.editImport(importt);
+                                        } catch (SQLException ex) {
+                                            Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                }
+                            }
+                    }
             }
+            invoiceItemListLz.clear();
+            refreshtable();
+            refreshimportListLz();
+            // xoa bang
+            DefaultTableModel detail_model =(DefaultTableModel) detailTable.getModel();
+            detail_model.setRowCount(0);
         } else {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một hóa đơn để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
@@ -695,21 +1214,46 @@ public class Form_1 extends javax.swing.JPanel {
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         int selectedRow = table.getSelectedRow();
+        controller_InvoiceItem co = new controller_InvoiceItem();
+        try {
+            invoiceItemList = co.getAllInvoiceItems();
+        } catch (SQLException ex) {
+            Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Invoice tmp = invoiceList.get(selectedRow);
         this.txtCustomerName.setText(tmp.getCustomerName());
         this.txtStaffName.setText(tmp.getStaffName());
-        this.txtDate.setText(tmp.getPurchaseDate());
-        this.totalAmountField.setValue(tmp.getTotalAmount());
+        this.txtDate.setText(String.valueOf(tmp.getPurchaseDate()));
+        this.totalAmountField.setValue(tmp.getTotalAmount());   
+        int invoice_id = tmp.getInvoiceId();  
+        DefaultTableModel model =(DefaultTableModel) tableDetail.getModel();
+        model.setRowCount(0);
+        for (InvoiceItem invoiceItem : invoiceItemList) {
+                        if (invoiceItem.getInvoiceId() == invoice_id) {
+                            String productName = "";
+                            for (Product product : productList) {
+                                if (product.getProductId() == invoiceItem.getProductId()) {
+                                    productName = product.getProductName();
+                                    break;
+                                }
+                            }
+                            tableDetail.addRow(new Object[]{
+                                productName,
+                                invoiceItem.getQuantity(),
+                                invoiceItem.getTotalPrice(),
+                            });
+                        }
+                    }
+        
     }//GEN-LAST:event_tableMouseClicked
 
     private void tableDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDetailMouseClicked
     
     }//GEN-LAST:event_tableDetailMouseClicked
 
+    @SuppressWarnings("empty-statement")
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
 
-        
-        // Tạo các trường nhập liệu
         JComboBox<Customer> customerDropdown = new JComboBox<>();
         for (Customer customer : customers) {
             customerDropdown.addItem(customer);
@@ -717,22 +1261,19 @@ public class Form_1 extends javax.swing.JPanel {
         customerDropdown.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                if (value instanceof Customer) {
+                if (value instanceof Customer customer) {
                     // Hiển thị tên khách hàng
-                    value = ((Customer) value).getCustomerName();
+                    value = customer.getCustomerName();
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             }
         });
-        customerDropdown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Customer selectedCustomer = (Customer) customerDropdown.getSelectedItem();
-                if (selectedCustomer != null) {
-                    // Lấy ID và tên của khách hàng
-                    selectedCustomerId = selectedCustomer.getCustomerId();
-                    selectedCustomerName = selectedCustomer.getCustomerName();
-                }
+        customerDropdown.addActionListener((ActionEvent e) -> {
+            Customer selectedCustomer = (Customer) customerDropdown.getSelectedItem();
+            if (selectedCustomer != null) {
+                // Lấy ID và tên của khách hàng
+                selectedCustomerId = selectedCustomer.getCustomerId();
+                selectedCustomerName = selectedCustomer.getCustomerName();
             }
         });
         JComboBox<Staff> staffDropdown = new JComboBox<>();
@@ -742,68 +1283,290 @@ public class Form_1 extends javax.swing.JPanel {
         staffDropdown.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                if (value instanceof Staff) {
+                if (value instanceof Staff staff) {
                     // Hiển thị tên nhân viên
-                    value = ((Staff) value).getName();
+                    value = staff.getName();
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             }
         });
-        staffDropdown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Staff selectedStaff = (Staff) staffDropdown.getSelectedItem();
-                if (selectedStaff != null) {
-                    // Lấy ID và tên của nhân viên
-                    selectedStaffId = selectedStaff.getStaffId();
-                    selectedStaffName = selectedStaff.getName();
-                }
+        staffDropdown.addActionListener((var e) -> {
+            Staff selectedStaff = (Staff) staffDropdown.getSelectedItem();
+            if (selectedStaff != null) {
+                // Lấy ID và tên của nhân viên
+                selectedStaffId = selectedStaff.getStaffId();
+                selectedStaffName = selectedStaff.getName();
             }
         });
 
-
         JTextField dateField = new JTextField();
-        JFormattedTextField totalAmountField = new JFormattedTextField(NumberFormat.getIntegerInstance());
-        // Tạo một panel chứa các trường nhập liệu
-        JPanel panel = new JPanel(new GridLayout(0, 1));
-        panel.add(new JLabel("Customer Name:"));
-        panel.add(customerDropdown);
-        panel.add(new JLabel("Staff Name:"));
-        panel.add(staffDropdown);
-        panel.add(new JLabel("Date:"));
-        panel.add(dateField);
-        panel.add(new JLabel("Total Amount:"));
-        panel.add(totalAmountField);
+        //JFormattedTextField totalAmountField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+        JComboBox<String> productNameField = new JComboBox<>();
+        DefaultComboBoxModel<String> comboBoxModelName = new DefaultComboBoxModel<>();
+        for (Product product:productList){
+            comboBoxModelName.addElement(product.getProductName());
+        };
+        productNameField.setModel(comboBoxModelName);
+        JFormattedTextField quantityField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+        //JFormattedTextField unitPriceField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+        JButton addProductButton = new JButton("Add Product");
+        DefaultTableModel detailTableModel = new DefaultTableModel();
+        
+        detailTableModel.addColumn("Product Name");
+        detailTableModel.addColumn("Quantity");
+        detailTableModel.addColumn("Unit Price");
+        detailTableModel.addColumn("Total Price");
+        detailTableModel.addColumn("ImportId");
+        detailTableModel.addColumn("Profit");
+        detailTableModel.addColumn("productId");
+        JTable detailTable = new JTable(detailTableModel);
 
+        // Ẩn các cột không muốn hiển thị
+        detailTable.getColumnModel().getColumn(2).setMinWidth(0);
+        detailTable.getColumnModel().getColumn(2).setMaxWidth(0);
+        detailTable.getColumnModel().getColumn(2).setWidth(0);
+        detailTable.getColumnModel().getColumn(4).setMinWidth(0);
+        detailTable.getColumnModel().getColumn(4).setMaxWidth(0);
+        detailTable.getColumnModel().getColumn(4).setWidth(0);
+        detailTable.getColumnModel().getColumn(5).setMinWidth(0);
+        detailTable.getColumnModel().getColumn(5).setMaxWidth(0);
+        detailTable.getColumnModel().getColumn(5).setWidth(0);
+        detailTable.getColumnModel().getColumn(6).setMinWidth(0);
+        detailTable.getColumnModel().getColumn(6).setMaxWidth(0);
+        detailTable.getColumnModel().getColumn(6).setWidth(0);
+
+        // Thêm bảng vào JScrollPane hoặc panel của bạn
+        JScrollPane detailScrollPane = new JScrollPane(detailTable);
+        
+
+        // Tạo một panel chứa các trường nhập liệu và bảng chi tiết sản phẩm
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel.add(new JLabel("Customer Name:"), gbc);
+        gbc.gridy++;
+        panel.add(new JLabel("Staff Name:"), gbc);
+        gbc.gridy++;
+        panel.add(new JLabel("Date:"), gbc);
+        //gbc.gridy++;
+        //panel.add(new JLabel("Total Amount:"), gbc);
+        gbc.gridy++;
+        panel.add(new JLabel("Product Details:"), gbc);     
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(customerDropdown, gbc);
+        gbc.gridy++;
+        panel.add(staffDropdown, gbc);
+        gbc.gridy++;
+        panel.add(dateField, gbc);
+        //gbc.gridy++;
+        //panel.add(totalAmountField, gbc);
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel.add(detailScrollPane, gbc);
+        gbc.gridx = 1;
+        gbc.gridy++;
+        panel.add(new JLabel("Product Name:"), gbc);
+        gbc.gridy++;
+        panel.add(productNameField, gbc);
+        gbc.gridy++;
+        panel.add(new JLabel("Quantity:"), gbc);
+        gbc.gridy++;
+        panel.add(quantityField, gbc);
+        //gbc.gridy++;
+        //panel.add(new JLabel("Unit Price:"), gbc);
+        //gbc.gridy++;
+        //panel.add(unitPriceField, gbc);
+        gbc.gridy++;
+        gbc.gridx = 1;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.0;
+        gbc.insets = new Insets(0, 100, 0, 100);
+        panel.add(addProductButton, gbc);
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1.0;
+        gbc.insets = new Insets(0, 0, 0, 0); 
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel.add(detailScrollPane, gbc);
+        invoiceItemListLz.clear();
+        
+        // Bắt sự kiện khi người dùng nhấn nút "Add Product"
+        addProductButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lấy thông tin từ các trường nhập liệu
+                String productName = (String) productNameField.getSelectedItem();
+                Number quantityNumber = (Number) quantityField.getValue();
+                BigDecimal totalPrice = BigDecimal.ZERO;
+                int importId = 0;
+                int productIdd = 0;
+                int quantitys = 0;
+                BigDecimal unitPrice = BigDecimal.ZERO;
+                BigDecimal profit = BigDecimal.ZERO;
+
+                // Kiểm tra ràng buộc không được để trống
+                if ( quantityNumber == null) {
+                    JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                int productId = productList.get(productNameField.getSelectedIndex()).getProductId();
+                
+                int quantity = quantityNumber.intValue();                               
+                controller_Invoice find = new controller_Invoice();             
+                try{
+                    imports = find.findAvailableId(productId, quantity);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                
+                int need = quantity;
+                int conhang = 0;
+                for (Import importv : importList){
+                    if(importv.getProductId() == productId){
+                        conhang += importv.getAvailableQuantity();
+                    }
+                }
+                if (need <= conhang){
+                    for (Import importItem : imports) {
+                        System.out.println("import ne "+importItem.getAvailableQuantity());
+                        if (need>=importItem.getAvailableQuantity()){
+                            quantitys = importItem.getAvailableQuantity();
+                            need -= importItem.getAvailableQuantity();
+                        } else {
+                            quantitys = need;
+                            need = 0;
+                        }                   
+                        //conhang += quantitys;
+    //                    System.out.println("need ne"+need);
+    //                    if (need == 0) {
+                            productIdd = importItem.getProductId();
+                            BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
+                            totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
+                            System.out.println(importItem.getSellPrice());
+                            importId = importItem.getImportId();
+                            unitPrice = importItem.getUnitPrice();
+                            profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
+
+                            InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
+                            invoiceItemListLz.add(invoiceItems);
+
+                    }
+                }else {
+                            JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhang +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                              
+
+                // Thêm thông tin sản phẩm vào bảng chi tiết sản phẩm
+                detailTableModel.addRow(new Object[]{productName, quantity, unitPrice,totalPrice,importId, profit, productIdd});
+
+                // Xóa dữ liệu từ các trường nhập liệu sau khi thêm
+                productNameField.setSelectedIndex(-1);
+                quantityField.setValue(null);
+                //unitPriceField.setValue(null);
+            }
+        });
         // Hiển thị hộp thoại và kiểm tra nút bấm
         int result = JOptionPane.showConfirmDialog(null, panel, "Enter Invoice Information", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         // Nếu người dùng nhấn OK
         if (result == JOptionPane.OK_OPTION) {
-                String dateText = dateField.getText();
+                java.sql.Date dateText = convertStringtoDate(dateField.getText());
                 Number totalAmountNumber = (Number) totalAmountField.getValue();
                 // Kiểm tra ràng buộc không được để trống
-                if (dateText.isEmpty() || totalAmountNumber == null) {
+                if (dateText == null) {
                     JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
-                    return; // Dừng việc thực thi tiếp
+                    return;
                 }
-                int totalAmount = totalAmountNumber.intValue();
+                //int totalAmount = totalAmountNumber.intValue();
+                LocalDateTime createdAt = null;
+                LocalDateTime updateAt = null;
 
                 // Tạo một đối tượng Invoice từ thông tin vừa nhập
-                Invoice newInvoice = new Invoice(invoiceList.size()+1, selectedCustomerId,selectedStaffId,dateText,selectedCustomerName,selectedStaffName, totalAmount);
+                Invoice newInvoice = new Invoice( selectedCustomerId,selectedStaffId,dateText);
+                int invoiceId = 0;
 
                 // Thêm vào danh sách hóa đơn và cập nhật bảng
+               
                 invoiceList.add(newInvoice);
-                table.addRow(new Object[]{newInvoice.getCustomerName(), newInvoice.getStaffName(), newInvoice.getPurchaseDate(), newInvoice.getTotalAmount()});
-
-                // Lưu vào cơ sở dữ liệu hoặc thực hiện các hành động khác theo yêu cầu của bạn
-                // saveToDatabase(newInvoice);
+                table.addRow(new Object[]{selectedCustomerName,selectedStaffName, newInvoice.getPurchaseDate(),totalAmountNumber});
+                
                 controller_Invoice controller = new controller_Invoice();
                 try {
-                    controller.addInvoice(newInvoice);
-                } catch (SQLException ex) {
+                    System.out.println("start try invoice");
+                    invoiceId = controller.addInvoice(newInvoice);
+                    } catch (SQLException ex) {
+                }
+                System.out.println(invoiceId);
+                for (InvoiceItem invoiceItem : invoiceItemListLz) {
+                    //String productName = (String) detailTableModel.getValueAt(row, 0);
+                    int quantity = invoiceItem.getQuantity();
+                    BigDecimal unitPrice = invoiceItem.getUnitPrice();
+                    BigDecimal totalPrice = invoiceItem.getTotalPrice();
+                    int importId = invoiceItem.getImportId();
+                    BigDecimal profit = invoiceItem.getProfit();
+                    int productIdd = invoiceItem.getProductId();
+                    InvoiceItem invoiceItemm = new InvoiceItem(invoiceId,productIdd,importId,unitPrice,quantity, totalPrice,profit);
+                    controller_InvoiceItem newInvoiceItem = new controller_InvoiceItem();
+                    try {
+                        System.out.println("start try invoiceItem");
+                        newInvoiceItem.addInvoiceItem(invoiceItemm);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    //controller_Invoice find = new controller_Invoice();
+//                    try{
+//                        imports = find.findAvailableId(productIdd, quantity);
+//                        } catch (Exception ex) {
+//                            ex.printStackTrace();
+//                    }
+                    for (Import importt : importList){                     
+                        if (importt.getImportId() == importId){
+                            controller_Import i = new controller_Import();
+                            importt.setAvailableQuantity(importt.getAvailableQuantity() - quantity);                              
+                                try {
+                                    i.editImport(importt);
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                        }
+                    }
+//                    int need = quantity;
+//                    for (Import importItem : imports) {                 
+//                        controller_Import i = new controller_Import();
+//                        if (need > 0) {
+//                            if (need > importItem.getAvailableQuantity()) {
+//                                need -=importItem.getAvailableQuantity();
+//                                importItem.setAvailableQuantity(0);                              
+//                                try {
+//                                    i.editImport(importItem);
+//                                } catch (SQLException ex) {
+//                                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+//                                }
+//                            } else {
+//                                importItem.setAvailableQuantity(importItem.getAvailableQuantity() - need);
+//                                need = 0;
+//                                try {
+//                                    i.editImport(importItem);
+//                                } catch (SQLException ex) {
+//                                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+//                                }
+//                            }
+//                        }
+//                }
             }
+            
         }
+        refreshtable();
     }//GEN-LAST:event_insertBtnActionPerformed
 
     private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
@@ -817,18 +1580,22 @@ public class Form_1 extends javax.swing.JPanel {
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
         int selectedRow = table.getSelectedRow();
-
         if (selectedRow != -1) {
             int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this invoice?", "Confirmation", JOptionPane.YES_NO_OPTION);
 
             if (option == JOptionPane.YES_OPTION) {
+                
                 int invoiceId = invoiceList.get(selectedRow).getInvoiceId();
+                System.out.println("in ra invoice id :"+invoiceId);
                 controller_Invoice controller = new controller_Invoice();
+                controller_InvoiceItem controllerr = new controller_InvoiceItem();
+                
 
                 try {
                     controller.deleteInvoice(invoiceId);
-                    DefaultTableModel model = (DefaultTableModel) table.getModel();
-                    model.removeRow(selectedRow);
+                    System.out.println("da chay toi luc xoa invoice id ");
+                    controllerr.deleteInvoiceItemId(invoiceId);
+                    refreshtable();                
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -837,6 +1604,44 @@ public class Form_1 extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Please select an invoice to delete!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to return this invoice?", "Confirmation", JOptionPane.YES_NO_OPTION);
+
+            if (option == JOptionPane.YES_OPTION) {
+                int invoiceId = invoiceList.get(selectedRow).getInvoiceId();
+                controller_Invoice controller = new controller_Invoice();
+                controller_InvoiceItem controllerr = new controller_InvoiceItem();
+                controller_Import controllerrr = new controller_Import();
+                for (InvoiceItem invoiceItem : invoiceItemList){
+                    if (invoiceItem.getInvoiceId() == invoiceId){
+                        for (Import imported : importList){
+                            if (imported.getImportId()==invoiceItem.getImportId()){
+                                imported.setAvailableQuantity(imported.getAvailableQuantity()+invoiceItem.getQuantity());
+                                try {
+                                    controllerrr.editImport(imported);
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                    }                  
+                }
+            
+                try {
+                    controller.deleteInvoice(invoiceId);
+                    controllerr.deleteInvoiceItemId(invoiceId);
+                    refreshtable();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select an invoice to return!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_returnBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -867,6 +1672,7 @@ public class Form_1 extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JButton returnBtn;
     private javax.swing.JComboBox<String> sortComboBox;
     private javax.swing.JScrollPane spTable;
     private com.view.swing.Table table;

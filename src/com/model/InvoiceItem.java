@@ -13,7 +13,7 @@ public class InvoiceItem {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public InvoiceItem(int invoiceItemId, int invoiceId, int productId, int importId, BigDecimal unitPrice, int quantity, BigDecimal totalPrice, BigDecimal profit, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public InvoiceItem(int invoiceItemId, int invoiceId, int productId, int importId, BigDecimal unitPrice, int quantity, BigDecimal totalPrice, BigDecimal profit) {
         this.invoiceItemId = invoiceItemId;
         this.invoiceId = invoiceId;
         this.productId = productId;
@@ -22,9 +22,37 @@ public class InvoiceItem {
         this.quantity = quantity;
         this.totalPrice = totalPrice;
         this.profit = profit;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        //this.createdAt = createdAt;
+        //this.updatedAt = updatedAt;
     }
+    public InvoiceItem( int invoiceId, int productId, int importId, BigDecimal unitPrice, int quantity, BigDecimal totalPrice, BigDecimal profit) {
+        this.invoiceId = invoiceId;
+        this.productId = productId;
+        this.importId = importId;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+        this.profit = profit;
+    }
+    public InvoiceItem( int invoiceId, int productId, int importId, BigDecimal unitPrice, int quantity, BigDecimal totalPrice, BigDecimal profit,int invoiceItemId) {
+        this.invoiceId = invoiceId;
+        this.productId = productId;
+        this.importId = importId;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+        this.profit = profit;
+        this.invoiceItemId = invoiceItemId;
+    }
+    public InvoiceItem(int productId, int importId, BigDecimal unitPrice, int quantity, BigDecimal totalPrice, BigDecimal profit) {
+        this.productId = productId;
+        this.importId = importId;
+        this.unitPrice = unitPrice;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
+        this.profit = profit;
+    }
+    
 
     public int getInvoiceItemId() {
         return invoiceItemId;

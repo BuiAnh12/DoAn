@@ -5,12 +5,12 @@ public class Invoice {
     private int invoiceId;
     private int customerId;
     private int staffId;
-    private String purchaseDate;
+    private Date purchaseDate;
     private String customerName;
     private String staffName;
     private int totalAmount;
 
-        public Invoice(int invoiceId, int customerId, int staffId, String purchaseDate, String customerName, String staffName, int totalAmount) {
+        public Invoice(int invoiceId, int customerId, int staffId, Date purchaseDate, String customerName, String staffName, int totalAmount) {
             this.invoiceId = invoiceId;
             this.customerId = customerId;
             this.staffId = staffId;
@@ -18,6 +18,17 @@ public class Invoice {
             this.customerName = customerName;
             this.staffName = staffName;
             this.totalAmount = totalAmount;
+        }
+        public Invoice(int invoiceId, int customerId, int staffId, Date purchaseDate) {
+            this.invoiceId = invoiceId;
+            this.customerId = customerId;
+            this.staffId = staffId;
+            this.purchaseDate = purchaseDate;
+        }
+        public Invoice( int customerId, int staffId, Date purchaseDate) {
+            this.customerId = customerId;
+            this.staffId = staffId;
+            this.purchaseDate = purchaseDate;
         }
 
     public int getInvoiceId() {
@@ -32,7 +43,7 @@ public class Invoice {
         return staffId;
     }
 
-    public String getPurchaseDate() {
+    public Date getPurchaseDate() {
         return purchaseDate;
     }
 
@@ -60,7 +71,7 @@ public class Invoice {
         this.staffId = staffId;
     }
 
-    public void setPurchaseDate(String purchaseDate) {
+    public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
