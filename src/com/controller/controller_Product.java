@@ -13,15 +13,27 @@ import java.sql.PreparedStatement;
 
 public class controller_Product {
     
-     public List<Product> getAllproduct() throws SQLException{
+     public List<Product> getAllproduct(int status,String name) throws SQLException{
          List<Product> products =new ArrayList<>();
          Connection cnn=ConnectionDB.getConnection();
-         Statement statement=cnn.createStatement();
-         String query="SELECT * FROM Products";
+         String query="";
+         
+         if(status ==1){
+             query="SELECT * FROM Products WHERE ProductName LIKE ? ORDER BY ProductName ";
+         }else if(status ==2){
+             query="SELECT * FROM Products WHERE ProductName LIKE ? ORDER BY Manufacturer ";
+         }else if(status==3){
+             query="SELECT * FROM Products WHERE ProductName LIKE ? ORDER BY Category ";
+         }
+         String searchTerm = "%" + name + "%";
          try{
-                ResultSet re=statement.executeQuery(query);
+                products.clear();
+                PreparedStatement statement = cnn.prepareStatement(query);
+                statement.setString(1, searchTerm);
+                ResultSet re = statement.executeQuery();
+                
                 while(re.next()){
-                     String productName=re.getString("ProductName");
+                    String productName=re.getString("ProductName");
                     String manufacturer=re.getString("Manufacturer");
                     String description=re.getString("Description");
                     String category=re.getString("Category");
@@ -81,5 +93,37 @@ public class controller_Product {
         catch (Exception ex) {
             ex.printStackTrace();
         }
-    }  
+    }
+      public List<Product> findListProduct(String name) throws SQLException{
+        List<Product> products = new ArrayList<>();
+        Connection cnn = ConnectionDB.getConnection();
+
+        String query = "SELECT * FROM Products WHERE ProductName LIKE ?";
+        String searchTerm = "%" + name + "%";
+
+        try {
+            products.clear();
+            PreparedStatement statement = cnn.prepareStatement(query);
+            statement.setString(1, searchTerm);
+
+            ResultSet re = statement.executeQuery();
+
+            while (re.next()) {
+                int id = re.getInt("ProductId");
+                String productName = re.getString("ProductName");
+                String manufacturer = re.getString("Manufacturer");
+                String description = re.getString("Description");
+                String category = re.getString("Category");
+                Product product = new Product(id, productName, manufacturer, description, category);
+                products.add(product);
+            }
+
+            statement.close();
+            cnn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log the error, etc.)
+        }
+        return products;
+    }
 }

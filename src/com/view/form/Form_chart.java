@@ -3,6 +3,7 @@ package com.view.form;
 
 import com.controller.controller_Dashboard;
 import com.model.List_chart;
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -75,7 +76,12 @@ public class Form_chart extends javax.swing.JFrame {
         yAxis.setLabelPaint(Color.WHITE);  // Màu sắc của "Income(VNĐ)"
         xAxis.setTickLabelPaint(Color.GREEN); // Màu sắc của label cột tháng
         yAxis.setTickLabelPaint(Color.decode("#f0ffff")); // Màu sắc của label cột doanh thu 
-
+        
+        // Assuming you are working with a CategoryPlot
+        CategoryPlot categoryPlot = (CategoryPlot) chart.getPlot();
+        // Set the line thickness for the renderer in a CategoryPlot
+        CategoryItemRenderer renderer = categoryPlot.getRenderer();
+        renderer.setSeriesStroke(0, new BasicStroke(3.0f));
 
         // Hiển thị biểu đồ trong JFrame
         ChartPanel chartPanel = new ChartPanel(chart);

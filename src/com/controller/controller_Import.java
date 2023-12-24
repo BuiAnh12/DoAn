@@ -17,23 +17,31 @@ import java.sql.Date;
 
 public class controller_Import {
        
-      public static List<Import> getAllImports (int status) throws SQLException{
+
+    
+      public static List<Import>getAllImports(int status, String name) throws SQLException{
+
             List<Import> imports =new ArrayList<>();
             Connection cnn=ConnectionDB.getConnection();
-            Statement statement=cnn.createStatement();
             String query="";
             if(status==1){
-                query="SELECT * FROM Products, Imports WHERE Products.ProductId = Imports.ProductId ORDER BY ProductName;";
+                query="SELECT * FROM Products JOIN Imports ON Products.ProductId = Imports.ProductId WHERE ProductName LIKE ? ORDER BY ProductName;";
             }
             else if(status==2){
-                query="SELECT * FROM Products, Imports WHERE Products.ProductId = Imports.ProductId ORDER BY ImportQuantity;";
+                query="SELECT * FROM Products JOIN Imports ON Products.ProductId = Imports.ProductId WHERE ProductName LIKE ? ORDER BY ImportQuantity;";
             }
             else if(status==3){
-                query="SELECT * FROM Products, Imports WHERE Products.ProductId = Imports.ProductId ORDER BY AvailableQuantity;";
+                query="SELECT * FROM Products JOIN Imports ON Products.ProductId = Imports.ProductId WHERE ProductName LIKE ? ORDER BY AvailableQuantity;";
             }
-            try{
-                   ResultSet re=statement.executeQuery(query);
-                   imports.clear();
+            
+            String searchTerm = "%" + name + "%";
+
+        try {
+            imports.clear();
+            PreparedStatement statement = cnn.prepareStatement(query);
+            statement.setString(1, searchTerm);
+
+            ResultSet re = statement.executeQuery();
                    while(re.next()){
                          int productid=re.getInt("ProductId");              
                         Date manuDate=re.getDate("ManufacturingDate");
@@ -44,10 +52,9 @@ public class controller_Import {
                         BigDecimal unitprice=re.getBigDecimal("UnitPrice");
                         BigDecimal sellprice=re.getBigDecimal("SellPrice");
                         int id=re.getInt("ImportId");
-                        String name=re.getString("ProductName");
+                        String productName=re.getString("ProductName");
                         String category=re.getString("Category");
-
-                        Import importss =new Import(id, productid, manuDate, exDate, imDate, importQuanity, avaiableQuanity,unitprice, sellprice,name,category);
+                        Import importss =new Import(id, productid, manuDate, exDate, imDate, importQuanity, avaiableQuanity,unitprice, sellprice,productName,category);
                         imports.add(importss);
                    }
                  
@@ -114,5 +121,44 @@ public class controller_Import {
             ex.printStackTrace();
         }
     }
-      
+    public List<Import> findListImport(String name) throws SQLException{
+        List<Import> importList = new ArrayList<>();
+        Connection cnn = ConnectionDB.getConnection();
+
+        String query = "SELECT * FROM Products JOIN Imports ON Products.ProductId = Imports.ProductId WHERE ProductName LIKE ?";
+        String searchTerm = "%" + name + "%";
+
+        try {
+            importList.clear();
+            PreparedStatement statement = cnn.prepareStatement(query);
+            statement.setString(1, searchTerm);
+
+            ResultSet re = statement.executeQuery();
+
+            while (re.next()) {
+                int productid=re.getInt("ProductId");              
+                Date manuDate=re.getDate("ManufacturingDate");
+                Date exDate=re.getDate("ExpiryDate");
+                Date imDate=re.getDate("ImportDate");
+                int importQuanity=re.getInt("ImportQuantity");
+                int avaiableQuanity=re.getInt("AvailableQuantity");
+                BigDecimal unitprice=re.getBigDecimal("UnitPrice");
+                BigDecimal sellprice=re.getBigDecimal("SellPrice");
+                int id=re.getInt("ImportId");
+                String productName=re.getString("ProductName");
+                String category=re.getString("Category");
+
+                Import imports =new Import(id, productid, manuDate, exDate, imDate, importQuanity, avaiableQuanity,unitprice, sellprice,productName,category);
+                importList.add(imports);
+            }
+
+            statement.close();
+            cnn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log the error, etc.)
+        }
+        return importList;
+    }
+
 }

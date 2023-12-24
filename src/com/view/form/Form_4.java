@@ -2,10 +2,15 @@ package com.view.form;
 
 import com.controller.controller_Customer;
 import com.model.Customer;
+import com.model.Detail_Customer;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -15,27 +20,83 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class Form_4 extends javax.swing.JPanel {
-    List<Customer> customerList = new ArrayList<>();
+    private List<Customer> customerList = new ArrayList<>();
+    private int status=1;
+    private controller_Customer customer_control =new controller_Customer();
+    
+    
+    public void refreshTable(){
+        try {
+            String searchTxt = this.txtSearch.getText();
+            customerList=customer_control.getAllCustomers(status,searchTxt);
+        } catch (SQLException ex) {
+           ex.printStackTrace();
+        }
+        DefaultTableModel model =(DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for(Customer tmp:customerList){
+            table.addRow(new Object[]{tmp.getCustomerName(),tmp.getEmail(),tmp.getAddress(),tmp.getTotalAmount()});
+        }
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+    public void refreshdetailTable(Customer selectedCustomer){
+          List<Detail_Customer>deltaiCustomers=new ArrayList<>();
+          try {
+            //Handel Customer_Details
+            deltaiCustomers =customer_control.getDetail_Customers(selectedCustomer.getCustomerId());
+           
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+          
+             DefaultTableModel model =(DefaultTableModel) detail_table.getModel();
+               model.setRowCount(0);
+               
+               DecimalFormat decimalFormat = new DecimalFormat("#,###");
+               
+             for(Detail_Customer tmp :deltaiCustomers){
+                detail_table.addRow(new Object[]{tmp.getProductName(),tmp.getQuanity(),String.valueOf(decimalFormat.format(tmp.getPrice())+" VNĐ"),String.valueOf(decimalFormat.format(tmp.getTotal())+" VNĐ")});
+            }
+    }
+    
+    
+    
     public Form_4() {
         initComponents();
-        controller_Customer customers = new controller_Customer();
-        try {
-            customerList = customers.getAllCustomers();
-        } catch (SQLException ex) {
-            Logger.getLogger(Form_4.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+         sortComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lấy giá trị được chọn khi có sự kiện thay đổi
+                String selectedValue = sortComboBox.getSelectedItem().toString(); 
+                
+                if (selectedValue.equals("Sort By Email")){
+                   status=2;
+                   refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Amount")){
+                    status=3;
+                    refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Name")){
+                    status=1;
+                    refreshTable();
+                }
+               
+            }
+        });
+         
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        for (Customer customer: customerList) {
-            table.addRow(new Object[]{customer.getCustomerName(), customer.getEmail(), customer.getAddress(), customer.getTotalAmount()});
-        }
+        refreshTable();
     }
 
     @SuppressWarnings("unchecked")
@@ -80,7 +141,7 @@ public class Form_4 extends javax.swing.JPanel {
         lableTotalAmount = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         spTable1 = new javax.swing.JScrollPane();
-        table1 = new com.view.swing.Table();
+        detail_table = new com.view.swing.Table();
         PanelDUBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         deleteBtn = new javax.swing.JButton();
@@ -104,16 +165,25 @@ public class Form_4 extends javax.swing.JPanel {
 
         txtSearch.setBackground(new java.awt.Color(36, 36, 36));
         txtSearch.setForeground(new java.awt.Color(255, 255, 255));
-        txtSearch.setText("Search");
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
+            }
+        });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchKeyTyped(evt);
             }
         });
 
         jLabel2.setBackground(new java.awt.Color(22, 23, 23));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/view/icon/search.png"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelSearchLayout = new javax.swing.GroupLayout(PanelSearch);
         PanelSearch.setLayout(PanelSearchLayout);
@@ -137,7 +207,7 @@ public class Form_4 extends javax.swing.JPanel {
 
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
-        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Quantity", "Sort By Status" }));
+        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Email", "Sort By Amount" }));
 
         javax.swing.GroupLayout PanelFilterLayout = new javax.swing.GroupLayout(PanelFilter);
         PanelFilter.setLayout(PanelFilterLayout);
@@ -510,8 +580,8 @@ public class Form_4 extends javax.swing.JPanel {
 
         spTable1.setBorder(null);
 
-        table1.setForeground(new java.awt.Color(22, 23, 23));
-        table1.setModel(new javax.swing.table.DefaultTableModel(
+        detail_table.setForeground(new java.awt.Color(22, 23, 23));
+        detail_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -527,7 +597,7 @@ public class Form_4 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        spTable1.setViewportView(table1);
+        spTable1.setViewportView(detail_table);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -612,7 +682,7 @@ public class Form_4 extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
@@ -734,6 +804,22 @@ public class Form_4 extends javax.swing.JPanel {
         txtEmail.setText(selectedCustomer.getEmail());
         txtAddress.setText(selectedCustomer.getAddress());
         txtTotalAmount.setText(String.valueOf(selectedCustomer.getTotalAmount()));
+       
+        refreshdetailTable(selectedCustomer);
+        
+        txtCustomerName.setEditable(false);        
+        txtEmail.setEditable(false);
+        txtAddress.setEditable(false);
+        txtTotalAmount.setEditable(false);
+        
+        txtCustomerName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtEmail.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+        txtAddress.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+        txtTotalAmount.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+      
+
+
+      
     }//GEN-LAST:event_tableMouseClicked
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
@@ -757,6 +843,52 @@ public class Form_4 extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        System.out.println("Search Click");
+        String searchTxt = this.txtSearch.getText();
+        controller_Customer search = new controller_Customer();
+        try {
+            // Assuming productList is a List<Product>
+            List<Customer> customerList = search.findListCustomer(searchTxt);
+
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+            // Clearing the existing rows in the table
+            tableModel.setRowCount(0);
+
+            // Adding the fetched productList data to the table
+            for (Customer customer : customerList) {
+                tableModel.addRow(new Object[]{customer.getCustomerName(), customer.getEmail(), customer.getAddress(), customer.getTotalAmount()});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log, etc.)
+        }
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
+        System.out.println("Search Click");
+        String searchTxt = this.txtSearch.getText();
+        controller_Customer search = new controller_Customer();
+        try {
+            // Assuming productList is a List<Product>
+            List<Customer> customerList = search.findListCustomer(searchTxt);
+
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+            // Clearing the existing rows in the table
+            tableModel.setRowCount(0);
+
+            // Adding the fetched productList data to the table
+            for (Customer customer : customerList) {
+                tableModel.addRow(new Object[]{customer.getCustomerName(), customer.getEmail(), customer.getAddress(), customer.getTotalAmount()});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log, etc.)
+        }
+    }//GEN-LAST:event_txtSearchKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelButton;
@@ -770,6 +902,7 @@ public class Form_4 extends javax.swing.JPanel {
     private javax.swing.JPanel PanelSearch;
     private javax.swing.JPanel PanelTable;
     private javax.swing.JButton deleteBtn;
+    private com.view.swing.Table detail_table;
     private javax.swing.JButton insertBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -795,7 +928,6 @@ public class Form_4 extends javax.swing.JPanel {
     private javax.swing.JScrollPane spTable;
     private javax.swing.JScrollPane spTable1;
     private com.view.swing.Table table;
-    private com.view.swing.Table table1;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtEmail;

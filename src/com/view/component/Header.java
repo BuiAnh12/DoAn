@@ -1,7 +1,7 @@
 package com.view.component;
 
 import com.model.Login_account;
-import com.view.main.login;
+import com.view.main.newLogin;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -150,7 +150,7 @@ public class Header extends javax.swing.JPanel {
             java.awt.Frame frame = (java.awt.Frame) window;
             frame.dispose(); // Close the frame
         }
-        login log = new login();
+        newLogin log = new newLogin();
         log.setVisible(true);
     }//GEN-LAST:event_LogoutActionPerformed
 

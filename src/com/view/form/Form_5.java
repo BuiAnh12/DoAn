@@ -1,12 +1,16 @@
 
 package com.view.form;
 
+import com.control.db.ConnectionDB;
 import com.controller.controller_Staff;
 import com.model.Product;
 import com.model.Staff;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,28 +22,62 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class Form_5 extends javax.swing.JPanel {
-    List<Staff> staffList = new ArrayList<>();
+    private List<Staff> staffList = new ArrayList<>();
+    private int status=1;
+    private controller_Staff staff_control=new controller_Staff();
+
+    
+    public void refreshTable(){
+        try {
+            String searchTxt = this.txtSearch.getText();
+            staffList=staff_control.getAllStaff(status,searchTxt);
+        } catch (SQLException ex) {
+           ex.printStackTrace();
+        }
+        DefaultTableModel model =(DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for(Staff tmp:staffList){
+            table.addRow(new Object[]{tmp.getName(),tmp.getEmail(),tmp.getAddress(),tmp.getPosition()});
+        }
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+    
     
     public Form_5() {
         initComponents();
-        controller_Staff staffs = new controller_Staff();
-        try {
-            staffList = staffs.getAllStaff();
-        } catch (SQLException ex) {
-            Logger.getLogger(Form_5.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        sortComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lấy giá trị được chọn khi có sự kiện thay đổi
+                String selectedValue = sortComboBox.getSelectedItem().toString(); 
+                if (selectedValue.equals("Sort By Email")){
+                   status=2;
+                   refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Position")){
+                    status=3;
+                    refreshTable();
+                }
+                else if(selectedValue.equals("Sort By Name")){
+                    status=1;
+                    refreshTable();
+                }
+               
+            }
+        });
+        
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
         spTable.getViewport().setBackground(Color.WHITE);
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
-        for (Staff staff : staffList ) {
-            table.addRow(new Object[]{staff.getName(), staff.getEmail(), staff.getAddress(), staff.getPosition()});
-        }
+        refreshTable();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -81,6 +119,20 @@ public class Form_5 extends javax.swing.JPanel {
         jPanel14 = new javax.swing.JPanel();
         lablePosition = new javax.swing.JLabel();
         positionComboBox = new javax.swing.JComboBox<>();
+        jPanel15 = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
+        lablePosition1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtUsername = new javax.swing.JTextPane();
+        jPanel17 = new javax.swing.JPanel();
+        jPanel18 = new javax.swing.JPanel();
+        lablePosition2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtPassword = new javax.swing.JTextPane();
+        jPanel19 = new javax.swing.JPanel();
+        txtAge = new javax.swing.JTextField();
+        jPanel20 = new javax.swing.JPanel();
+        lablAge = new javax.swing.JLabel();
         PanelDUBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         deleteBtn = new javax.swing.JButton();
@@ -104,16 +156,25 @@ public class Form_5 extends javax.swing.JPanel {
 
         txtSearch.setBackground(new java.awt.Color(36, 36, 36));
         txtSearch.setForeground(new java.awt.Color(255, 255, 255));
-        txtSearch.setText("Search");
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
+            }
+        });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchKeyTyped(evt);
             }
         });
 
         jLabel2.setBackground(new java.awt.Color(22, 23, 23));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/view/icon/search.png"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelSearchLayout = new javax.swing.GroupLayout(PanelSearch);
         PanelSearch.setLayout(PanelSearchLayout);
@@ -137,7 +198,7 @@ public class Form_5 extends javax.swing.JPanel {
 
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
-        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Quantity", "Sort By Status" }));
+        sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Email", "Sort By Position" }));
 
         javax.swing.GroupLayout PanelFilterLayout = new javax.swing.GroupLayout(PanelFilter);
         PanelFilter.setLayout(PanelFilterLayout);
@@ -267,7 +328,7 @@ public class Form_5 extends javax.swing.JPanel {
                 .addComponent(PanelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         jPanel1.add(PanelLeft);
@@ -289,7 +350,7 @@ public class Form_5 extends javax.swing.JPanel {
             PanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE))
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
         );
         PanelHeaderLayout.setVerticalGroup(
             PanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,6 +367,8 @@ public class Form_5 extends javax.swing.JPanel {
         jPanel4.setBackground(new java.awt.Color(36, 36, 36));
 
         jPanel6.setBackground(new java.awt.Color(36, 36, 36));
+
+        txtCustomerName.setEditable(false);
 
         jPanel8.setBackground(new java.awt.Color(36, 36, 36));
 
@@ -333,7 +396,7 @@ public class Form_5 extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -348,6 +411,8 @@ public class Form_5 extends javax.swing.JPanel {
         );
 
         jPanel9.setBackground(new java.awt.Color(36, 36, 36));
+
+        txtEmail.setEditable(false);
 
         jPanel10.setBackground(new java.awt.Color(36, 36, 36));
 
@@ -374,7 +439,7 @@ public class Form_5 extends javax.swing.JPanel {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -388,6 +453,8 @@ public class Form_5 extends javax.swing.JPanel {
         );
 
         jPanel11.setBackground(new java.awt.Color(36, 36, 36));
+
+        txtAddress.setEditable(false);
 
         jPanel12.setBackground(new java.awt.Color(36, 36, 36));
 
@@ -416,7 +483,7 @@ public class Form_5 extends javax.swing.JPanel {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
@@ -454,7 +521,8 @@ public class Form_5 extends javax.swing.JPanel {
             .addComponent(lablePosition, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
-        positionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Sale", "Marketing", "Stock Manager", " " }));
+        positionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Sale", "Stock Manager", " " }));
+        positionComboBox.setEnabled(false);
         positionComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 positionComboBoxActionPerformed(evt);
@@ -468,8 +536,7 @@ public class Form_5 extends javax.swing.JPanel {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(positionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(positionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -483,6 +550,137 @@ public class Form_5 extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jPanel15.setBackground(new java.awt.Color(36, 36, 36));
+
+        jPanel16.setBackground(new java.awt.Color(36, 36, 36));
+
+        lablePosition1.setBackground(new java.awt.Color(255, 255, 255));
+        lablePosition1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lablePosition1.setForeground(new java.awt.Color(255, 255, 255));
+        lablePosition1.setText("Username");
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addComponent(lablePosition1)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lablePosition1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        txtUsername.setEditable(false);
+        jScrollPane1.setViewportView(txtUsername);
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel17.setBackground(new java.awt.Color(36, 36, 36));
+
+        jPanel18.setBackground(new java.awt.Color(36, 36, 36));
+
+        lablePosition2.setBackground(new java.awt.Color(255, 255, 255));
+        lablePosition2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lablePosition2.setForeground(new java.awt.Color(255, 255, 255));
+        lablePosition2.setText("Password");
+
+        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
+        jPanel18.setLayout(jPanel18Layout);
+        jPanel18Layout.setHorizontalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addComponent(lablePosition2)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel18Layout.setVerticalGroup(
+            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lablePosition2, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        txtPassword.setEditable(false);
+        jScrollPane2.setViewportView(txtPassword);
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel17Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel19.setBackground(new java.awt.Color(36, 36, 36));
+
+        txtAge.setEditable(false);
+
+        jPanel20.setBackground(new java.awt.Color(36, 36, 36));
+
+        lablAge.setBackground(new java.awt.Color(255, 255, 255));
+        lablAge.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lablAge.setForeground(new java.awt.Color(255, 255, 255));
+        lablAge.setText("Age");
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lablAge, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lablAge, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
+        jPanel19.setLayout(jPanel19Layout);
+        jPanel19Layout.setHorizontalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtAge, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel19Layout.setVerticalGroup(
+            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtAge)
+                    .addComponent(jPanel20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -493,7 +691,10 @@ public class Form_5 extends javax.swing.JPanel {
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -503,10 +704,16 @@ public class Form_5 extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(337, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(294, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout PanelDetailLayout = new javax.swing.GroupLayout(PanelDetail);
@@ -537,7 +744,7 @@ public class Form_5 extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 196, Short.MAX_VALUE)
+            .addGap(0, 308, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -580,15 +787,18 @@ public class Form_5 extends javax.swing.JPanel {
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
          int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
-            // Lấy nhân viên từ danh sách
             Staff staffToUpdate = staffList.get(selectedRow);
 
-            // Hiển thị hộp thoại nhập liệu với thông tin cũ
             JTextField txtName = new JTextField(staffToUpdate.getName());
             JTextField txtEmail = new JTextField(staffToUpdate.getEmail());
             JTextField txtAddress = new JTextField(staffToUpdate.getAddress());
-            JComboBox<String> positionComboBox = new JComboBox<>(new String[]{"Admin", "Sale", "Marketing","Stock Manager"});
+            JTextField txtAge = new JTextField(String.valueOf(staffToUpdate.getAge())); // Assuming staffToUpdate.getAge() returns an int
+
+            JComboBox<String> positionComboBox = new JComboBox<>(new String[]{"Sale", "Stock Manager", "Admin"});
             positionComboBox.setSelectedItem(staffToUpdate.getPosition());
+
+            JTextField txtUsername = new JTextField(staffToUpdate.getUsername());
+            JTextField txtPassword = new JTextField(staffToUpdate.getPassword());
 
             JPanel panel = new JPanel(new GridLayout(0, 1));
             panel.add(new JLabel("Name:"));
@@ -597,42 +807,52 @@ public class Form_5 extends javax.swing.JPanel {
             panel.add(txtEmail);
             panel.add(new JLabel("Address:"));
             panel.add(txtAddress);
+            panel.add(new JLabel("Age:"));
+            panel.add(txtAge);
             panel.add(new JLabel("Position:"));
             panel.add(positionComboBox);
+            panel.add(new JLabel("Username:"));
+            panel.add(txtUsername);
+            panel.add(new JLabel("Password:"));
+            panel.add(txtPassword);
 
             int result = JOptionPane.showConfirmDialog(null, panel, "Edit Staff Information",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-            // Nếu người dùng nhấn OK
             if (result == JOptionPane.OK_OPTION) {
-                // Lấy thông tin từ các trường nhập liệu
                 String updatedName = txtName.getText();
                 String updatedEmail = txtEmail.getText();
                 String updatedAddress = txtAddress.getText();
+                int updatedAge = Integer.parseInt(txtAge.getText());
                 String updatedPosition = (String) positionComboBox.getSelectedItem();
+                int updatePrivilege = (int) positionComboBox.getSelectedIndex() + 1;
+                String updatedUsername = txtUsername.getText();
+                String updatedPassword = txtPassword.getText();
 
-                // Kiểm tra xem các trường bắt buộc có trống không
-                if (updatedName.isEmpty() || updatedEmail.isEmpty() || updatedAddress.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Các trường không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                if (updatedName.isEmpty() || updatedEmail.isEmpty() || updatedAddress.isEmpty() || updatedUsername.isEmpty() || updatedPassword.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Fields cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                // Cập nhật thông tin của nhân viên
-                staffToUpdate.setName(updatedName);
-                staffToUpdate.setEmail(updatedEmail);
-                staffToUpdate.setAddress(updatedAddress);
-                staffToUpdate.setPosition(updatedPosition);
-
-                // Cập nhật bảng
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
-                model.setValueAt(updatedName, selectedRow, 0);
-                model.setValueAt(updatedEmail, selectedRow, 1);
-                model.setValueAt(updatedAddress, selectedRow, 2);
-                model.setValueAt(updatedPosition, selectedRow, 3);
-
-                // Lưu các thay đổi vào cơ sở dữ liệu hoặc thực hiện các hành động khác cần thiết
                 controller_Staff updateController = new controller_Staff();
                 try {
+                    // Update the staff object with the new values
+                    staffToUpdate.setName(updatedName);
+                    staffToUpdate.setEmail(updatedEmail);
+                    staffToUpdate.setAddress(updatedAddress);
+                    staffToUpdate.setAge(updatedAge);
+                    staffToUpdate.setPosition(updatedPosition);
+                    staffToUpdate.setUsername(updatedUsername);
+                    staffToUpdate.setPassword(updatedPassword);
+
+                    // Update the table view with the new values
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    model.setValueAt(updatedName, selectedRow, 0);
+                    model.setValueAt(updatedEmail, selectedRow, 1);
+                    model.setValueAt(updatedAddress, selectedRow, 2);
+                    model.setValueAt(updatedPosition, selectedRow, 3);
+
+                    // Perform the update in the database
                     updateController.editStaff(staffToUpdate);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -646,14 +866,17 @@ public class Form_5 extends javax.swing.JPanel {
     private void positionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positionComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_positionComboBoxActionPerformed
-
+// check
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
         // Tạo các trường nhập liệu
         JTextField nameField = new JTextField();
         JTextField emailField = new JTextField();
         JTextField addressField = new JTextField();
-        JComboBox<String> positionComboBox = new JComboBox<>(new String[]{"Admin", "Sale", "Marketing","Stock Manager"});
-
+        JTextField ageField = new JTextField();
+        JComboBox<String> positionComboBox = new JComboBox<>(new String[]{"Sale" ,"Stock Manager","Admin"});
+        JTextField usernameField = new JTextField();
+        JTextField passwordField = new JTextField();
+        
         // Tạo một panel chứa các trường nhập liệu
         JPanel panel = new JPanel(new GridLayout(0, 1));
         panel.add(new JLabel("Name:"));
@@ -662,8 +885,14 @@ public class Form_5 extends javax.swing.JPanel {
         panel.add(emailField);
         panel.add(new JLabel("Address:"));
         panel.add(addressField);
+        panel.add(new JLabel("Age:"));
+        panel.add(ageField);
         panel.add(new JLabel("Position:"));
         panel.add(positionComboBox);
+        panel.add(new JLabel("Username:"));
+        panel.add(usernameField);
+        panel.add(new JLabel("Password:"));
+        panel.add(passwordField);
 
         // Hiển thị hộp thoại và kiểm tra nút bấm
         int result = JOptionPane.showConfirmDialog(null, panel, "Enter Staff Information", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -674,16 +903,30 @@ public class Form_5 extends javax.swing.JPanel {
             String name = nameField.getText();
             String email = emailField.getText();
             String address = addressField.getText();
-            String position = (String) positionComboBox.getSelectedItem();
-
+            int age = Integer.parseInt(ageField.getText());
+            int privilege = (int) positionComboBox.getSelectedIndex() + 1;
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+            
             // Kiểm tra ràng buộc không được để trống
-            if (name.isEmpty() || email.isEmpty() || address.isEmpty() || position.isEmpty()) {
+            if (name.isEmpty() || email.isEmpty() || address.isEmpty() || username.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
                 return; // Dừng việc thực thi tiếp
             }
+            controller_Staff check = new controller_Staff();
+            try{
+                if (!check.isUsernameAvailable(username)){
+                  JOptionPane.showMessageDialog(null, "Username này đã có người dùng", "Error", JOptionPane.ERROR_MESSAGE);
+                  return;
+              }  
+            }
+            catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            
 
             // Tạo một đối tượng Staff từ thông tin vừa nhập
-            Staff newStaff = new Staff(staffList.size()+1, name, email, address, position);
+            Staff newStaff = new Staff(staffList.size()+1, name, age, email, address, username, password, privilege);
 
             // Thêm vào danh sách nhân viên và cập nhật bảng
             staffList.add(newStaff);
@@ -729,7 +972,66 @@ public class Form_5 extends javax.swing.JPanel {
         this.txtEmail.setText(selectedStaff.getEmail());
         this.txtAddress.setText(selectedStaff.getAddress());
         this.positionComboBox.setSelectedItem(selectedStaff.getPosition());
+        this.txtAge.setText(String.valueOf(selectedStaff.getAge()));
+        this.txtUsername.setText(selectedStaff.getUsername());
+        this.txtPassword.setText(selectedStaff.getPassword());
+        
+        txtCustomerName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));        
+        txtEmail.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtAddress.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        positionComboBox.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtAge.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtUsername.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtPassword.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+   
+
     }//GEN-LAST:event_tableMouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        System.out.println("Search Click");
+        String searchTxt = this.txtSearch.getText();
+        controller_Staff search = new controller_Staff();
+        try {
+            // Assuming productList is a List<Product>
+            List<Staff> staffList = search.findListStaff(searchTxt);
+
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+            // Clearing the existing rows in the table
+            tableModel.setRowCount(0);
+
+            // Adding the fetched productList data to the table
+            for (Staff staff : staffList) {
+                tableModel.addRow(new Object[]{staff.getName(), staff.getEmail(), staff.getAddress(), staff.getPosition()});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log, etc.)
+        }
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
+//        System.out.println("Search Click");
+        String searchTxt = this.txtSearch.getText();
+        controller_Staff search = new controller_Staff();
+        try {
+            // Assuming productList is a List<Product>
+            List<Staff> staffList = search.findListStaff(searchTxt);
+
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+
+            // Clearing the existing rows in the table
+            tableModel.setRowCount(0);
+
+            // Adding the fetched productList data to the table
+            for (Staff staff : staffList) {
+                tableModel.addRow(new Object[]{staff.getName(), staff.getEmail(), staff.getAddress(), staff.getPosition()});
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle the SQL exception (show a message dialog, log, etc.)
+        }
+    }//GEN-LAST:event_txtSearchKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -755,23 +1057,37 @@ public class Form_5 extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lablAge;
     private javax.swing.JLabel lableAddress;
     private javax.swing.JLabel lableEmail;
     private javax.swing.JLabel lablePosition;
+    private javax.swing.JLabel lablePosition1;
+    private javax.swing.JLabel lablePosition2;
     private javax.swing.JComboBox<String> positionComboBox;
     private javax.swing.JComboBox<String> sortComboBox;
     private javax.swing.JScrollPane spTable;
     private com.view.swing.Table table;
     private javax.swing.JTextField txtAddress;
+    private javax.swing.JTextField txtAge;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextPane txtPassword;
     private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextPane txtUsername;
     private javax.swing.JButton updateBtn;
     // End of variables declaration//GEN-END:variables
 }

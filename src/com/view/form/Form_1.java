@@ -88,7 +88,7 @@ public class Form_1 extends javax.swing.JPanel {
     public void refreshimportList(){
         try {
             importList.clear();
-            importList=controller_Import.getAllImports(status);
+            importList=controller_Import.getAllImports(status,"");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -97,7 +97,7 @@ public class Form_1 extends javax.swing.JPanel {
     public void refreshimportListLz(){
         try {
             importListLz.clear();
-            importList=controller_Import.getAllImports(status);
+            importList=controller_Import.getAllImports(status,"");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -141,19 +141,19 @@ public class Form_1 extends javax.swing.JPanel {
     public Form_1() throws SQLException {
         initComponents();  
         try {
-            staffList = staff_control.getAllStaff();
+            staffList = staff_control.getAllStaff(1, "");
         } catch (SQLException ex) {
             Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-                    customers=customer_control.getAllCustomers();
+                    customers=customer_control.getAllCustomers(1,"");
             } catch (SQLException ex) {
                     Logger.getLogger(Form_2.class.getName()).log(Level.SEVERE, null, ex);
             }
         controller_Invoice invoices =new  controller_Invoice();
         
         try {
-            productList = product_controller.getAllproduct();
+            productList = product_controller.getAllproduct(1,"");
         } catch (SQLException ex) {
             Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -162,7 +162,7 @@ public class Form_1 extends javax.swing.JPanel {
             } catch (SQLException ex) {
             }
         
-        importList = controller_Import.getAllImports(status);
+        importList = controller_Import.getAllImports(status,"");
         invoiceItemList = invoiceItem_control.getAllInvoiceItems();
         spTable.setVerticalScrollBar(new ScrollBar());
         spTable.getVerticalScrollBar().setBackground(Color.WHITE);
@@ -250,6 +250,11 @@ public class Form_1 extends javax.swing.JPanel {
         jLabel2.setBackground(new java.awt.Color(22, 23, 23));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/view/icon/search.png"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelSearchLayout = new javax.swing.GroupLayout(PanelSearch);
         PanelSearch.setLayout(PanelSearchLayout);
@@ -444,7 +449,7 @@ public class Form_1 extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(36, 36, 36));
         jPanel6.setForeground(new java.awt.Color(36, 36, 36));
 
-        txtCustomerName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtCustomerName.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         txtCustomerName.setForeground(new java.awt.Color(102, 102, 102));
         txtCustomerName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -452,10 +457,10 @@ public class Form_1 extends javax.swing.JPanel {
             }
         });
 
-        txtStaffName.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtStaffName.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         txtStaffName.setForeground(new java.awt.Color(102, 102, 102));
 
-        txtDate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtDate.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         txtDate.setForeground(new java.awt.Color(102, 102, 102));
 
         jPanel4.setBackground(new java.awt.Color(36, 36, 36));
@@ -503,6 +508,7 @@ public class Form_1 extends javax.swing.JPanel {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
+        totalAmountField.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         totalAmountField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 totalAmountFieldActionPerformed(evt);
@@ -1605,6 +1611,7 @@ public class Form_1 extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+
     private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
@@ -1642,6 +1649,11 @@ public class Form_1 extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Please select an invoice to return!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_returnBtnActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        
+    }//GEN-LAST:event_jLabel2MouseClicked
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -9,6 +9,7 @@ import com.controller.controller_Import;
 import com.controller.controller_Product;
 import com.model.Import;
 import com.model.Product;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -63,7 +64,8 @@ public class Form_3 extends javax.swing.JPanel {
     
     public void refreshTable(){
         try {
-            import_list=imports.getAllImports(status);
+            String searchTxt = this.txtSearch.getText();
+            import_list=imports.getAllImports(status,searchTxt);
         } catch (SQLException ex) {
            ex.printStackTrace();
         }
@@ -72,6 +74,7 @@ public class Form_3 extends javax.swing.JPanel {
         for(Import tmp:import_list){
             table.addRow(new Object[]{tmp.getProductName(),tmp.getImportQuantity(),tmp.getAvailableQuantity(),tmp.getAvailableQuantity()});
         }
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
     public  java.sql.Date convertStringtoDate(String date){
          // Chuỗi đại diện cho ngày
@@ -237,10 +240,20 @@ public class Form_3 extends javax.swing.JPanel {
                 txtSearchActionPerformed(evt);
             }
         });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchKeyTyped(evt);
+            }
+        });
 
         jLabel2.setBackground(new java.awt.Color(22, 23, 23));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/view/icon/search.png"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelSearchLayout = new javax.swing.GroupLayout(PanelSearch);
         PanelSearch.setLayout(PanelSearchLayout);
@@ -951,6 +964,8 @@ public class Form_3 extends javax.swing.JPanel {
             JTextField unitPrice = new JTextField();
             JTextField sellPrice = new JTextField();
             
+        
+
             
   
             JPanel panel = new JPanel(new GridLayout(0, 1));
@@ -1046,7 +1061,29 @@ public class Form_3 extends javax.swing.JPanel {
         BigDecimal total=unitmoney.multiply(BigDecimal.valueOf(quanity));
         this.txtTotal.setText(String.valueOf(decimalFormat.format(total)) +" VNĐ");
         
+        // DONT ALLOW EDIT TEXT 
+        txtName.setEditable(false);
+        txtQuantity.setEditable(false);
+        txtImpDate.setEditable(false);
+        txtManuDate.setEditable(false);
+        txtExpDate.setEditable(false);
+        txtUnitPrice.setEditable(false);
+        txtSellPrice.setEditable(false);
+        txtStock.setEditable(false);
+        txtCategory.setEditable(false);
+        txtTotal.setEditable(false);
+           
         
+        txtName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+        txtQuantity.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtImpDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtManuDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtUnitPrice.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtSellPrice.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtStock.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtCategory.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtTotal.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtExpDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
     }//GEN-LAST:event_tableMouseClicked
 
     private void txtImpDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtImpDateActionPerformed
@@ -1079,7 +1116,7 @@ public class Form_3 extends javax.swing.JPanel {
             //Take productName
             try{
             controller_Product products =new controller_Product();
-            name = products.getAllproduct();
+            name = products.getAllproduct(1,"");
             for(Product tmp: name){
                 comboBoxModelName.addElement(tmp.getProductName());
             }}
@@ -1178,6 +1215,54 @@ public class Form_3 extends javax.swing.JPanel {
             "Insufficient Privilege", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+//        System.out.println("Search Click");
+//        String searchTxt = this.txtSearch.getText();
+//        controller_Import search = new controller_Import();
+//        try {
+//            // Assuming productList is a List<Product>
+//            List<Import> importList = search.findListImport(searchTxt);
+//
+//            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//
+//            // Clearing the existing rows in the table
+//            tableModel.setRowCount(0);
+//
+//            // Adding the fetched productList data to the table
+//            for (Import imp : importList) {
+//                tableModel.addRow(new Object[]{imp.getProductName(), imp.getImportQuantity(), imp.getAvailableQuantity(), imp.getAvailableQuantity()});
+//                }
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//                // Handle the SQL exception (show a message dialog, log, etc.)
+//            }     
+        this.refreshTable();
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
+//        System.out.println("Search Click");
+//        String searchTxt = this.txtSearch.getText();
+//        controller_Import search = new controller_Import();
+//        try {
+//            // Assuming productList is a List<Product>
+//            List<Import> importList = search.findListImport(searchTxt);
+//
+//            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//
+//            // Clearing the existing rows in the table
+//            tableModel.setRowCount(0);
+//
+//            // Adding the fetched productList data to the table
+//            for (Import imp : importList) {
+//                tableModel.addRow(new Object[]{imp.getProductName(), imp.getImportQuantity(), imp.getAvailableQuantity(), imp.getAvailableQuantity()});
+//                }
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//                // Handle the SQL exception (show a message dialog, log, etc.)
+//            } 
+        this.refreshTable();
+    }//GEN-LAST:event_txtSearchKeyTyped
 
 
 

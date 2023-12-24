@@ -98,7 +98,11 @@ public class Main extends javax.swing.JFrame {
                     }
                 }     
             });
-            setForm(new Form_1());
+            try {
+                setForm(new Form_1());
+            } catch (SQLException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
