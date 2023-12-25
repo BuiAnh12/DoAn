@@ -1040,17 +1040,7 @@ public class Form_1 extends javax.swing.JPanel {
                         return;
                     }
                     int quantity = quantityNumber.intValue();
-                    int conhangtmp = 0;
-                    for (Import abc : importListLz){
-                        if (abc.getProductId() == productId){
-                            conhangtmp += abc.getAvailableQuantity();
-                        }
-                    }
-                    for (Import abc : importListLz){
-                        if (abc.getProductId() == productId){
-                            
-                        }
-                    }
+                    
                     
                     controller_Invoice find = new controller_Invoice();             
                     try{
@@ -1066,64 +1056,72 @@ public class Form_1 extends javax.swing.JPanel {
                             conhang += importv.getAvailableQuantity();
                         }
                     }
-                    if(conhangtmp == 0){
-                        if(need<=conhang){
-                            for (Import importItem : imports) {
-                            if (need>=importItem.getAvailableQuantity()){
-                                quantitys = importItem.getAvailableQuantity();
-                                need -= importItem.getAvailableQuantity();
-                            } else {
-                                quantitys = need;
-                                need = 0;
-                            }
-                            productIdd = importItem.getProductId();
-                            BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
-                            totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
-                            System.out.println(importItem.getSellPrice());
-                            importId = importItem.getImportId();
-                            unitPrice = importItem.getUnitPrice();
-                            profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
+                    int conhangtmp = 0;
+                    for (Import abc : importListLz){
+                        if (abc.getProductId() == productId){
+                            conhangtmp += abc.getAvailableQuantity();
+                        }
+                    }
+                    for (Import x : importListLz){
+                        if (x.getImportId()==productId){
+                            if(need<=conhangtmp){
+                                for (Import importItem : imports) {
+                                if (need>=importItem.getAvailableQuantity()){
+                                    quantitys = importItem.getAvailableQuantity();
+                                    need -= importItem.getAvailableQuantity();
+                                } else {
+                                    quantitys = need;
+                                    need = 0;
+                                }
+                                productIdd = importItem.getProductId();
+                                BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
+                                totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
+                                System.out.println(importItem.getSellPrice());
+                                importId = importItem.getImportId();
+                                unitPrice = importItem.getUnitPrice();
+                                profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
 
-                            InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
-                            importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
-                            System.out.println("moe m"+importItem.getAvailableQuantity());
-                            importListLz.add(importItem);
-                            invoiceItemListLz.add(invoiceItems);  
-                            refreshimportList();
-                            }                      
-                        } else {
-                                JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhang +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
-                                return;
-                            }
-                    } else {
-                        if(need<=conhangtmp){
-                            for (Import importItem : imports) {
-                            if (need>=importItem.getAvailableQuantity()){
-                                quantitys = importItem.getAvailableQuantity();
-                                need -= importItem.getAvailableQuantity();
-                            } else {
-                                quantitys = need;
-                                need = 0;
-                            }
-                            productIdd = importItem.getProductId();
-                            BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
-                            totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
-                            System.out.println(importItem.getSellPrice());
-                            importId = importItem.getImportId();
-                            unitPrice = importItem.getUnitPrice();
-                            profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
-
-                            InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
-                            importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
-                            importListLz.add(importItem);
-                            invoiceItemListLz.add(invoiceItems);  
-                            refreshimportList();
+                                InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
+                                importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
+                                importListLz.add(importItem);
+                                invoiceItemListLz.add(invoiceItems);  
+                                //refreshimportList();
                             }                      
                         } else {
                                 JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhangtmp +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
                                 return;
                             }
+                            break;
+                        }
                     }
+                    if(need<=conhang){
+                        for (Import importItem : imports) {
+                        if (need>=importItem.getAvailableQuantity()){
+                            quantitys = importItem.getAvailableQuantity();
+                            need -= importItem.getAvailableQuantity();
+                        } else {
+                            quantitys = need;
+                            need = 0;
+                        }
+                        productIdd = importItem.getProductId();
+                        BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
+                        totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
+                        System.out.println(importItem.getSellPrice());
+                        importId = importItem.getImportId();
+                        unitPrice = importItem.getUnitPrice();
+                        profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
+
+                        InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
+                        importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
+                        System.out.println("moe m"+importItem.getAvailableQuantity());
+                        importListLz.add(importItem);
+                        invoiceItemListLz.add(invoiceItems);  
+                        //refreshimportList();
+                        }                      
+                    } else {
+                            JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhang +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
                     
 
                     
@@ -1481,6 +1479,45 @@ public class Form_1 extends javax.swing.JPanel {
                         conhang += importv.getAvailableQuantity();
                     }
                 }
+                
+                int conhangtmp = 0;
+                for (Import abc : importListLz){
+                    if (abc.getProductId() == productId){
+                        conhangtmp += abc.getAvailableQuantity();
+                    }
+                }
+                for (Import x : importListLz){
+                    if (x.getImportId()==productId){
+                        if(need<=conhangtmp){
+                            for (Import importItem : imports) {
+                            if (need>=importItem.getAvailableQuantity()){
+                                quantitys = importItem.getAvailableQuantity();
+                                need -= importItem.getAvailableQuantity();
+                            } else {
+                                quantitys = need;
+                                need = 0;
+                            }
+                            productIdd = importItem.getProductId();
+                            BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
+                            totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
+                            System.out.println(importItem.getSellPrice());
+                            importId = importItem.getImportId();
+                            unitPrice = importItem.getUnitPrice();
+                            profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
+
+                            InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
+                            importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
+                            importListLz.add(importItem);
+                            invoiceItemListLz.add(invoiceItems);  
+                            //refreshimportList();
+                        }                      
+                    } else {
+                            JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhangtmp +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        break;
+                    }
+                }
                 if (need <= conhang){
                     for (Import importItem : imports) {
                         System.out.println("import ne "+importItem.getAvailableQuantity());
@@ -1504,6 +1541,9 @@ public class Form_1 extends javax.swing.JPanel {
 
                             InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
                             invoiceItemListLz.add(invoiceItems);
+                            importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
+                            System.out.println("moe m"+importItem.getAvailableQuantity());
+                            importListLz.add(importItem);
 
                     }
                 }else {
@@ -1612,6 +1652,7 @@ public class Form_1 extends javax.swing.JPanel {
             }
             
         }
+        refreshimportListLz();
         refreshtable();
     }//GEN-LAST:event_insertBtnActionPerformed
 
