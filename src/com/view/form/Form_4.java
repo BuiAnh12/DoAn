@@ -58,8 +58,9 @@ public class Form_4 extends javax.swing.JPanel {
         }
         DefaultTableModel model =(DefaultTableModel) table.getModel();
         model.setRowCount(0);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
         for(Customer tmp:customerList){
-            table.addRow(new Object[]{tmp.getCustomerName(),tmp.getEmail(),tmp.getAddress(),tmp.getTotalAmount()});
+            table.addRow(new Object[]{tmp.getCustomerName(),tmp.getEmail(),tmp.getAddress(),decimalFormat.format(tmp.getTotalAmount()) +" VNĐ" });
         }
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
@@ -248,6 +249,7 @@ public class Form_4 extends javax.swing.JPanel {
         PanelInsert.setBackground(new java.awt.Color(22, 23, 23));
 
         insertBtn.setBackground(new java.awt.Color(36, 36, 36));
+        insertBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         insertBtn.setForeground(new java.awt.Color(255, 255, 255));
         insertBtn.setText("Insert");
         insertBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -740,7 +742,7 @@ public class Form_4 extends javax.swing.JPanel {
 
                 // Kiểm tra xem các trường bắt buộc có trống không
                 if (updatedName.isEmpty() || updatedEmail.isEmpty() || updatedAddress.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Các trường không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Not left blank !", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -758,15 +760,15 @@ public class Form_4 extends javax.swing.JPanel {
                 // Lưu các thay đổi vào cơ sở dữ liệu hoặc thực hiện các hành động khác cần thiết
                 controller_Customer updateController = new controller_Customer();
                 try {
-                    updateController.editCustomer(customerToUpdate);
-                    JOptionPane.showMessageDialog(null, "Cập nhật thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    this.updateDetail();
+                    updateController.editCustomer(customerToUpdate);    
+                    JOptionPane.showMessageDialog(null, "Succesfull Updating!", "Inform", JOptionPane.INFORMATION_MESSAGE);
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một khách hàng để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please choose a customer to update !", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_updateBtnActionPerformed
 
@@ -797,7 +799,7 @@ public class Form_4 extends javax.swing.JPanel {
 
             // Kiểm tra ràng buộc không được để trống
             if (customerName.isEmpty() || email.isEmpty() || address.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Not left blank !", "Error", JOptionPane.ERROR_MESSAGE);
                 return; // Dừng việc thực thi tiếp
             }
 
@@ -827,7 +829,8 @@ public class Form_4 extends javax.swing.JPanel {
         txtCustomerName.setText(selectedCustomer.getCustomerName());
         txtEmail.setText(selectedCustomer.getEmail());
         txtAddress.setText(selectedCustomer.getAddress());
-        txtTotalAmount.setText(String.valueOf(selectedCustomer.getTotalAmount()));
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        txtTotalAmount.setText(String.valueOf(decimalFormat.format(selectedCustomer.getTotalAmount()) +" VNĐ" ));
        
         refreshdetailTable(selectedCustomer);
         

@@ -56,6 +56,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -151,10 +152,11 @@ public class Form_1 extends javax.swing.JPanel {
         }
           DefaultTableModel model =(DefaultTableModel) table.getModel();
         model.setRowCount(0);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
        for (Invoice invoice : invoiceList) {
-            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate(), invoice.getTotalAmount()});
+            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate(), decimalFormat.format(invoice.getTotalAmount()) +" VNĐ" });
         }
-        
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
     }
     public  java.sql.Date convertStringtoDate(String date){
          // Chuỗi đại diện cho ngày
@@ -233,8 +235,9 @@ public class Form_1 extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
         for (Invoice invoice : invoiceList) {
-            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate(), invoice.getTotalAmount()});
+            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate(),decimalFormat.format(invoice.getTotalAmount()) +" VNĐ" });
         }
     }
 
@@ -366,6 +369,7 @@ public class Form_1 extends javax.swing.JPanel {
         PanelInsert.setBackground(new java.awt.Color(22, 23, 23));
 
         insertBtn.setBackground(new java.awt.Color(36, 36, 36));
+        insertBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         insertBtn.setForeground(new java.awt.Color(255, 255, 255));
         insertBtn.setText("Insert");
         insertBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -608,9 +612,9 @@ public class Form_1 extends javax.swing.JPanel {
                 .addComponent(txtStaffName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(totalAmountField)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(totalAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -823,7 +827,7 @@ public class Form_1 extends javax.swing.JPanel {
             detailTableModel.addColumn("Quantity");
             detailTableModel.addColumn("Unit Price");
             detailTableModel.addColumn("Total Price");
-            detailTableModel.addColumn("Mã lô hàng");
+            detailTableModel.addColumn("ShipmentID");
             detailTableModel.addColumn("Profit");
             detailTableModel.addColumn("productId");
             detailTableModel.addColumn("invoiceItemId");
@@ -951,10 +955,10 @@ public class Form_1 extends javax.swing.JPanel {
                         JPanel editPanel = new JPanel(new GridLayout(0, 2));
                         //editPanel.add(new JLabel("Tên sản phẩm:"));
                         //editPanel.add(productNameComboBox);
-                        editPanel.add(new JLabel("Số lượng:"));
+                        editPanel.add(new JLabel("Quanity:"));
                         editPanel.add(quantityField);
 
-                        int result = JOptionPane.showConfirmDialog(null, editPanel, "Chỉnh sửa số lượng sản phẩm",
+                        int result = JOptionPane.showConfirmDialog(null, editPanel, "Edit Number of Product",
                                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
                         if (result == JOptionPane.OK_OPTION) {
@@ -985,7 +989,7 @@ public class Form_1 extends javax.swing.JPanel {
                                             }
                                             break;
                                         } else {
-                                            JOptionPane.showMessageDialog(null, "Hiện tại trong kho chỉ còn " + importItem.getAvailableQuantity() + " sản phẩm", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                                            JOptionPane.showMessageDialog(null, "Currently ,Remaining quanity is " + importItem.getAvailableQuantity() + " product", "Error", JOptionPane.ERROR_MESSAGE);
                                         }  
                                     } else if((newQuantity - quantity) < 0){
                                         BigDecimal newquantityBigDecimal = new BigDecimal(newQuantity);
@@ -1008,7 +1012,7 @@ public class Form_1 extends javax.swing.JPanel {
                             
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm để chỉnh sửa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Please Choose Product to Edit!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
@@ -1023,8 +1027,8 @@ public class Form_1 extends javax.swing.JPanel {
                     int invoiceItemiddd =(int) detailTableModel.getValueAt(selectedRow, 7);
                     BigDecimal unitPrice = (BigDecimal) detailTableModel.getValueAt(selectedRow, 2);
                     int importId = (int) detailTableModel.getValueAt(selectedRow, 4);
-                    int confirmDelete = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa sản phẩm '" + productName + "' không?",
-                            "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+                    int confirmDelete = JOptionPane.showConfirmDialog(null, "Are you sure delete " + productName + " ?",
+                            "Confirm Delete", JOptionPane.YES_NO_OPTION);
                     if (confirmDelete == JOptionPane.YES_OPTION) {
                         detailTableModel.removeRow(selectedRow);
                         controller_InvoiceItem c = new controller_InvoiceItem();
@@ -1042,7 +1046,7 @@ public class Form_1 extends javax.swing.JPanel {
                         try {
                             c.deleteInvoiceItem(invoiceItemiddd);
                             
-                            System.out.println("run2");
+//                            System.out.println("run2");
                         } catch (SQLException ex) {
                             Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -1052,7 +1056,7 @@ public class Form_1 extends javax.swing.JPanel {
 //                       detail_model.setRowCount(0);
 //                       refreshtable();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm để xóa!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please choose item to delete !", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -1071,7 +1075,7 @@ public class Form_1 extends javax.swing.JPanel {
                     BigDecimal profit = BigDecimal.ZERO;
                     int productId = productList.get(productNameField.getSelectedIndex()).getProductId();
                     if ( quantityNumber == null) {
-                        JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "QuanityNumber must not be blank!", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     int quantity = quantityNumber.intValue();
@@ -1123,7 +1127,7 @@ public class Form_1 extends javax.swing.JPanel {
                                 //refreshimportList();
                             }                      
                         } else {
-                                JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhangtmp +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Remaining Quanity is " + conhangtmp +" product", "Error", JOptionPane.ERROR_MESSAGE);
                                 return;
                             }
                             break;
@@ -1148,13 +1152,13 @@ public class Form_1 extends javax.swing.JPanel {
 
                         InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
                         importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
-                        System.out.println("moe m"+importItem.getAvailableQuantity());
+//                        System.out.println("moe m"+importItem.getAvailableQuantity());
                         importListLz.add(importItem);
                         invoiceItemListLz.add(invoiceItems);  
                         //refreshimportList();
                         }                      
                     } else {
-                            JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhang +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Remaning Quanity " + conhang +" product", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                     
@@ -1181,7 +1185,7 @@ public class Form_1 extends javax.swing.JPanel {
 
                 // Kiểm tra ràng buộc không được để trống
                 if (updatedDate == null || updatedTotalAmount == null) {
-                    JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Not be left blank!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 // Cập nhật thông tin của Invoice
@@ -1223,7 +1227,7 @@ public class Form_1 extends javax.swing.JPanel {
                             newInvoiceItem.editInvoiceItem(invoiceItem);
                             System.out.println(invoiceItemidd);
                             System.out.println(quantity);
-                            System.out.println("run1");
+//                            System.out.println("run1");
                             //controller_Invoice find = new controller_Invoice();
 //                            try{
 //                                imports = find.findAvailableId(productIdd, quantity);
@@ -1242,7 +1246,7 @@ public class Form_1 extends javax.swing.JPanel {
 //                        }
                         
                     } catch (SQLException e) {
-                        System.out.println("fail1");
+//                        System.out.println("fail1");
                         e.printStackTrace();
                     }
                 }
@@ -1257,7 +1261,7 @@ public class Form_1 extends javax.swing.JPanel {
                             InvoiceItem invoiceItemmm = new InvoiceItem(invoiceid,productIdd2,importId2,unitPrice2,quantity2, totalPrice2,profit2);
                             controller_InvoiceItem newInvoiceItemm = new controller_InvoiceItem();
                             try {
-                                System.out.println("start try invoiceItem");
+//                                System.out.println("start try invoiceItem");
                                 newInvoiceItem.addInvoiceItem(invoiceItemmm);
                             } catch (SQLException ex) {
                                 Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
@@ -1283,7 +1287,7 @@ public class Form_1 extends javax.swing.JPanel {
             detail_model.setRowCount(0);
             this.updateDetail();
         } else {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một hóa đơn để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please choose a Invoice to update!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_updateBtnActionPerformed
 
@@ -1299,11 +1303,14 @@ public class Form_1 extends javax.swing.JPanel {
         this.txtCustomerName.setText(tmp.getCustomerName());
         this.txtStaffName.setText(tmp.getStaffName());
         this.txtDate.setText(String.valueOf(tmp.getPurchaseDate()));
-        this.totalAmountField.setValue(tmp.getTotalAmount());   
+        
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        
+        this.totalAmountField.setValue(String.valueOf(decimalFormat.format(tmp.getTotalAmount())) +" VNĐ" );   
         int invoice_id = tmp.getInvoiceId();  
         DefaultTableModel model =(DefaultTableModel) tableDetail.getModel();
         model.setRowCount(0);
-        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        
         for (InvoiceItem invoiceItem : invoiceItemList) {
                         if (invoiceItem.getInvoiceId() == invoice_id) {
                             String productName = "";
@@ -1495,7 +1502,7 @@ public class Form_1 extends javax.swing.JPanel {
 
                 // Kiểm tra ràng buộc không được để trống
                 if ( quantityNumber == null) {
-                    JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Not be left blank !", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 int productId = productList.get(productNameField.getSelectedIndex()).getProductId();
@@ -1548,7 +1555,7 @@ public class Form_1 extends javax.swing.JPanel {
                             //refreshimportList();
                         }                      
                     } else {
-                            JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhangtmp +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Remaning quanity is " + conhangtmp +" product", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                         break;
@@ -1556,7 +1563,7 @@ public class Form_1 extends javax.swing.JPanel {
                 }
                 if (need <= conhang){
                     for (Import importItem : imports) {
-                        System.out.println("import ne "+importItem.getAvailableQuantity());
+//                        System.out.println("import ne "+importItem.getAvailableQuantity());
                         if (need>=importItem.getAvailableQuantity()){
                             quantitys = importItem.getAvailableQuantity();
                             need -= importItem.getAvailableQuantity();
@@ -1578,12 +1585,12 @@ public class Form_1 extends javax.swing.JPanel {
                             InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
                             invoiceItemListLz.add(invoiceItems);
                             importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
-                            System.out.println("moe m"+importItem.getAvailableQuantity());
+//                            System.out.println("moe m"+importItem.getAvailableQuantity());
                             importListLz.add(importItem);
 
                     }
                 }else {
-                            JOptionPane.showMessageDialog(null, "Trong kho chỉ còn " + conhang +" sản phẩm", "Error", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Remaning quanity is " + conhang +" product", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                               
@@ -1606,7 +1613,7 @@ public class Form_1 extends javax.swing.JPanel {
                 Number totalAmountNumber = (Number) totalAmountField.getValue();
                 // Kiểm tra ràng buộc không được để trống
                 if (dateText == null) {
-                    JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Not be left blank !", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 //int totalAmount = totalAmountNumber.intValue();
@@ -1624,7 +1631,7 @@ public class Form_1 extends javax.swing.JPanel {
                 
                 controller_Invoice controller = new controller_Invoice();
                 try {
-                    System.out.println("start try invoice");
+//                    System.out.println("start try invoice");
                     invoiceId = controller.addInvoice(newInvoice);
                     } catch (SQLException ex) {
                 }
@@ -1640,7 +1647,7 @@ public class Form_1 extends javax.swing.JPanel {
                     InvoiceItem invoiceItemm = new InvoiceItem(invoiceId,productIdd,importId,unitPrice,quantity, totalPrice,profit);
                     controller_InvoiceItem newInvoiceItem = new controller_InvoiceItem();
                     try {
-                        System.out.println("start try invoiceItem");
+//                        System.out.println("start try invoiceItem");
                         newInvoiceItem.addInvoiceItem(invoiceItemm);
                     } catch (SQLException ex) {
                         Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
@@ -1709,14 +1716,14 @@ public class Form_1 extends javax.swing.JPanel {
             if (option == JOptionPane.YES_OPTION) {
                 
                 int invoiceId = invoiceList.get(selectedRow).getInvoiceId();
-                System.out.println("in ra invoice id :"+invoiceId);
+//                System.out.println("in ra invoice id :"+invoiceId);
                 controller_Invoice controller = new controller_Invoice();
                 controller_InvoiceItem controllerr = new controller_InvoiceItem();
                 
 
                 try {
                     controller.deleteInvoice(invoiceId);
-                    System.out.println("da chay toi luc xoa invoice id ");
+//           
                     controllerr.deleteInvoiceItemId(invoiceId);
                     refreshtable();                
                 } catch (SQLException ex) {
