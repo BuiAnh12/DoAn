@@ -87,6 +87,31 @@ public class Form_1 extends javax.swing.JPanel {
     private List<Import> importListLz = new ArrayList();
     
     
+    public void refreshProductList(){
+        try {
+            productList.clear();
+            productList = product_controller.getAllproduct(status, "");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void refreshcustomers(){
+        try {
+            customers.clear();
+            customers = customer_control.getAllCustomers(status, "");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void refreshstaffList(){
+        try {
+            staffList.clear();
+            staffList= staff_control.getAllStaff(status, "");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
     public void refreshimportList(){
         try {
             importList.clear();
@@ -724,6 +749,7 @@ public class Form_1 extends javax.swing.JPanel {
             Invoice selectedInvoice = invoiceList.get(selectedRow);
             // Tạo các trường nhập liệu
             JComboBox<Customer> customerDropdown = new JComboBox<>();
+            refreshcustomers();
             for (Customer customer : customers) {
                 customerDropdown.addItem(customer);
             }
@@ -749,6 +775,7 @@ public class Form_1 extends javax.swing.JPanel {
             });
 
             JComboBox<Staff> staffDropdown = new JComboBox<>();
+            refreshstaffList();
             for (Staff staff : staffList) {
                 staffDropdown.addItem(staff);
             }
@@ -776,6 +803,7 @@ public class Form_1 extends javax.swing.JPanel {
             totalAmountField.setValue(selectedInvoice.getTotalAmount());
             JComboBox<String> productNameField = new JComboBox<>();
             DefaultComboBoxModel<String> comboBoxModelName = new DefaultComboBoxModel<>();
+            refreshProductList();
             for (Product product:productList){
                 comboBoxModelName.addElement(product.getProductName());
             };
@@ -1299,6 +1327,7 @@ public class Form_1 extends javax.swing.JPanel {
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
 
         JComboBox<Customer> customerDropdown = new JComboBox<>();
+        refreshcustomers();
         for (Customer customer : customers) {
             customerDropdown.addItem(customer);
         }
@@ -1321,6 +1350,7 @@ public class Form_1 extends javax.swing.JPanel {
             }
         });
         JComboBox<Staff> staffDropdown = new JComboBox<>();
+        refreshstaffList();
         for (Staff staff : staffList) {
             staffDropdown.addItem(staff);
         }
@@ -1347,6 +1377,7 @@ public class Form_1 extends javax.swing.JPanel {
         //JFormattedTextField totalAmountField = new JFormattedTextField(NumberFormat.getIntegerInstance());
         JComboBox<String> productNameField = new JComboBox<>();
         DefaultComboBoxModel<String> comboBoxModelName = new DefaultComboBoxModel<>();
+        refreshProductList();
         for (Product product:productList){
             comboBoxModelName.addElement(product.getProductName());
         };
