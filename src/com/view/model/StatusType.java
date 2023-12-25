@@ -1,5 +1,5 @@
 package com.view.model;
 
 public enum StatusType {
-    PENDING, APPROVED, REJECT
+    IN_STOCK, OUT_OF_STOCK,
 }
