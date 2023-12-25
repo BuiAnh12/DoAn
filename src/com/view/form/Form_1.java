@@ -21,6 +21,7 @@ import com.model.Staff;
 import com.view.swing.ScrollBar;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -31,6 +32,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -107,7 +109,8 @@ public class Form_1 extends javax.swing.JPanel {
     
     public void refreshtable(){
         try {
-            invoiceList=invoice_control.getAllInvoices();
+            String searchTxt = this.txtSearch.getText();
+            invoiceList=invoice_control.getAllInvoices(status,searchTxt);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -138,8 +141,33 @@ public class Form_1 extends javax.swing.JPanel {
         }
         return sqlDate;
     }
+    
     public Form_1() throws SQLException {
         initComponents();  
+        
+        sortComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lấy giá trị được chọn khi có sự kiện thay đổi
+                String selectedValue = sortComboBox.getSelectedItem().toString(); 
+                
+                if (selectedValue.equals("Sort By Customer")){
+                   status=2;
+                   refreshtable();
+                }
+                else if(selectedValue.equals("Sort By Staff")){
+                    status=3;
+                    refreshtable();
+                }
+                else if(selectedValue.equals("Sort By Total")){
+                    status=1;
+                    refreshtable();
+                }
+               
+            }
+        });
+        
+        
         try {
             staffList = staff_control.getAllStaff(1, "");
         } catch (SQLException ex) {
@@ -158,7 +186,7 @@ public class Form_1 extends javax.swing.JPanel {
             Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-               invoiceList = invoices.getAllInvoices();
+               invoiceList = invoices.getAllInvoices(status,"");
             } catch (SQLException ex) {
             }
         
@@ -240,10 +268,14 @@ public class Form_1 extends javax.swing.JPanel {
 
         txtSearch.setBackground(new java.awt.Color(36, 36, 36));
         txtSearch.setForeground(new java.awt.Color(255, 255, 255));
-        txtSearch.setText("Search");
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtSearchActionPerformed(evt);
+            }
+        });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSearchKeyTyped(evt);
             }
         });
 
@@ -277,6 +309,7 @@ public class Form_1 extends javax.swing.JPanel {
         PanelFilter.setBackground(new java.awt.Color(22, 23, 23));
 
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
+        sortComboBox.setFont(new java.awt.Font("Sitka Text", 1, 14)); // NOI18N
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
         sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Customer", "Sort By Staff", "Sort By Total" }));
 
@@ -343,6 +376,7 @@ public class Form_1 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        table.setFont(new java.awt.Font("Segoe UI Black", 2, 12)); // NOI18N
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
@@ -579,6 +613,7 @@ public class Form_1 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tableDetail.setFont(new java.awt.Font("Sitka Small", 1, 13)); // NOI18N
         tableDetail.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableDetailMouseClicked(evt);
@@ -1234,6 +1269,7 @@ public class Form_1 extends javax.swing.JPanel {
         int invoice_id = tmp.getInvoiceId();  
         DefaultTableModel model =(DefaultTableModel) tableDetail.getModel();
         model.setRowCount(0);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
         for (InvoiceItem invoiceItem : invoiceItemList) {
                         if (invoiceItem.getInvoiceId() == invoice_id) {
                             String productName = "";
@@ -1246,11 +1282,15 @@ public class Form_1 extends javax.swing.JPanel {
                             tableDetail.addRow(new Object[]{
                                 productName,
                                 invoiceItem.getQuantity(),
-                                invoiceItem.getTotalPrice(),
+                                String.valueOf(decimalFormat.format(invoiceItem.getTotalPrice())+" VNĐ"),
+                                
                             });
                         }
                     }
-        
+         this.txtCustomerName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14)); 
+         this.txtStaffName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14)); 
+         this.txtDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14)); 
+         this.totalAmountField.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14)); 
     }//GEN-LAST:event_tableMouseClicked
 
     private void tableDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDetailMouseClicked
@@ -1653,6 +1693,11 @@ public class Form_1 extends javax.swing.JPanel {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
+        String searchTxt = this.txtSearch.getText();
+        refreshtable();
+    }//GEN-LAST:event_txtSearchKeyTyped
 
 
 

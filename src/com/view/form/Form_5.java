@@ -118,17 +118,15 @@ public class Form_5 extends javax.swing.JPanel {
         jPanel13 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         lablePosition = new javax.swing.JLabel();
-        positionComboBox = new javax.swing.JComboBox<>();
+        txtPosition = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         lablePosition1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtUsername = new javax.swing.JTextPane();
+        txtUsername = new javax.swing.JTextField();
         jPanel17 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         lablePosition2 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtPassword = new javax.swing.JTextPane();
+        txtPassword = new javax.swing.JTextField();
         jPanel19 = new javax.swing.JPanel();
         txtAge = new javax.swing.JTextField();
         jPanel20 = new javax.swing.JPanel();
@@ -197,6 +195,7 @@ public class Form_5 extends javax.swing.JPanel {
         PanelFilter.setBackground(new java.awt.Color(22, 23, 23));
 
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
+        sortComboBox.setFont(new java.awt.Font("Sitka Text", 1, 14)); // NOI18N
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
         sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Email", "Sort By Position" }));
 
@@ -263,6 +262,7 @@ public class Form_5 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        table.setFont(new java.awt.Font("Segoe UI Black", 2, 12)); // NOI18N
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
@@ -482,9 +482,9 @@ public class Form_5 extends javax.swing.JPanel {
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -521,11 +521,10 @@ public class Form_5 extends javax.swing.JPanel {
             .addComponent(lablePosition, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
-        positionComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Sale", "Stock Manager", " " }));
-        positionComboBox.setEnabled(false);
-        positionComboBox.addActionListener(new java.awt.event.ActionListener() {
+        txtPosition.setEditable(false);
+        txtPosition.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                positionComboBoxActionPerformed(evt);
+                txtPositionActionPerformed(evt);
             }
         });
 
@@ -536,14 +535,15 @@ public class Form_5 extends javax.swing.JPanel {
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(positionComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(positionComboBox)
+                    .addComponent(txtPosition)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -573,7 +573,6 @@ public class Form_5 extends javax.swing.JPanel {
         );
 
         txtUsername.setEditable(false);
-        jScrollPane1.setViewportView(txtUsername);
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -582,15 +581,16 @@ public class Form_5 extends javax.swing.JPanel {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtUsername)
+                    .addComponent(jPanel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -617,7 +617,6 @@ public class Form_5 extends javax.swing.JPanel {
         );
 
         txtPassword.setEditable(false);
-        jScrollPane2.setViewportView(txtPassword);
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
@@ -626,17 +625,19 @@ public class Form_5 extends javax.swing.JPanel {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPassword)
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jPanel19.setBackground(new java.awt.Color(36, 36, 36));
@@ -744,7 +745,7 @@ public class Form_5 extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 308, Short.MAX_VALUE)
+            .addGap(0, 316, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -765,7 +766,7 @@ public class Form_5 extends javax.swing.JPanel {
 
         updateBtn.setBackground(new java.awt.Color(36, 36, 36));
         updateBtn.setForeground(new java.awt.Color(255, 255, 255));
-        updateBtn.setText("UPUDATE");
+        updateBtn.setText("UPDATE");
         updateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateBtnActionPerformed(evt);
@@ -862,10 +863,6 @@ public class Form_5 extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhân viên để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_updateBtnActionPerformed
-
-    private void positionComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positionComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_positionComboBoxActionPerformed
 // check
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
         // Tạo các trường nhập liệu
@@ -971,7 +968,7 @@ public class Form_5 extends javax.swing.JPanel {
         this.txtCustomerName.setText(selectedStaff.getName());
         this.txtEmail.setText(selectedStaff.getEmail());
         this.txtAddress.setText(selectedStaff.getAddress());
-        this.positionComboBox.setSelectedItem(selectedStaff.getPosition());
+        this.txtPosition.setText(selectedStaff.getPosition());
         this.txtAge.setText(String.valueOf(selectedStaff.getAge()));
         this.txtUsername.setText(selectedStaff.getUsername());
         this.txtPassword.setText(selectedStaff.getPassword());
@@ -979,7 +976,7 @@ public class Form_5 extends javax.swing.JPanel {
         txtCustomerName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));        
         txtEmail.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
         txtAddress.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
-        positionComboBox.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtPosition.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
         txtAge.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
         txtUsername.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
         txtPassword.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
@@ -988,50 +985,56 @@ public class Form_5 extends javax.swing.JPanel {
     }//GEN-LAST:event_tableMouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        System.out.println("Search Click");
-        String searchTxt = this.txtSearch.getText();
-        controller_Staff search = new controller_Staff();
-        try {
-            // Assuming productList is a List<Product>
-            List<Staff> staffList = search.findListStaff(searchTxt);
-
-            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-            // Clearing the existing rows in the table
-            tableModel.setRowCount(0);
-
-            // Adding the fetched productList data to the table
-            for (Staff staff : staffList) {
-                tableModel.addRow(new Object[]{staff.getName(), staff.getEmail(), staff.getAddress(), staff.getPosition()});
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            // Handle the SQL exception (show a message dialog, log, etc.)
-        }
+//        System.out.println("Search Click");
+//        String searchTxt = this.txtSearch.getText();
+//        controller_Staff search = new controller_Staff();
+//        try {
+//            // Assuming productList is a List<Product>
+//            List<Staff> staffList = search.findListStaff(searchTxt);
+//
+//            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//
+//            // Clearing the existing rows in the table
+//            tableModel.setRowCount(0);
+//
+//            // Adding the fetched productList data to the table
+//            for (Staff staff : staffList) {
+//                tableModel.addRow(new Object[]{staff.getName(), staff.getEmail(), staff.getAddress(), staff.getPosition()});
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//            // Handle the SQL exception (show a message dialog, log, etc.)
+//        }
+            refreshTable();
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
 //        System.out.println("Search Click");
-        String searchTxt = this.txtSearch.getText();
-        controller_Staff search = new controller_Staff();
-        try {
-            // Assuming productList is a List<Product>
-            List<Staff> staffList = search.findListStaff(searchTxt);
-
-            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-            // Clearing the existing rows in the table
-            tableModel.setRowCount(0);
-
-            // Adding the fetched productList data to the table
-            for (Staff staff : staffList) {
-                tableModel.addRow(new Object[]{staff.getName(), staff.getEmail(), staff.getAddress(), staff.getPosition()});
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            // Handle the SQL exception (show a message dialog, log, etc.)
-        }
+//        String searchTxt = this.txtSearch.getText();
+//        controller_Staff search = new controller_Staff();
+//        try {
+//            // Assuming productList is a List<Product>
+//            List<Staff> staffList = search.findListStaff(searchTxt);
+//
+//            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//
+//            // Clearing the existing rows in the table
+//            tableModel.setRowCount(0);
+//
+//            // Adding the fetched productList data to the table
+//            for (Staff staff : staffList) {
+//                tableModel.addRow(new Object[]{staff.getName(), staff.getEmail(), staff.getAddress(), staff.getPosition()});
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//            // Handle the SQL exception (show a message dialog, log, etc.)
+//        }
+            refreshTable();
     }//GEN-LAST:event_txtSearchKeyTyped
+
+    private void txtPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPositionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPositionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1069,15 +1072,12 @@ public class Form_5 extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lablAge;
     private javax.swing.JLabel lableAddress;
     private javax.swing.JLabel lableEmail;
     private javax.swing.JLabel lablePosition;
     private javax.swing.JLabel lablePosition1;
     private javax.swing.JLabel lablePosition2;
-    private javax.swing.JComboBox<String> positionComboBox;
     private javax.swing.JComboBox<String> sortComboBox;
     private javax.swing.JScrollPane spTable;
     private com.view.swing.Table table;
@@ -1085,9 +1085,10 @@ public class Form_5 extends javax.swing.JPanel {
     private javax.swing.JTextField txtAge;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextPane txtPassword;
+    private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtPosition;
     private javax.swing.JTextField txtSearch;
-    private javax.swing.JTextPane txtUsername;
+    private javax.swing.JTextField txtUsername;
     private javax.swing.JButton updateBtn;
     // End of variables declaration//GEN-END:variables
 }

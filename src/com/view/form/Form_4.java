@@ -206,6 +206,7 @@ public class Form_4 extends javax.swing.JPanel {
         PanelFilter.setBackground(new java.awt.Color(22, 23, 23));
 
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
+        sortComboBox.setFont(new java.awt.Font("Sitka Text", 1, 14)); // NOI18N
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
         sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Email", "Sort By Amount" }));
 
@@ -272,6 +273,7 @@ public class Form_4 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        table.setFont(new java.awt.Font("Segoe UI Black", 2, 12)); // NOI18N
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
@@ -597,6 +599,7 @@ public class Form_4 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        detail_table.setFont(new java.awt.Font("Sitka Small", 1, 13)); // NOI18N
         spTable1.setViewportView(detail_table);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -645,7 +648,7 @@ public class Form_4 extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
+            .addGap(0, 277, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -666,7 +669,7 @@ public class Form_4 extends javax.swing.JPanel {
 
         updateBtn.setBackground(new java.awt.Color(36, 36, 36));
         updateBtn.setForeground(new java.awt.Color(255, 255, 255));
-        updateBtn.setText("UPUDATE");
+        updateBtn.setText("UPDATE");
         updateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateBtnActionPerformed(evt);
@@ -844,49 +847,51 @@ public class Form_4 extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        System.out.println("Search Click");
-        String searchTxt = this.txtSearch.getText();
-        controller_Customer search = new controller_Customer();
-        try {
-            // Assuming productList is a List<Product>
-            List<Customer> customerList = search.findListCustomer(searchTxt);
-
-            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-            // Clearing the existing rows in the table
-            tableModel.setRowCount(0);
-
-            // Adding the fetched productList data to the table
-            for (Customer customer : customerList) {
-                tableModel.addRow(new Object[]{customer.getCustomerName(), customer.getEmail(), customer.getAddress(), customer.getTotalAmount()});
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            // Handle the SQL exception (show a message dialog, log, etc.)
-        }
+//        System.out.println("Search Click");
+//        String searchTxt = this.txtSearch.getText();
+//        controller_Customer search = new controller_Customer();
+//        try {
+//            // Assuming productList is a List<Product>
+//            List<Customer> customerList = search.findListCustomer(searchTxt);
+//
+//            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//
+//            // Clearing the existing rows in the table
+//            tableModel.setRowCount(0);
+//
+//            // Adding the fetched productList data to the table
+//            for (Customer customer : customerList) {
+//                tableModel.addRow(new Object[]{customer.getCustomerName(), customer.getEmail(), customer.getAddress(), customer.getTotalAmount()});
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//            // Handle the SQL exception (show a message dialog, log, etc.)
+//        }
+            refreshTable();
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-        System.out.println("Search Click");
-        String searchTxt = this.txtSearch.getText();
-        controller_Customer search = new controller_Customer();
-        try {
-            // Assuming productList is a List<Product>
-            List<Customer> customerList = search.findListCustomer(searchTxt);
-
-            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-            // Clearing the existing rows in the table
-            tableModel.setRowCount(0);
-
-            // Adding the fetched productList data to the table
-            for (Customer customer : customerList) {
-                tableModel.addRow(new Object[]{customer.getCustomerName(), customer.getEmail(), customer.getAddress(), customer.getTotalAmount()});
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            // Handle the SQL exception (show a message dialog, log, etc.)
-        }
+        
+//        String searchTxt = this.txtSearch.getText();
+//        controller_Customer search = new controller_Customer();
+//        try {
+//            // Assuming productList is a List<Product>
+//            List<Customer> customerList = search.findListCustomer(searchTxt);
+//
+//            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//
+//            // Clearing the existing rows in the table
+//            tableModel.setRowCount(0);
+//
+//            // Adding the fetched productList data to the table
+//            for (Customer customer : customerList) {
+//                tableModel.addRow(new Object[]{customer.getCustomerName(), customer.getEmail(), customer.getAddress(), customer.getTotalAmount()});
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//            // Handle the SQL exception (show a message dialog, log, etc.)
+//        }
+        refreshTable();
     }//GEN-LAST:event_txtSearchKeyTyped
 
 

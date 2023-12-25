@@ -19,27 +19,68 @@ import java.util.Date;
 
 
 public class controller_Invoice {
-     public List<Invoice> getAllInvoices() throws SQLException {
+     public List<Invoice> getAllInvoices(int status ,String name) throws SQLException {
         List<Invoice> invoices = new ArrayList<>();
         Connection cnn = ConnectionDB.getConnection();
-        Statement statement = cnn.createStatement();
-        String query = "SELECT DISTINCT Invoices.InvoiceId, Customers.CustomerId, Staffs.StaffId, PurchaseDate, CustomerName, Staffs.Name AS StaffName, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
-               "FROM Invoices " +
-               "JOIN Customers ON Customers.CustomerId = Invoices.CustomerId " +
-               "JOIN Staffs ON Staffs.StaffId = Invoices.StaffId " +
-               "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
-               "GROUP BY " +
-               "Invoices.InvoiceId, " +
-               "Customers.CustomerId, " +
-               "Staffs.StaffId, " +
-               "PurchaseDate, " +
-               "CustomerName, " +
-               "Staffs.Name";
+        String query="";
+        if(status==1){
+            query = "SELECT DISTINCT Invoices.InvoiceId, Customers.CustomerId, Staffs.StaffId, PurchaseDate, CustomerName, Staffs.Name AS StaffName, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
+                  "FROM Invoices " +
+                  "JOIN Customers ON Customers.CustomerId = Invoices.CustomerId " +
+                  "JOIN Staffs ON Staffs.StaffId = Invoices.StaffId " +
+                  "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
+                  "GROUP BY " +
+                  "Invoices.InvoiceId, " +
+                  "Customers.CustomerId, " +
+                  "Staffs.StaffId, " +
+                  "PurchaseDate, " +
+                  "CustomerName, " +
+                  "Staffs.Name " +
+                  "HAVING CustomerName LIKE ? " +
+                  "ORDER BY CustomerName;";
 
 
+        }else if(status ==2){
+           query = "SELECT DISTINCT Invoices.InvoiceId, Customers.CustomerId, Staffs.StaffId, PurchaseDate, CustomerName, Staffs.Name AS StaffName, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
+                  "FROM Invoices " +
+                  "JOIN Customers ON Customers.CustomerId = Invoices.CustomerId " +
+                  "JOIN Staffs ON Staffs.StaffId = Invoices.StaffId " +
+                  "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
+                  "GROUP BY " +
+                  "Invoices.InvoiceId, " +
+                  "Customers.CustomerId, " +
+                  "Staffs.StaffId, " +
+                  "PurchaseDate, " +
+                  "CustomerName, " +
+                  "Staffs.Name " +
+                  "HAVING CustomerName LIKE ? " +
+                  "ORDER BY StaffName;";
 
+
+        }else if(status ==3){
+            query = "SELECT DISTINCT Invoices.InvoiceId, Customers.CustomerId, Staffs.StaffId, PurchaseDate, CustomerName, Staffs.Name AS StaffName, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
+                  "FROM Invoices " +
+                  "JOIN Customers ON Customers.CustomerId = Invoices.CustomerId " +
+                  "JOIN Staffs ON Staffs.StaffId = Invoices.StaffId " +
+                  "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
+                  "GROUP BY " +
+                  "Invoices.InvoiceId, " +
+                  "Customers.CustomerId, " +
+                  "Staffs.StaffId, " +
+                  "PurchaseDate, " +
+                  "CustomerName, " +
+                  "Staffs.Name " +
+                  "HAVING CustomerName LIKE ? " +
+                  "ORDER BY TotalAmount;";
+
+
+        }
+        String searchTerm = "%" + name + "%";
         try {
-            ResultSet re = statement.executeQuery(query);
+            invoices.clear();
+            PreparedStatement statement = cnn.prepareStatement(query);
+            statement.setString(1, searchTerm);
+            ResultSet re = statement.executeQuery();
             while (re.next()) {
                 int invoiceId = re.getInt("InvoiceId");
                 int customerId = re.getInt("CustomerId");

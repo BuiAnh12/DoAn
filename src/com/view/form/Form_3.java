@@ -6,9 +6,13 @@
 package com.view.form;
 
 import com.controller.controller_Import;
+import com.controller.controller_InvoiceItem;
 import com.controller.controller_Product;
 import com.model.Import;
+import com.model.InvoiceItem;
 import com.model.Product;
+import com.view.model.StatusType;
+import com.view.swing.CellStatus;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -53,13 +57,31 @@ public class Form_3 extends javax.swing.JPanel {
     private int status=1;
     private controller_Import imports=new controller_Import();
     private List<Product>name;
-
+    private List<InvoiceItem>invoiceItems_list=new ArrayList<>() ;
+            
     public int getPrevilege() {
         return previlege;
     }
 
     public void setPrevilege(int previlege) {
         this.previlege = previlege;
+    }
+    
+    public boolean  checkImportId(int id){
+        controller_InvoiceItem controller =new controller_InvoiceItem();
+        try {
+            invoiceItems_list.clear();
+            invoiceItems_list = controller.getAllInvoiceItems();
+        } catch (SQLException ex) {
+           ex.printStackTrace();
+        }
+        for(InvoiceItem tmp : invoiceItems_list){
+            if(tmp.getImportId()==id){
+               return true;
+            }
+            
+        }
+        return false;
     }
     
     public void refreshTable(){
@@ -71,11 +93,19 @@ public class Form_3 extends javax.swing.JPanel {
         }
         DefaultTableModel model =(DefaultTableModel) table.getModel();
         model.setRowCount(0);
+//        CellStatus cellStatus=new CellStatus(StatusType.IN_STOCK);
         for(Import tmp:import_list){
-            table.addRow(new Object[]{tmp.getProductName(),tmp.getImportQuantity(),tmp.getAvailableQuantity(),tmp.getAvailableQuantity()});
+            StatusType statusType = null;
+            if(tmp.getAvailableQuantity()!=0){
+                statusType=statusType.IN_STOCK;
+            }else if(tmp.getAvailableQuantity()==0){
+                statusType=statusType.OUT_OF_STOCK;
+            }
+            table.addRow(new Object[]{tmp.getProductName(),tmp.getImportQuantity(),tmp.getAvailableQuantity(),statusType});
         }
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
+    
     public  java.sql.Date convertStringtoDate(String date){
          // Chuỗi đại diện cho ngày
         String dateString = "2023-12-07";
@@ -276,6 +306,7 @@ public class Form_3 extends javax.swing.JPanel {
         PanelFilter.setBackground(new java.awt.Color(22, 23, 23));
 
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
+        sortComboBox.setFont(new java.awt.Font("Sitka Text", 1, 14)); // NOI18N
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
         sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort By Name", "Sort By Quantity", "Sort By Status" }));
         sortComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -347,6 +378,7 @@ public class Form_3 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        table.setFont(new java.awt.Font("Segoe UI Black", 2, 12)); // NOI18N
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
@@ -964,8 +996,15 @@ public class Form_3 extends javax.swing.JPanel {
             JTextField unitPrice = new JTextField();
             JTextField sellPrice = new JTextField();
             
-        
-
+            //Feat :no edit sell price if impoprt id co trong invoice item 
+            int importId=import_list.get(index).getImportId();
+            if(checkImportId(importId)==true ){
+                unitPrice.setEditable(false);
+                sellPrice.setEditable(false);
+            }else{
+                 unitPrice.setEditable(true);
+                sellPrice.setEditable(true);
+            }
             
   
             JPanel panel = new JPanel(new GridLayout(0, 1));
@@ -1000,7 +1039,7 @@ public class Form_3 extends javax.swing.JPanel {
              sellPrice.setText(String.valueOf(import_list.get(index).getSellPrice()));
             panel.add(sellPrice);
             
-
+            
             
             int result = JOptionPane.showConfirmDialog(null, panel, "Change Import Information",
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -1191,24 +1230,27 @@ public class Form_3 extends javax.swing.JPanel {
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         if(this.previlege >= 2){
-            
-        
-        // Tao su kien xoa 
-        Object[] options = {"Yes", "No"};
+            int index=table.getSelectedRow();
+            if(checkImportId(import_list.get(index).getImportId())==true){
+                JOptionPane.showMessageDialog(null, "This Import is already in Order" , "Warning", JOptionPane.ERROR_MESSAGE);
+            }else{
+                Object[] options = {"Yes", "No"};
                 // Hiển thị hộp thoại xác nhận và đặt giá trị mặc định là "Yes"
                 int option = JOptionPane.showOptionDialog(null,
-                        "Bạn có muốn xóa không?", "Xác nhận xóa",
+                        "Are you sure delete this Import?", "Confirm Delete",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-        if(option == JOptionPane.YES_OPTION){
-             int index=table.getSelectedRow();
-             int id=import_list.get(index).getImportId();
-            try {
-                imports.deleteImport(id);
-                refreshTable();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+                if(option == JOptionPane.YES_OPTION){
+                     int id=import_list.get(index).getImportId();
+                    try {
+                        imports.deleteImport(id);
+                        refreshTable();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }  
+        
             }
-        }    
+                // Tao su kien xoa 
         }
         else{
             JOptionPane.showMessageDialog(null, "Sorry, you do not have the privilege to perform this action.",

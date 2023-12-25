@@ -186,7 +186,7 @@ public class Form_2 extends javax.swing.JPanel {
             PanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -201,6 +201,7 @@ public class Form_2 extends javax.swing.JPanel {
         PanelFilter.setBackground(new java.awt.Color(22, 23, 23));
 
         sortComboBox.setBackground(new java.awt.Color(36, 36, 36));
+        sortComboBox.setFont(new java.awt.Font("Sitka Text", 1, 14)); // NOI18N
         sortComboBox.setForeground(new java.awt.Color(255, 255, 255));
         sortComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Name", "Sort by Manufacture", "Sort by Category", "" }));
         sortComboBox.setToolTipText("");
@@ -215,7 +216,7 @@ public class Form_2 extends javax.swing.JPanel {
         PanelFilterLayout.setHorizontalGroup(
             PanelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelFilterLayout.createSequentialGroup()
-                .addComponent(sortComboBox, 0, 205, Short.MAX_VALUE)
+                .addComponent(sortComboBox, 0, 201, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelFilterLayout.setVerticalGroup(
@@ -242,7 +243,7 @@ public class Form_2 extends javax.swing.JPanel {
             PanelInsertLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInsertLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(insertBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addComponent(insertBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelInsertLayout.setVerticalGroup(
@@ -273,6 +274,7 @@ public class Form_2 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        table.setFont(new java.awt.Font("Segoe UI Black", 2, 12)); // NOI18N
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableMouseClicked(evt);
@@ -320,7 +322,7 @@ public class Form_2 extends javax.swing.JPanel {
         PanelLeft.setLayout(PanelLeftLayout);
         PanelLeftLayout.setHorizontalGroup(
             PanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
+            .addComponent(PanelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 703, Short.MAX_VALUE)
             .addGroup(PanelLeftLayout.createSequentialGroup()
                 .addGroup(PanelLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -429,7 +431,7 @@ public class Form_2 extends javax.swing.JPanel {
                             .addComponent(txtManufacture)
                             .addComponent(txtName)
                             .addComponent(txtDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))))
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addGap(0, 20, Short.MAX_VALUE))
         );
         PanelDetailLayout.setVerticalGroup(
             PanelDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,19 +462,6 @@ public class Form_2 extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(22, 23, 23));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 220, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
-
-        PanelDUBtn.add(jPanel3);
-
         deleteBtn.setBackground(new java.awt.Color(36, 36, 36));
         deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteBtn.setText("DELETE");
@@ -481,17 +470,37 @@ public class Form_2 extends javax.swing.JPanel {
                 deleteBtnActionPerformed(evt);
             }
         });
-        PanelDUBtn.add(deleteBtn);
 
         updateBtn.setBackground(new java.awt.Color(36, 36, 36));
         updateBtn.setForeground(new java.awt.Color(255, 255, 255));
-        updateBtn.setText("UPUDATE");
+        updateBtn.setText("UPDATE");
         updateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateBtnActionPerformed(evt);
             }
         });
-        PanelDUBtn.add(updateBtn);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(227, Short.MAX_VALUE)
+                .addComponent(deleteBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(updateBtn)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deleteBtn)
+                    .addComponent(updateBtn))
+                .addGap(0, 12, Short.MAX_VALUE))
+        );
+
+        PanelDUBtn.add(jPanel3);
 
         PanelRight.add(PanelDUBtn, java.awt.BorderLayout.SOUTH);
 
@@ -694,48 +703,50 @@ public class Form_2 extends javax.swing.JPanel {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
 //        System.out.println("Search Click");
-        String searchTxt = this.txtSearch.getText();
-        controller_Product search = new controller_Product();
-        try {
-            // Assuming productList is a List<Product>
-            List<Product> productList = search.findListProduct(searchTxt);
-
-            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-            // Clearing the existing rows in the table
-            tableModel.setRowCount(0);
-
-            // Adding the fetched productList data to the table
-            for (Product product : productList) {
-                tableModel.addRow(new Object[]{product.getProductName(), product.getManufacturer(), product.getDescription(), product.getCategory()});
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            // Handle the SQL exception (show a message dialog, log, etc.)
-        }
+//        String searchTxt = this.txtSearch.getText();
+//        controller_Product search = new controller_Product();
+//        try {
+//            // Assuming productList is a List<Product>
+//            List<Product> productList = search.findListProduct(searchTxt);
+//
+//            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//
+//            // Clearing the existing rows in the table
+//            tableModel.setRowCount(0);
+//
+//            // Adding the fetched productList data to the table
+//            for (Product product : productList) {
+//                tableModel.addRow(new Object[]{product.getProductName(), product.getManufacturer(), product.getDescription(), product.getCategory()});
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//            // Handle the SQL exception (show a message dialog, log, etc.)
+//        }
+            refreshTable();
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-        System.out.println("Search Click");
-        String searchTxt = this.txtSearch.getText();
-        controller_Product search = new controller_Product();
-        try {
-            // Assuming productList is a List<Product>
-            List<Product> productList = search.findListProduct(searchTxt);
 
-            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-
-            // Clearing the existing rows in the table
-            tableModel.setRowCount(0);
-
-            // Adding the fetched productList data to the table
-            for (Product product : productList) {
-                tableModel.addRow(new Object[]{product.getProductName(), product.getManufacturer(), product.getDescription(), product.getCategory()});
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            // Handle the SQL exception (show a message dialog, log, etc.)
-        }
+//        String searchTxt = this.txtSearch.getText();
+//        controller_Product search = new controller_Product();
+//        try {
+//            // Assuming productList is a List<Product>
+//            List<Product> productList = search.findListProduct(searchTxt);
+//
+//            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//
+//            // Clearing the existing rows in the table
+//            tableModel.setRowCount(0);
+//
+//            // Adding the fetched productList data to the table
+//            for (Product product : productList) {
+//                tableModel.addRow(new Object[]{product.getProductName(), product.getManufacturer(), product.getDescription(), product.getCategory()});
+//            }
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//            // Handle the SQL exception (show a message dialog, log, etc.)
+//        }
+        refreshTable();
     }//GEN-LAST:event_txtSearchKeyTyped
     
     
