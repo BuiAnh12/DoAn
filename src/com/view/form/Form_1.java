@@ -117,8 +117,9 @@ public class Form_1 extends javax.swing.JPanel {
         }
           DefaultTableModel model =(DefaultTableModel) table.getModel();
         model.setRowCount(0);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
        for (Invoice invoice : invoiceList) {
-            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate(), invoice.getTotalAmount()});
+            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate(), decimalFormat.format(invoice.getTotalAmount()) +" VNĐ" });
         }
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
     }
@@ -199,8 +200,9 @@ public class Form_1 extends javax.swing.JPanel {
         JPanel p = new JPanel();
         p.setBackground(Color.WHITE);
         spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
         for (Invoice invoice : invoiceList) {
-            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate(), invoice.getTotalAmount()});
+            table.addRow(new Object[]{invoice.getCustomerName(), invoice.getStaffName(), invoice.getPurchaseDate(),decimalFormat.format(invoice.getTotalAmount()) +" VNĐ" });
         }
     }
 
@@ -575,9 +577,9 @@ public class Form_1 extends javax.swing.JPanel {
                 .addComponent(txtStaffName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(totalAmountField)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(totalAmountField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -1265,11 +1267,14 @@ public class Form_1 extends javax.swing.JPanel {
         this.txtCustomerName.setText(tmp.getCustomerName());
         this.txtStaffName.setText(tmp.getStaffName());
         this.txtDate.setText(String.valueOf(tmp.getPurchaseDate()));
-        this.totalAmountField.setValue(tmp.getTotalAmount());   
+        
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        
+        this.totalAmountField.setValue(String.valueOf(decimalFormat.format(tmp.getTotalAmount())) +" VNĐ" );   
         int invoice_id = tmp.getInvoiceId();  
         DefaultTableModel model =(DefaultTableModel) tableDetail.getModel();
         model.setRowCount(0);
-        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        
         for (InvoiceItem invoiceItem : invoiceItemList) {
                         if (invoiceItem.getInvoiceId() == invoice_id) {
                             String productName = "";

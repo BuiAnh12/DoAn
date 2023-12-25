@@ -38,8 +38,9 @@ public class Form_4 extends javax.swing.JPanel {
         }
         DefaultTableModel model =(DefaultTableModel) table.getModel();
         model.setRowCount(0);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
         for(Customer tmp:customerList){
-            table.addRow(new Object[]{tmp.getCustomerName(),tmp.getEmail(),tmp.getAddress(),tmp.getTotalAmount()});
+            table.addRow(new Object[]{tmp.getCustomerName(),tmp.getEmail(),tmp.getAddress(),decimalFormat.format(tmp.getTotalAmount()) +" VNĐ" });
         }
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
@@ -807,7 +808,8 @@ public class Form_4 extends javax.swing.JPanel {
         txtCustomerName.setText(selectedCustomer.getCustomerName());
         txtEmail.setText(selectedCustomer.getEmail());
         txtAddress.setText(selectedCustomer.getAddress());
-        txtTotalAmount.setText(String.valueOf(selectedCustomer.getTotalAmount()));
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        txtTotalAmount.setText(String.valueOf(decimalFormat.format(selectedCustomer.getTotalAmount()) +" VNĐ" ));
        
         refreshdetailTable(selectedCustomer);
         
