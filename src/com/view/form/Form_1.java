@@ -59,10 +59,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
-/**
- *
- * @author RAVEN
- */
+
 public class Form_1 extends javax.swing.JPanel {
 
     List<Invoice> invoiceList = new ArrayList<>();
@@ -85,7 +82,45 @@ public class Form_1 extends javax.swing.JPanel {
     private List<Import> imports = new ArrayList();
     private List<InvoiceItem> invoiceItemListLz = new ArrayList<>();
     private List<Import> importListLz = new ArrayList();
-    
+    public void updateDetail(){
+        int selectedRow = table.getSelectedRow();
+        controller_InvoiceItem co = new controller_InvoiceItem();
+        try {
+            invoiceItemList = co.getAllInvoiceItems();
+        } catch (SQLException ex) {
+            Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Invoice tmp = invoiceList.get(selectedRow);
+        this.txtCustomerName.setText(tmp.getCustomerName());
+        this.txtStaffName.setText(tmp.getStaffName());
+        this.txtDate.setText(String.valueOf(tmp.getPurchaseDate()));
+        this.totalAmountField.setValue(tmp.getTotalAmount());   
+        int invoice_id = tmp.getInvoiceId();  
+        DefaultTableModel model =(DefaultTableModel) tableDetail.getModel();
+        model.setRowCount(0);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        for (InvoiceItem invoiceItem : invoiceItemList) {
+                        if (invoiceItem.getInvoiceId() == invoice_id) {
+                            String productName = "";
+                            for (Product product : productList) {
+                                if (product.getProductId() == invoiceItem.getProductId()) {
+                                    productName = product.getProductName();
+                                    break;
+                                }
+                            }
+                            tableDetail.addRow(new Object[]{
+                                productName,
+                                invoiceItem.getQuantity(),
+                                String.valueOf(decimalFormat.format(invoiceItem.getTotalPrice())+" VNĐ"),
+                                
+                            });
+                        }
+                    }
+         this.txtCustomerName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14)); 
+         this.txtStaffName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14)); 
+         this.txtDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14)); 
+         this.totalAmountField.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+    }
     
     public void refreshimportList(){
         try {
@@ -1246,6 +1281,7 @@ public class Form_1 extends javax.swing.JPanel {
             // xoa bang
             DefaultTableModel detail_model =(DefaultTableModel) detailTable.getModel();
             detail_model.setRowCount(0);
+            this.updateDetail();
         } else {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một hóa đơn để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }

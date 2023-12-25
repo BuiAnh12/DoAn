@@ -43,6 +43,25 @@ public class Form_2 extends javax.swing.JPanel {
     private controller_Product product_control =new controller_Product();
     private int status=1;
     
+    public void updateDetail(){
+        int selectedRow = table.getSelectedRow();
+        Product tmp = productList.get(selectedRow);
+        this.txtName.setText(tmp.getProductName());
+        this.txtManufacture.setText(tmp.getManufacturer());
+        this.categorySelect.setSelectedItem(tmp.getCategory());
+        this.descriptionTxt.setText(tmp.getDescription());
+        
+         this.txtName.setEditable(false);
+        this.txtManufacture.setEditable(false);
+        this.categorySelect.setEditable(false);
+        this.descriptionTxt.setEditable(false);
+        
+        this.txtName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        this.txtManufacture.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        this.categorySelect.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        this.descriptionTxt.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+    }
+    
     public int getPrevilege() {
         return previlege;
     }
@@ -571,6 +590,8 @@ public class Form_2 extends javax.swing.JPanel {
                     controller_Product updateController = new controller_Product();
                     try {
                         updateController.editProduct(productToUpdate);
+                        this.updateDetail();
+                        this.refreshTable();
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -583,6 +604,7 @@ public class Form_2 extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Sorry, you do not have the privilege to perform this action.",
             "Insufficient Privilege", JOptionPane.WARNING_MESSAGE);
         }
+        
     }//GEN-LAST:event_updateBtnActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked

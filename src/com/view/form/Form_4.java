@@ -28,6 +28,26 @@ public class Form_4 extends javax.swing.JPanel {
     private int status=1;
     private controller_Customer customer_control =new controller_Customer();
     
+    public void updateDetail(){
+        int selectedRow = table.getSelectedRow();
+        Customer selectedCustomer = customerList.get(selectedRow);
+        txtCustomerName.setText(selectedCustomer.getCustomerName());
+        txtEmail.setText(selectedCustomer.getEmail());
+        txtAddress.setText(selectedCustomer.getAddress());
+        txtTotalAmount.setText(String.valueOf(selectedCustomer.getTotalAmount()));
+       
+        refreshdetailTable(selectedCustomer);
+        
+        txtCustomerName.setEditable(false);        
+        txtEmail.setEditable(false);
+        txtAddress.setEditable(false);
+        txtTotalAmount.setEditable(false);
+        
+        txtCustomerName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtEmail.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+        txtAddress.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+        txtTotalAmount.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14)); 
+    }
     
     public void refreshTable(){
         try {
@@ -297,7 +317,7 @@ public class Form_4 extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel1.setText("Customer");
+        jLabel1.setText("CUSTOMER");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -740,6 +760,7 @@ public class Form_4 extends javax.swing.JPanel {
                 try {
                     updateController.editCustomer(customerToUpdate);
                     JOptionPane.showMessageDialog(null, "Cập nhật thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    this.updateDetail();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -819,16 +840,18 @@ public class Form_4 extends javax.swing.JPanel {
         txtEmail.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
         txtAddress.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
         txtTotalAmount.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
-      
 
-
-      
     }//GEN-LAST:event_tableMouseClicked
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
+            int total = customerList.get(selectedRow).getTotalAmount();
+            if ( total > 0 ){
+                        JOptionPane.showMessageDialog(null, "Can not delete Customer already buy products!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+            }
             int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this customer?", "Confirmation", JOptionPane.YES_NO_OPTION);
             if (option == JOptionPane.YES_OPTION) {
                 int customerId = customerList.get(selectedRow).getCustomerId(); // Sửa thành phương thức lấy ID của khách hàng từ đối tượng Customer

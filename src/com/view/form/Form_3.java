@@ -46,10 +46,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import java.util.Date;
 
-/**
- *
- * @author RAVEN
- */
 public class Form_3 extends javax.swing.JPanel {
     
     private int previlege;
@@ -58,7 +54,51 @@ public class Form_3 extends javax.swing.JPanel {
     private controller_Import imports=new controller_Import();
     private List<Product>name;
     private List<InvoiceItem>invoiceItems_list=new ArrayList<>() ;
-            
+    
+    public void updateDetail(){
+        int selectedRow = table.getSelectedRow();
+        Import tmp = import_list.get(selectedRow);
+        this.txtName.setText(tmp.getProductName());
+        this.txtQuantity.setText(String.valueOf(tmp.getImportQuantity()));
+        this.txtImpDate.setText(String.valueOf(tmp.getImportDate()));
+        this.txtManuDate.setText(String.valueOf(tmp.getManufacturingDate()));
+        this.txtExpDate.setText(String.valueOf(tmp.getExpiryDate()));
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        this.txtUnitPrice.setText(String.valueOf(decimalFormat.format(tmp.getUnitPrice())) +" VNĐ");
+        this.txtSellPrice.setText(String.valueOf(decimalFormat.format(tmp.getSellPrice()))+" VNĐ");
+        this.txtStock.setText(String.valueOf(tmp.getAvailableQuantity()));
+        this.txtCategory.setText(String.valueOf(tmp.getCategory()));
+        int quanity=tmp.getImportQuantity();
+        BigDecimal unitmoney=tmp.getUnitPrice();
+        BigDecimal total=unitmoney.multiply(BigDecimal.valueOf(quanity));
+        this.txtTotal.setText(String.valueOf(decimalFormat.format(total)) +" VNĐ");
+        
+        // DONT ALLOW EDIT TEXT 
+        txtName.setEditable(false);
+        txtQuantity.setEditable(false);
+        txtImpDate.setEditable(false);
+        txtManuDate.setEditable(false);
+        txtExpDate.setEditable(false);
+        txtUnitPrice.setEditable(false);
+        txtSellPrice.setEditable(false);
+        txtStock.setEditable(false);
+        txtCategory.setEditable(false);
+        txtTotal.setEditable(false);
+           
+        
+        txtName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));       
+        txtQuantity.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtImpDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtManuDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtUnitPrice.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtSellPrice.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtStock.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtCategory.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtTotal.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        txtExpDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+    }
+    
+    
     public int getPrevilege() {
         return previlege;
     }
@@ -1067,6 +1107,7 @@ public class Form_3 extends javax.swing.JPanel {
                 try {
                     imports.editImport(importss);
                     refreshTable();
+                    updateDetail();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -1083,7 +1124,7 @@ public class Form_3 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNameActionPerformed
 
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
-         int selectedRow = table.getSelectedRow();
+        int selectedRow = table.getSelectedRow();
         Import tmp = import_list.get(selectedRow);
         this.txtName.setText(tmp.getProductName());
         this.txtQuantity.setText(String.valueOf(tmp.getImportQuantity()));

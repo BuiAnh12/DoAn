@@ -29,7 +29,26 @@ public class Form_5 extends javax.swing.JPanel {
     private List<Staff> staffList = new ArrayList<>();
     private int status=1;
     private controller_Staff staff_control=new controller_Staff();
-
+    
+    public void updateDetail(){
+        int selectedRow = table.getSelectedRow();
+        Staff selectedStaff = staffList.get(selectedRow);
+        this.txtCustomerName.setText(selectedStaff.getName());
+        this.txtEmail.setText(selectedStaff.getEmail());
+        this.txtAddress.setText(selectedStaff.getAddress());
+        this.txtPosition.setText(selectedStaff.getPosition());
+        this.txtAge.setText(String.valueOf(selectedStaff.getAge()));
+        this.txtUsername.setText(selectedStaff.getUsername());
+        this.txtPassword.setText(selectedStaff.getPassword());
+        
+        txtCustomerName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));        
+        txtEmail.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtAddress.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtPosition.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtAge.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtUsername.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));      
+        txtPassword.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+    }
     
     public void refreshTable(){
         try {
@@ -286,7 +305,7 @@ public class Form_5 extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel1.setText("Staff");
+        jLabel1.setText("STAFF");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -855,6 +874,7 @@ public class Form_5 extends javax.swing.JPanel {
 
                     // Perform the update in the database
                     updateController.editStaff(staffToUpdate);
+                    this.updateDetail();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }

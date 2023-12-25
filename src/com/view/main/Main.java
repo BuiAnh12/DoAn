@@ -55,14 +55,19 @@ public class Main extends javax.swing.JFrame {
                         setForm(home);
                     } else if (index == 1) {
                         setForm(form1);
+                        form1.refreshtable();
                     } else if (index == 2) {
                         setForm(form2);
+                        form2.refreshTable();
                     } else if (index == 3) {
                         setForm(form3);
+                        form3.refreshTable();
                     } else if (index == 4){
                         setForm(form4);
+                        form4.refreshTable();
                     } else if (index == 5){
                         setForm(form5);
+                        form5.refreshTable();
                     }
                 }
             });
@@ -75,8 +80,10 @@ public class Main extends javax.swing.JFrame {
 
                     if (index == 0) {
                         setForm(form2);
+                        form2.refreshTable();
                     } else if (index == 1) {
                         setForm(form3);
+                        form3.refreshTable();
                     } 
                 }
             });
@@ -89,12 +96,16 @@ public class Main extends javax.swing.JFrame {
 
                     if (index == 0) {
                         setForm(form1);
+                        form1.refreshtable();
                     } else if (index == 1) {
                         setForm(form2);
+                        form2.refreshTable();
                     } else if (index == 2) {
                         setForm(form3);
+                        form3.refreshTable();
                     } else if (index == 3) {
                         setForm(form4);
+                        form4.refreshTable();
                     }
                 }     
             });

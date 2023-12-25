@@ -23,22 +23,22 @@ public class controller_Customer {
          if (status == 1) {
             query = "SELECT Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
                     "FROM Customers " +
-                    "JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
-                    "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
+                    "LEFT JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
+                    "LEFT JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
                     "GROUP BY Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address " +
                     "HAVING Customers.CustomerName LIKE ? ORDER BY CustomerName";
         } else if (status == 2) {
             query = "SELECT Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
                     "FROM Customers " +
-                    "JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
-                    "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
+                    "LEFT JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
+                    "LEFT JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
                     "GROUP BY Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address " +
                     "HAVING Customers.CustomerName LIKE ? ORDER BY Email";
         } else if (status == 3) {
             query = "SELECT Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address, SUM(Invoice_Items.TotalPrice) AS TotalAmount " +
                     "FROM Customers " +
-                    "JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
-                    "JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
+                    "LEFT JOIN Invoices ON Customers.CustomerId = Invoices.CustomerId " +
+                    "LEFT JOIN Invoice_Items ON Invoice_Items.InvoiceId = Invoices.InvoiceId " +
                     "GROUP BY Customers.CustomerId, Customers.CustomerName, Customers.Email, Customers.Address " +
                     "HAVING Customers.CustomerName LIKE ? ORDER BY TotalAmount";
         }
@@ -109,7 +109,7 @@ public class controller_Customer {
        public void deleteCustomer(int CustomerId) throws SQLException{
          Connection cnn=ConnectionDB.getConnection();
          Statement statement=cnn.createStatement();
-         String query="DELETE FROM Customers WHERE CustomerId =?";
+         String query="DELETE FROM Customers WHERE CustomerId = ?";
          try{
             PreparedStatement pre=cnn.prepareStatement(query);
             pre.setInt(1,CustomerId);       
