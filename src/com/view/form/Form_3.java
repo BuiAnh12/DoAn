@@ -333,6 +333,7 @@ public class Form_3 extends javax.swing.JPanel {
         PanelInsert.setBackground(new java.awt.Color(22, 23, 23));
 
         insertBtn.setBackground(new java.awt.Color(36, 36, 36));
+        insertBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         insertBtn.setForeground(new java.awt.Color(255, 255, 255));
         insertBtn.setText("Insert");
         insertBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -986,8 +987,14 @@ public class Form_3 extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
-        if (this.previlege >= 2){    
-            int index=table.getSelectedRow();
+        if (this.previlege >= 2){
+            int index=-1;
+            index=table.getSelectedRow();
+            if(index==-1){
+              JOptionPane.showMessageDialog(null, "Please select Import to Update" , "Warning", JOptionPane.ERROR_MESSAGE);
+
+            }else{
+                
             JTextField productNameField = new JTextField();
             JTextField manufacturingDate = new JTextField();
             JTextField expiryDate = new JTextField();
@@ -1071,6 +1078,7 @@ public class Form_3 extends javax.swing.JPanel {
                     ex.printStackTrace();
                 }
             }
+        }
         }
         else{
             JOptionPane.showMessageDialog(null, "Sorry, you do not have the privilege to perform this action.",
@@ -1230,7 +1238,12 @@ public class Form_3 extends javax.swing.JPanel {
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         if(this.previlege >= 2){
-            int index=table.getSelectedRow();
+            int index=-1;
+            index=table.getSelectedRow();
+            if(index==-1){
+                JOptionPane.showMessageDialog(null, "Please select Import to Delete" , "Warning", JOptionPane.ERROR_MESSAGE);   
+            }else{
+
             if(checkImportId(import_list.get(index).getImportId())==true){
                 JOptionPane.showMessageDialog(null, "This Import is already in Order" , "Warning", JOptionPane.ERROR_MESSAGE);
             }else{
@@ -1251,6 +1264,7 @@ public class Form_3 extends javax.swing.JPanel {
         
             }
                 // Tao su kien xoa 
+        }
         }
         else{
             JOptionPane.showMessageDialog(null, "Sorry, you do not have the privilege to perform this action.",

@@ -217,6 +217,7 @@ public class Form_5 extends javax.swing.JPanel {
         PanelInsert.setBackground(new java.awt.Color(22, 23, 23));
 
         insertBtn.setBackground(new java.awt.Color(36, 36, 36));
+        insertBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         insertBtn.setForeground(new java.awt.Color(255, 255, 255));
         insertBtn.setText("Insert");
         insertBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -860,7 +861,7 @@ public class Form_5 extends javax.swing.JPanel {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhân viên để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Please choose a staff to update!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_updateBtnActionPerformed
 // check
@@ -907,13 +908,13 @@ public class Form_5 extends javax.swing.JPanel {
             
             // Kiểm tra ràng buộc không được để trống
             if (name.isEmpty() || email.isEmpty() || address.isEmpty() || username.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Not be left blank !", "Error", JOptionPane.ERROR_MESSAGE);
                 return; // Dừng việc thực thi tiếp
             }
             controller_Staff check = new controller_Staff();
             try{
                 if (!check.isUsernameAvailable(username)){
-                  JOptionPane.showMessageDialog(null, "Username này đã có người dùng", "Error", JOptionPane.ERROR_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Username is exist", "Error", JOptionPane.ERROR_MESSAGE);
                   return;
               }  
             }

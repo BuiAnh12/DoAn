@@ -229,6 +229,7 @@ public class Form_2 extends javax.swing.JPanel {
         PanelInsert.setBackground(new java.awt.Color(22, 23, 23));
 
         insertBtn.setBackground(new java.awt.Color(36, 36, 36));
+        insertBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         insertBtn.setForeground(new java.awt.Color(255, 255, 255));
         insertBtn.setText("Insert");
         insertBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -550,7 +551,7 @@ public class Form_2 extends javax.swing.JPanel {
 
                     // Kiểm tra xem các trường bắt buộc có trống không
                     if (updatedName.isEmpty() || updatedManufacture.isEmpty() || updatedDescription.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Các trường không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Not be left blank!", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
@@ -576,7 +577,7 @@ public class Form_2 extends javax.swing.JPanel {
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm để cập nhật!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Please choose an item to update ", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         else{
@@ -662,7 +663,7 @@ public class Form_2 extends javax.swing.JPanel {
 
                 // Kiểm tra ràng buộc không được để trống
                 if (productName.isEmpty() || manufacturer.isEmpty() || description.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Không được để trống!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Not left blank !", "Error", JOptionPane.ERROR_MESSAGE);
                     return; // Stop further execution
                 }
 
