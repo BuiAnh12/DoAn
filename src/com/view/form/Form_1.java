@@ -215,15 +215,15 @@ public class Form_1 extends javax.swing.JPanel {
                 String selectedValue = sortComboBox.getSelectedItem().toString(); 
                 
                 if (selectedValue.equals("Sort By Customer")){
-                   status=2;
+                   status=1;
                    refreshtable();
                 }
                 else if(selectedValue.equals("Sort By Staff")){
-                    status=3;
+                    status=2;
                     refreshtable();
                 }
                 else if(selectedValue.equals("Sort By Total")){
-                    status=1;
+                    status=3;
                     refreshtable();
                 }
                

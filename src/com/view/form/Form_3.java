@@ -13,6 +13,8 @@ import com.model.InvoiceItem;
 import com.model.Product;
 import com.view.model.StatusType;
 import com.view.swing.CellStatus;
+import com.view.swing.ScrollBar;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -45,6 +47,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import java.util.Date;
+import javax.swing.JScrollPane;
 
 public class Form_3 extends javax.swing.JPanel {
     
@@ -196,7 +199,13 @@ public class Form_3 extends javax.swing.JPanel {
                
             }
         });
-        
+        spTable.setVerticalScrollBar(new ScrollBar());
+        spTable.getVerticalScrollBar().setBackground(Color.WHITE);
+        spTable.getViewport().setBackground(Color.WHITE);
+        JPanel p = new JPanel();
+        p.setBackground(Color.WHITE);
+        spTable.setCorner(JScrollPane.UPPER_RIGHT_CORNER, p);
+        refreshTable();
     }
 
     /**
