@@ -1,7 +1,11 @@
 package com.view.main;
 
 import com.controller.controller_Account;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.sql.SQLException;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
@@ -12,6 +16,7 @@ public class newLogin extends javax.swing.JFrame {
         initComponents();
         controller_Account control_account;
         this.control_account = new controller_Account();
+        this.initMoving(newLogin.this);
     }
     
     @SuppressWarnings("unchecked")
@@ -182,6 +187,26 @@ public class newLogin extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new newLogin().setVisible(true);
+            }
+        });
+    }
+    
+    private int x;
+    private int y;
+
+    public void initMoving(JFrame fram) {
+        panelBorder1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                x = me.getX();
+                y = me.getY();
+            }
+
+        });
+        panelBorder1.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent me) {
+                fram.setLocation(me.getXOnScreen() - x, me.getYOnScreen() - y);
             }
         });
     }
