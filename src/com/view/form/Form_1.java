@@ -1090,7 +1090,7 @@ public class Form_1 extends javax.swing.JPanel {
             }
         });
                     
-            
+            importListLz.clear();
             addProductButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -1132,37 +1132,43 @@ public class Form_1 extends javax.swing.JPanel {
                         }
                     }
                     for (Import x : importListLz){
-                        if (x.getProductId()==productId){
-                            if(need<=conhangtmp){
-                                for (Import importItem : imports) {
-                                if (need>=importItem.getAvailableQuantity()){
-                                    quantitys = importItem.getAvailableQuantity();
-                                    need -= importItem.getAvailableQuantity();
-                                } else {
-                                    quantitys = need;
-                                    need = 0;
-                                }
-                                productIdd = importItem.getProductId();
-                                BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
-                                totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
-                                System.out.println(importItem.getSellPrice());
-                                importId = importItem.getImportId();
-                                unitPrice = importItem.getUnitPrice();
-                                profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
-
-                                InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
-                                importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
-                                importListLz.add(importItem);
-                                invoiceItemListLz.add(invoiceItems);  
-                                //refreshimportList();
-                            }                      
-                        } else {
-                                JOptionPane.showMessageDialog(null, "Remaining Quanity is " + conhangtmp +" product", "Error", JOptionPane.ERROR_MESSAGE);
-                                return;
+                    System.out.println("x.productid " + x.getProductId());
+                    System.out.println("productId"+productId);
+                    if (x.getProductId() == productId){
+                        System.out.println("need "+need);
+                        if(need<=conhangtmp){
+                            System.out.println("x.getavailablequantity "+x.getAvailableQuantity());
+                            if (need>=x.getAvailableQuantity()){
+                                quantitys = x.getAvailableQuantity();
+                                System.out.println("quantitys" +quantitys);
+                                need -= x.getAvailableQuantity();
+                            } else {
+                                quantitys = need;
+                                need = 0;
                             }
-                            break;
+                            productIdd = x.getProductId();
+                            BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
+                            totalPrice = x.getSellPrice().multiply(quantityBigDecimal);
+                            System.out.println("total price "+totalPrice);
+                            System.out.println(x.getSellPrice());
+                            importId = x.getImportId();
+                            unitPrice = x.getUnitPrice();
+                            profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
+
+                            InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
+                            x.setAvailableQuantity(x.getAvailableQuantity()-quantitys);
+                            importListLz.add(x);
+                            invoiceItemListLz.add(invoiceItems);  
+                            //refreshimportList();
+                        }                      
+                     else {
+                            JOptionPane.showMessageDialog(null, "Remaning quanity is " + conhangtmp +" product", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
                         }
-                    }
+                        break;
+                    } 
+                }
+                if(need != 0){
                     if(need<=conhang){
                         for (Import importItem : imports) {
                         if (need>=importItem.getAvailableQuantity()){
@@ -1191,6 +1197,7 @@ public class Form_1 extends javax.swing.JPanel {
                             JOptionPane.showMessageDialog(null, "Remaning Quanity " + conhang +" product", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
+                }
                     
 
                     
@@ -1520,7 +1527,7 @@ public class Form_1 extends javax.swing.JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         panel.add(detailScrollPane, gbc);
         invoiceItemListLz.clear();
-        
+        importListLz.clear();
         // Bắt sự kiện khi người dùng nhấn nút "Add Product"
         addProductButton.addActionListener(new ActionListener() {
             @Override
@@ -1565,41 +1572,46 @@ public class Form_1 extends javax.swing.JPanel {
                         conhangtmp += abc.getAvailableQuantity();
                     }
                 }
+                System.out.println("conhangtmp " + conhangtmp);
                 for (Import x : importListLz){
-                    System.out.println("x.getimportid " + x.getImportId());
+                    System.out.println("x.productid " + x.getProductId());
                     System.out.println("productId"+productId);
                     if (x.getProductId() == productId){
+                        System.out.println("need "+need);
                         if(need<=conhangtmp){
-                            for (Import importItem : imports) {
-                            if (need>=importItem.getAvailableQuantity()){
-                                quantitys = importItem.getAvailableQuantity();
-                                need -= importItem.getAvailableQuantity();
+                            System.out.println("x.getavailablequantity "+x.getAvailableQuantity());
+                            if (need>=x.getAvailableQuantity()){
+                                quantitys = x.getAvailableQuantity();
+                                System.out.println("quantitys" +quantitys);
+                                need -= x.getAvailableQuantity();
                             } else {
                                 quantitys = need;
                                 need = 0;
                             }
-                            productIdd = importItem.getProductId();
+                            productIdd = x.getProductId();
                             BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
-                            totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
-                            System.out.println(importItem.getSellPrice());
-                            importId = importItem.getImportId();
-                            unitPrice = importItem.getUnitPrice();
+                            totalPrice = x.getSellPrice().multiply(quantityBigDecimal);
+                            System.out.println("total price "+totalPrice);
+                            System.out.println(x.getSellPrice());
+                            importId = x.getImportId();
+                            unitPrice = x.getUnitPrice();
                             profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
 
                             InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
-                            importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
-                            importListLz.add(importItem);
+                            x.setAvailableQuantity(x.getAvailableQuantity()-quantitys);
+                            importListLz.add(x);
                             invoiceItemListLz.add(invoiceItems);  
                             //refreshimportList();
                         }                      
-                    } else {
+                     else {
                             JOptionPane.showMessageDialog(null, "Remaning quanity is " + conhangtmp +" product", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                         break;
-                    }
+                    } 
                 }
-                if (need <= conhang){
+                if (need != 0){
+                    if (need <= conhang){
                     for (Import importItem : imports) {
 //                        System.out.println("import ne "+importItem.getAvailableQuantity());
                         if (need>=importItem.getAvailableQuantity()){
@@ -1631,6 +1643,8 @@ public class Form_1 extends javax.swing.JPanel {
                             JOptionPane.showMessageDialog(null, "Remaning quanity is " + conhang +" product", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
+                }
+                
                               
 
                 // Thêm thông tin sản phẩm vào bảng chi tiết sản phẩm
@@ -1648,7 +1662,9 @@ public class Form_1 extends javax.swing.JPanel {
         // Nếu người dùng nhấn OK
         if (result == JOptionPane.OK_OPTION) {
                 java.sql.Date dateText = convertStringtoDate(dateField.getText());
-                Number totalAmountNumber = (Number) totalAmountField.getValue();
+                System.out.println(totalAmountField.getText());
+//                Number totalAmountNumber = (Number) totalAmountField.getText();
+//                Number totalAmountNumber = Double.parseDouble(totalAmountField.getValue());
                 // Kiểm tra ràng buộc không được để trống
                 if (dateText == null) {
                     JOptionPane.showMessageDialog(null, "Not be left blank !", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1665,7 +1681,7 @@ public class Form_1 extends javax.swing.JPanel {
                 // Thêm vào danh sách hóa đơn và cập nhật bảng
                
                 invoiceList.add(newInvoice);
-                table.addRow(new Object[]{selectedCustomerName,selectedStaffName, newInvoice.getPurchaseDate(),totalAmountNumber});
+                table.addRow(new Object[]{selectedCustomerName,selectedStaffName, newInvoice.getPurchaseDate(),0});
                 
                 controller_Invoice controller = new controller_Invoice();
                 try {
