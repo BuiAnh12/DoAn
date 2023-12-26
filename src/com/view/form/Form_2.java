@@ -48,17 +48,17 @@ public class Form_2 extends javax.swing.JPanel {
         Product tmp = productList.get(selectedRow);
         this.txtName.setText(tmp.getProductName());
         this.txtManufacture.setText(tmp.getManufacturer());
-        this.categorySelect.setSelectedItem(tmp.getCategory());
+        this.txtCategory.setText(tmp.getCategory());
         this.descriptionTxt.setText(tmp.getDescription());
         
          this.txtName.setEditable(false);
+        this.txtCategory.setEditable(false);
         this.txtManufacture.setEditable(false);
-        this.categorySelect.setEditable(false);
         this.descriptionTxt.setEditable(false);
         
         this.txtName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        this.txtCategory.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
         this.txtManufacture.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-        this.categorySelect.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
         this.descriptionTxt.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
     }
     
@@ -152,10 +152,10 @@ public class Form_2 extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         txtManufacture = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        categorySelect = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         txtDescription = new javax.swing.JScrollPane();
         descriptionTxt = new javax.swing.JTextArea();
+        txtCategory = new javax.swing.JTextField();
         PanelDUBtn = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         deleteBtn = new javax.swing.JButton();
@@ -421,8 +421,6 @@ public class Form_2 extends javax.swing.JPanel {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Category");
 
-        categorySelect.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Phân hữu cơ", "Phân vô cơ", " " }));
-
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -447,10 +445,10 @@ public class Form_2 extends javax.swing.JPanel {
                     .addGroup(PanelDetailLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(PanelDetailLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(categorySelect, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtManufacture)
                             .addComponent(txtName)
-                            .addComponent(txtDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))))
+                            .addComponent(txtDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+                            .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 20, Short.MAX_VALUE))
         );
         PanelDetailLayout.setVerticalGroup(
@@ -467,12 +465,12 @@ public class Form_2 extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(categorySelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addGap(12, 12, 12)
                 .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         PanelRight.add(PanelDetail, java.awt.BorderLayout.CENTER);
@@ -613,17 +611,17 @@ public class Form_2 extends javax.swing.JPanel {
         Product tmp = productList.get(selectedRow);
         this.txtName.setText(tmp.getProductName());
         this.txtManufacture.setText(tmp.getManufacturer());
-        this.categorySelect.setSelectedItem(tmp.getCategory());
+        this.txtCategory.setText(tmp.getCategory());
         this.descriptionTxt.setText(tmp.getDescription());
         
-         this.txtName.setEditable(false);
+        this.txtName.setEditable(false);
+        this.txtCategory.setEditable(false);
         this.txtManufacture.setEditable(false);
-        this.categorySelect.setEditable(false);
         this.descriptionTxt.setEditable(false);
         
         this.txtName.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+        this.txtCategory.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
         this.txtManufacture.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-        this.categorySelect.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
         this.descriptionTxt.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
     }//GEN-LAST:event_tableMouseClicked
 
@@ -720,10 +718,6 @@ public class Form_2 extends javax.swing.JPanel {
     }//GEN-LAST:event_sortComboBoxActionPerformed
 
 
-    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameActionPerformed
-
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
 //        System.out.println("Search Click");
 //        String searchTxt = this.txtSearch.getText();
@@ -771,6 +765,10 @@ public class Form_2 extends javax.swing.JPanel {
 //        }
         refreshTable();
     }//GEN-LAST:event_txtSearchKeyTyped
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
     
     
 
@@ -785,7 +783,6 @@ public class Form_2 extends javax.swing.JPanel {
     private javax.swing.JPanel PanelRight;
     private javax.swing.JPanel PanelSearch;
     private javax.swing.JPanel PanelTable;
-    private javax.swing.JComboBox<String> categorySelect;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JTextArea descriptionTxt;
     private javax.swing.JButton insertBtn;
@@ -802,6 +799,7 @@ public class Form_2 extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> sortComboBox;
     private javax.swing.JScrollPane spTable;
     private com.view.swing.Table table;
+    private javax.swing.JTextField txtCategory;
     private javax.swing.JScrollPane txtDescription;
     private javax.swing.JTextField txtManufacture;
     private javax.swing.JTextField txtName;
