@@ -34,7 +34,11 @@ public class Form_Home extends javax.swing.JPanel {
             try {
                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
                 card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/view/icon/stock.png")), "Quanity",String.valueOf(tmp.getSoldQuanity())));
-                card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/view/icon/profit.png")), "Revenue", String.valueOf(decimalFormat.format(money.get(1)))+" VNĐ"));
+//                card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/view/icon/profit.png")), "Revenue", String.valueOf(decimalFormat.format(money.get(1)))+" VNĐ"));
+                Object moneyValue = money.get(1);
+                if (moneyValue instanceof Number) {
+                    card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/view/icon/profit.png")), "Revenue", String.valueOf(decimalFormat.format((Number) moneyValue)) + " VNĐ"));
+                } 
                 card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/view/icon/Customer1.png")), "Customer", String.valueOf(tmp.getTotalCustomer())));
             //  add row table
             } catch (SQLException ex) {
