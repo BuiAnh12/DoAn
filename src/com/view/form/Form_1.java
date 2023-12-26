@@ -251,7 +251,7 @@ public class Form_1 extends javax.swing.JPanel {
                invoiceList = invoices.getAllInvoices(status,"");
             } catch (SQLException ex) {
             }
-        
+        refreshimportList();
         importList = controller_Import.getAllImports(status,"");
         invoiceItemList = invoiceItem_control.getAllInvoiceItems();
         spTable.setVerticalScrollBar(new ScrollBar());
@@ -997,7 +997,7 @@ public class Form_1 extends javax.swing.JPanel {
                             int newQuantity = ((Number) quantityField.getValue()).intValue();
                             BigDecimal newtotalPrice = BigDecimal.ZERO;
                             BigDecimal newprofit = BigDecimal.ZERO;
-                            
+                            refreshimportList();
                             for (Import importItem : importList) {
                                 if (importItem.getProductId() == productId && importItem.getImportId() == importId) {
                                     controller_Import dm = new controller_Import();
@@ -1061,6 +1061,7 @@ public class Form_1 extends javax.swing.JPanel {
                         detailTableModel.removeRow(selectedRow);
                         controller_InvoiceItem c = new controller_InvoiceItem();
                         controller_Import b = new controller_Import();
+                        refreshimportList();
                         for (Import importx: importList){
                             if ( importId == importx.getImportId()){
                                 importx.setAvailableQuantity(importx.getAvailableQuantity()+quantity);
@@ -1118,6 +1119,7 @@ public class Form_1 extends javax.swing.JPanel {
 
                     int need = quantity;
                     int conhang = 0;
+                    refreshimportList();
                     for (Import importv : importList){
                         if(importv.getProductId() == productId){
                             conhang += importv.getAvailableQuantity();
@@ -1130,7 +1132,7 @@ public class Form_1 extends javax.swing.JPanel {
                         }
                     }
                     for (Import x : importListLz){
-                        if (x.getImportId()==productId){
+                        if (x.getProductId()==productId){
                             if(need<=conhangtmp){
                                 for (Import importItem : imports) {
                                 if (need>=importItem.getAvailableQuantity()){
@@ -1180,7 +1182,7 @@ public class Form_1 extends javax.swing.JPanel {
 
                         InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
                         importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
-//                        System.out.println("moe m"+importItem.getAvailableQuantity());
+                        System.out.println("moe m"+importItem.getAvailableQuantity());
                         importListLz.add(importItem);
                         invoiceItemListLz.add(invoiceItems);  
                         //refreshimportList();
@@ -1294,6 +1296,7 @@ public class Form_1 extends javax.swing.JPanel {
                             } catch (SQLException ex) {
                                 Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
                             }
+                            refreshimportList();
                             for (Import importt : importList){                     
                                 if (importt.getImportId() == importId2){
                                     controller_Import i = new controller_Import();
@@ -1308,8 +1311,8 @@ public class Form_1 extends javax.swing.JPanel {
                     }
             }
             invoiceItemListLz.clear();
-            refreshtable();
-            refreshimportListLz();
+            importListLz.clear();
+            refreshtable();     
             // xoa bang
             DefaultTableModel detail_model =(DefaultTableModel) detailTable.getModel();
             detail_model.setRowCount(0);
@@ -1392,6 +1395,7 @@ public class Form_1 extends javax.swing.JPanel {
                 selectedCustomerName = selectedCustomer.getCustomerName();
             }
         });
+        JButton addCustomerButton = new JButton("Add customer");
         JComboBox<Staff> staffDropdown = new JComboBox<>();
         refreshstaffList();
         for (Staff staff : staffList) {
@@ -1463,7 +1467,7 @@ public class Form_1 extends javax.swing.JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        panel.add(new JLabel("Customer Name:"), gbc);
+        panel.add(new JLabel("Customer Name:"), gbc);        
         gbc.gridy++;
         panel.add(new JLabel("Staff Name:"), gbc);
         gbc.gridy++;
@@ -1548,6 +1552,7 @@ public class Form_1 extends javax.swing.JPanel {
                 
                 int need = quantity;
                 int conhang = 0;
+                refreshimportList();
                 for (Import importv : importList){
                     if(importv.getProductId() == productId){
                         conhang += importv.getAvailableQuantity();
@@ -1561,7 +1566,9 @@ public class Form_1 extends javax.swing.JPanel {
                     }
                 }
                 for (Import x : importListLz){
-                    if (x.getImportId()==productId){
+                    System.out.println("x.getimportid " + x.getImportId());
+                    System.out.println("productId"+productId);
+                    if (x.getProductId() == productId){
                         if(need<=conhangtmp){
                             for (Import importItem : imports) {
                             if (need>=importItem.getAvailableQuantity()){
@@ -1616,7 +1623,7 @@ public class Form_1 extends javax.swing.JPanel {
                             InvoiceItem invoiceItems = new InvoiceItem(productIdd,importId,unitPrice,quantitys,totalPrice,profit);
                             invoiceItemListLz.add(invoiceItems);
                             importItem.setAvailableQuantity(importItem.getAvailableQuantity()-quantitys);
-//                            System.out.println("moe m"+importItem.getAvailableQuantity());
+                            System.out.println("moe m"+importItem.getAvailableQuantity());
                             importListLz.add(importItem);
 
                     }
@@ -1689,6 +1696,7 @@ public class Form_1 extends javax.swing.JPanel {
 //                        } catch (Exception ex) {
 //                            ex.printStackTrace();
 //                    }
+                    refreshimportList();
                     for (Import importt : importList){                     
                         if (importt.getImportId() == importId){
                             controller_Import i = new controller_Import();
@@ -1726,7 +1734,7 @@ public class Form_1 extends javax.swing.JPanel {
             }
             
         }
-        refreshimportListLz();
+        importListLz.clear();
         refreshtable();
     }//GEN-LAST:event_insertBtnActionPerformed
 
@@ -1779,6 +1787,7 @@ public class Form_1 extends javax.swing.JPanel {
                 controller_Import controllerrr = new controller_Import();
                 for (InvoiceItem invoiceItem : invoiceItemList){
                     if (invoiceItem.getInvoiceId() == invoiceId){
+                        refreshimportList();
                         for (Import imported : importList){
                             if (imported.getImportId()==invoiceItem.getImportId()){
                                 imported.setAvailableQuantity(imported.getAvailableQuantity()+invoiceItem.getQuantity());
