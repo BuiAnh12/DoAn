@@ -58,7 +58,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-
+import com.controller.Validation;
+import javax.swing.JFrame;
 
 
 public class Form_1 extends javax.swing.JPanel {
@@ -1371,7 +1372,7 @@ public class Form_1 extends javax.swing.JPanel {
 
     @SuppressWarnings("empty-statement")
     private void insertBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertBtnActionPerformed
-
+        
         JComboBox<Customer> customerDropdown = new JComboBox<>();
         refreshcustomers();
         for (Customer customer : customers) {
@@ -1520,11 +1521,11 @@ public class Form_1 extends javax.swing.JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         panel.add(detailScrollPane, gbc);
         invoiceItemListLz.clear();
-        
         // Bắt sự kiện khi người dùng nhấn nút "Add Product"
         addProductButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 // Lấy thông tin từ các trường nhập liệu
                 String productName = (String) productNameField.getSelectedItem();
                 Number quantityNumber = (Number) quantityField.getValue();
@@ -1582,6 +1583,7 @@ public class Form_1 extends javax.swing.JPanel {
                             BigDecimal quantityBigDecimal = new BigDecimal(quantitys);
                             totalPrice = importItem.getSellPrice().multiply(quantityBigDecimal);
                             System.out.println(importItem.getSellPrice());
+                            System.out.println(quantityBigDecimal);
                             importId = importItem.getImportId();
                             unitPrice = importItem.getUnitPrice();
                             profit = totalPrice.subtract(unitPrice.multiply(quantityBigDecimal));
@@ -1643,97 +1645,122 @@ public class Form_1 extends javax.swing.JPanel {
             }
         });
         // Hiển thị hộp thoại và kiểm tra nút bấm
-        int result = JOptionPane.showConfirmDialog(null, panel, "Enter Invoice Information", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Prevents the default close operation
 
-        // Nếu người dùng nhấn OK
-        if (result == JOptionPane.OK_OPTION) {
-                java.sql.Date dateText = convertStringtoDate(dateField.getText());
-                Number totalAmountNumber = (Number) totalAmountField.getValue();
-                // Kiểm tra ràng buộc không được để trống
-                if (dateText == null) {
-                    JOptionPane.showMessageDialog(null, "Not be left blank !", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
+        
+        boolean exit = false;
+
+        do {
+            Object[] options = {"OK", "Exit"};
+            int result = JOptionPane.showOptionDialog(frame, panel, "Enter Invoice Information",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+            if (result == JOptionPane.OK_OPTION) {
+                Validation val = new Validation();
+                boolean validationFailed = false;
+
+                if (!val.isValidDate(dateField.getText())) {
+                    JOptionPane.showMessageDialog(null, "Invalid Date ( Date format: yyyy-mm-dd )", "Error", JOptionPane.ERROR_MESSAGE);
+                    validationFailed = true;
+                } else if (dateField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Cannot leave date empty", "Error", JOptionPane.ERROR_MESSAGE);
+                    validationFailed = true;
+                } else if (detailTableModel.getRowCount() <= 0) {
+                    JOptionPane.showMessageDialog(null, "Cannot leave list product empty", "Error", JOptionPane.ERROR_MESSAGE);
+                    validationFailed = true;
                 }
-                //int totalAmount = totalAmountNumber.intValue();
-                LocalDateTime createdAt = null;
-                LocalDateTime updateAt = null;
 
-                // Tạo một đối tượng Invoice từ thông tin vừa nhập
-                Invoice newInvoice = new Invoice( selectedCustomerId,selectedStaffId,dateText);
-                int invoiceId = 0;
+                if (!validationFailed) {
+                    exit = true; // All validations passed, exit the loop
+                    java.sql.Date dateText = convertStringtoDate(dateField.getText());
+                    Number totalAmountNumber = (Number) totalAmountField.getValue();
+                    // Kiểm tra ràng buộc không được để trống
+                    //int totalAmount = totalAmountNumber.intValue();
+                    LocalDateTime createdAt = null;
+                    LocalDateTime updateAt = null;
 
-                // Thêm vào danh sách hóa đơn và cập nhật bảng
-               
-                invoiceList.add(newInvoice);
-                table.addRow(new Object[]{selectedCustomerName,selectedStaffName, newInvoice.getPurchaseDate(),totalAmountNumber});
-                
-                controller_Invoice controller = new controller_Invoice();
-                try {
-//                    System.out.println("start try invoice");
-                    invoiceId = controller.addInvoice(newInvoice);
-                    } catch (SQLException ex) {
-                }
-                System.out.println(invoiceId);
-                for (InvoiceItem invoiceItem : invoiceItemListLz) {
-                    //String productName = (String) detailTableModel.getValueAt(row, 0);
-                    int quantity = invoiceItem.getQuantity();
-                    BigDecimal unitPrice = invoiceItem.getUnitPrice();
-                    BigDecimal totalPrice = invoiceItem.getTotalPrice();
-                    int importId = invoiceItem.getImportId();
-                    BigDecimal profit = invoiceItem.getProfit();
-                    int productIdd = invoiceItem.getProductId();
-                    InvoiceItem invoiceItemm = new InvoiceItem(invoiceId,productIdd,importId,unitPrice,quantity, totalPrice,profit);
-                    controller_InvoiceItem newInvoiceItem = new controller_InvoiceItem();
+                    // Tạo một đối tượng Invoice từ thông tin vừa nhập
+                    Invoice newInvoice = new Invoice( selectedCustomerId,selectedStaffId,dateText);
+                    int invoiceId = 0;
+
+                    // Thêm vào danh sách hóa đơn và cập nhật bảng
+
+                    invoiceList.add(newInvoice);
+                    table.addRow(new Object[]{selectedCustomerName,selectedStaffName, newInvoice.getPurchaseDate(),totalAmountNumber});
+
+                    controller_Invoice controller = new controller_Invoice();
                     try {
-//                        System.out.println("start try invoiceItem");
-                        newInvoiceItem.addInvoiceItem(invoiceItemm);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+        //                    System.out.println("start try invoice");
+                        invoiceId = controller.addInvoice(newInvoice);
+                        } catch (SQLException ex) {
                     }
-                    //controller_Invoice find = new controller_Invoice();
-//                    try{
-//                        imports = find.findAvailableId(productIdd, quantity);
-//                        } catch (Exception ex) {
-//                            ex.printStackTrace();
-//                    }
-                    refreshimportList();
-                    for (Import importt : importList){                     
-                        if (importt.getImportId() == importId){
-                            controller_Import i = new controller_Import();
-                            importt.setAvailableQuantity(importt.getAvailableQuantity() - quantity);                              
-                                try {
-                                    i.editImport(importt);
-                                } catch (SQLException ex) {
-                                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
-                                }
+                    System.out.println(invoiceId);
+                    for (InvoiceItem invoiceItem : invoiceItemListLz) {
+                        //String productName = (String) detailTableModel.getValueAt(row, 0);
+                        int quantity = invoiceItem.getQuantity();
+                        BigDecimal unitPrice = invoiceItem.getUnitPrice();
+                        BigDecimal totalPrice = invoiceItem.getTotalPrice();
+                        int importId = invoiceItem.getImportId();
+                        BigDecimal profit = invoiceItem.getProfit();
+                        int productIdd = invoiceItem.getProductId();
+                        InvoiceItem invoiceItemm = new InvoiceItem(invoiceId,productIdd,importId,unitPrice,quantity, totalPrice,profit);
+                        controller_InvoiceItem newInvoiceItem = new controller_InvoiceItem();
+                        try {
+        //                        System.out.println("start try invoiceItem");
+                            newInvoiceItem.addInvoiceItem(invoiceItemm);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }
-//                    int need = quantity;
-//                    for (Import importItem : imports) {                 
-//                        controller_Import i = new controller_Import();
-//                        if (need > 0) {
-//                            if (need > importItem.getAvailableQuantity()) {
-//                                need -=importItem.getAvailableQuantity();
-//                                importItem.setAvailableQuantity(0);                              
-//                                try {
-//                                    i.editImport(importItem);
-//                                } catch (SQLException ex) {
-//                                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
-//                                }
-//                            } else {
-//                                importItem.setAvailableQuantity(importItem.getAvailableQuantity() - need);
-//                                need = 0;
-//                                try {
-//                                    i.editImport(importItem);
-//                                } catch (SQLException ex) {
-//                                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
-//                                }
-//                            }
-//                        }
-//                }
+                        //controller_Invoice find = new controller_Invoice();
+        //                    try{
+        //                        imports = find.findAvailableId(productIdd, quantity);
+        //                        } catch (Exception ex) {
+        //                            ex.printStackTrace();
+        //                    }
+                        refreshimportList();
+                        for (Import importt : importList){                     
+                            if (importt.getImportId() == importId){
+                                controller_Import i = new controller_Import();
+                                importt.setAvailableQuantity(importt.getAvailableQuantity() - quantity);                              
+                                    try {
+                                        i.editImport(importt);
+                                    } catch (SQLException ex) {
+                                        Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                            }
+                        }
+            //                    int need = quantity;
+            //                    for (Import importItem : imports) {                 
+            //                        controller_Import i = new controller_Import();
+            //                        if (need > 0) {
+            //                            if (need > importItem.getAvailableQuantity()) {
+            //                                need -=importItem.getAvailableQuantity();
+            //                                importItem.setAvailableQuantity(0);                              
+            //                                try {
+            //                                    i.editImport(importItem);
+            //                                } catch (SQLException ex) {
+            //                                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+            //                                }
+            //                            } else {
+            //                                importItem.setAvailableQuantity(importItem.getAvailableQuantity() - need);
+            //                                need = 0;
+            //                                try {
+            //                                    i.editImport(importItem);
+            //                                } catch (SQLException ex) {
+            //                                    Logger.getLogger(Form_1.class.getName()).log(Level.SEVERE, null, ex);
+            //                                }
+            //                            }
+            //                        }
+            //                }
+                            }               
+                }
+            } else if (result == 1 || result == JOptionPane.CLOSED_OPTION) {
+                exit = true; // User clicked "Exit", exit the loop
             }
-            
-        }
+        } while (!exit);
+        
         importListLz.clear();
         refreshtable();
     }//GEN-LAST:event_insertBtnActionPerformed
