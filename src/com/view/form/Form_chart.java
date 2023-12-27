@@ -43,6 +43,55 @@ public class Form_chart extends javax.swing.JFrame {
         
         return dataset;
     }
+    
+    public void refreshGraph() throws SQLException{
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        controller_Dashboard dashboard=new controller_Dashboard();
+        List<List_chart>listchart=new ArrayList<>();
+        listchart=dashboard.getMonthlyrevenue();
+        for(int i=0;i<listchart.size();i++){
+            dataset.addValue(listchart.get(i).getIncome(),"Income Line",listchart.get(i).getMonth());
+        }
+        
+        JFreeChart chart = ChartFactory.createLineChart(
+                "Monthly Revenue", // Tiêu đề
+                "Month", // Label trục X
+                "Income(VNĐ)", // Label trục Y
+                dataset
+        );
+        chart.getTitle().setPaint(Color.WHITE);
+        //Màu nền của line chart 
+        chart.setBackgroundPaint(Color.decode("#696969"));
+        //Set màu nền của Linechart 
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        // Màu sắc nền linechart 
+        plot.setBackgroundPaint(Color.decode("#5f9ea0"));
+        // Tùy chỉnh màu sắc của đường trong biểu đồ  
+        plot.getRenderer().setSeriesPaint(0, Color.WHITE);  
+        // Màu sắc đường lưới 
+         plot.setDomainGridlinePaint(Color.BLUE); // Màu sắc đường lưới trục đứng
+        plot.setRangeGridlinePaint(Color.BLUE); // Màu sắc đường lưới trục ngang 
+        
+        //
+        CategoryAxis xAxis = plot.getDomainAxis();
+        NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+        xAxis.setLabelPaint(Color.GREEN); // Màu sắc của "Month"
+        yAxis.setLabelPaint(Color.WHITE);  // Màu sắc của "Income(VNĐ)"
+        xAxis.setTickLabelPaint(Color.GREEN); // Màu sắc của label cột tháng
+        yAxis.setTickLabelPaint(Color.decode("#f0ffff")); // Màu sắc của label cột doanh thu 
+        
+        // Assuming you are working with a CategoryPlot
+        CategoryPlot categoryPlot = (CategoryPlot) chart.getPlot();
+        // Set the line thickness for the renderer in a CategoryPlot
+        CategoryItemRenderer renderer = categoryPlot.getRenderer();
+        renderer.setSeriesStroke(0, new BasicStroke(3.0f));
+
+        // Hiển thị biểu đồ trong JFrame
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(1200, 600));
+        setContentPane(chartPanel);
+        
+    }
     public Form_chart() throws SQLException {
        initComponents();
         // Tạo dữ liệu mẫu

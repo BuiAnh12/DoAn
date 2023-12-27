@@ -1,18 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package com.view.modal;
-
-/**
- *
- * @author buivu
- */
 public class ProductInsertModal extends javax.swing.JDialog {
 
-    /**
-     * Creates new form ProductInsertModal
-     */
     public ProductInsertModal(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();

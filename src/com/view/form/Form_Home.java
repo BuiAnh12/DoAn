@@ -21,6 +21,11 @@ import javax.swing.JScrollPane;
 public class Form_Home extends javax.swing.JPanel {
         private Form_chart formchart;
         
+        public void resetChart() throws SQLException{
+            this.formchart.dispose();
+            this.formchart = new Form_chart();
+            this.formchart.refreshGraph();
+        }
         
         public Form_Home() {
         initComponents();
